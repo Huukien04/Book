@@ -19,9 +19,16 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog'; 
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {FormsModule} from '@angular/forms';
+import { DialogAnimationsExampleDialogComponent } from './components/dialog-animations-example-dialog/dialog-animations-example-dialog.component';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { NativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +36,9 @@ import {FormsModule} from '@angular/forms';
     AddBookComponent,
     ListBookComponent,
     HeaderComponent,
-    EditBookComponent
+    EditBookComponent,
+    DialogAnimationsExampleDialogComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -38,8 +47,13 @@ import {FormsModule} from '@angular/forms';
     MatGridListModule,
     HttpClientModule,
     MatListModule,
+    MatSelectModule,
+    MatPaginatorModule,
+    MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
+    NativeDateModule,
+    MatDatepickerModule,
     MatButtonModule,
     FormsModule,
     MatFormFieldModule,

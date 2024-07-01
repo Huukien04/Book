@@ -198,3 +198,12 @@ header h1 {
     transition-duration: 0.4s;
     cursor: pointer;
   }
+  .pagi{
+    color: #FFF;
+    display: flex;
+    justify-content: center;
+  }
+  .pagina{
+    display: flex;
+    width: 500px;
+  }

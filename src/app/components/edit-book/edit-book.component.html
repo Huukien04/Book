@@ -1,11 +1,132 @@
+<section class="vh-auto " style="background-color: #2779e2;">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center  align-items-center h-100">
+      <div class="col-xl-6">
+        <form [formGroup]="addForm" (ngSubmit)="handleEdit()">
+        <h1 class="text-white mb-3">Add Product</h1>
+        <div class="card" style="border-radius: 15px;">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-md-3 ps-1">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="col-md-8">
+                <!-- <input type="text" class="form-control form-control-lg" formControlName="name" 
+                    placeholder="Enter product name">
+                    <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert">
+                      <div *ngIf="name?.hasError('required')" class="text-danger">Name is required.</div>
+                      <div *ngIf="name?.hasError('minlength')">Name must be at least 4 characters long.</div>
+                      <div *ngIf="name?.hasError('forbiddenName')" >Name cannot contain special characters.</div>
+                      <div *ngIf="name?.hasError('hasNumber')">Name cannot contain numbers.</div>
+                    </div> -->
+                <mat-form-field class="custom-width" hintLabel="Max 30 characters">
+                  <mat-label>Enter name book</mat-label>
+                  <input matInput #input maxlength="30" formControlName="nameBook" placeholder="Ex. Nougat" (input)="onInput($event)" />
+                  <mat-hint align="end">{{value().length}}/30</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+            <hr class="mx-n2">
+            <div class="row align-items-center">
+              <div class="col-md-3 ps-1">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="col-md-8">
+                <!-- <input type="text" class="form-control form-control-lg" formControlName="description"
+                  placeholder="Enter product description"> -->
+                  <mat-form-field class="custom-width" hintLabel="Max 30 characters">
+                    <mat-label>Enter name author</mat-label>
+                    <input matInput #input maxlength="20" formControlName="nameAuthor" placeholder="Ex. Max" (input)="onInput($event)" />
+                    <mat-hint align="end">{{value().length}}/20</mat-hint>
+                  </mat-form-field>
+                  
+              </div>
+            </div>
+            <hr class="mx-n2">
+            <div class="row align-items-center">
+              <div class="col-md-3 ps-1">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="col-md-2">
 
-<button mat-raised-button (click)="openDialog('0ms', '0ms')">Open dialog without animation</button>
-<button mat-raised-button (click)="openDialog('3000ms', '1500ms')">Open dialog slowly</button>
-<h2 mat-dialog-title>Delete file</h2>
-<mat-dialog-content>
-  Would you like to delete cat.jpeg?
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
-</mat-dialog-actions>
+         
+                <mat-form-field class="custom-width">
+                  <mat-label>Description</mat-label>
+                  <textarea matInput formControlName="description"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <hr class="mx-n2">
+            <div class="row align-items-center">
+              <div class="col-md-3 ps-1">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="col-md-8">
+              
+                <mat-form-field class="custom-width" floatLabel="always">
+                  <mat-label>Enter Price</mat-label>
+                  <input matInput type="number" formControlName="price" class="example-right-align" placeholder="0" />
+                
+                  <span matTextSuffix>.00</span>
+                  <span matTextPrefix>$&nbsp;</span>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <hr class="mx-n2">
+            <div class="row align-items-center">
+              <div class="col-md-3 ps-1">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="col-md-8">
+              
+                <mat-form-field class="custom-width" floatLabel="always">
+                  <mat-label>Enter quantity</mat-label>
+                  <input matInput type="number" formControlName="quantity" class="example-right-align" placeholder="0" />
+                  <span matTextPrefix>&nbsp;</span>
+                  <span matTextSuffix></span>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <hr class="mx-n2">
+            <div class="row align-items-center">
+              <div class="col-md-3 ps-1">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="col-md-8">
+           
+                    <mat-form-field class="custom-width">
+                      <mat-label>Publication date</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName="publicDate">
+                      <mat-hint>MM/DD/YYYY</mat-hint>
+                      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+              </div>
+            </div>
+            <hr class="mx-n3">
+            <div class="row align-items-center py-3">
+              <div class="col-md-3 ps-5">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="col-md-9 pe-5" >
+                <input class="form-control form-control-lg" id="formFileLg" formControlName="image" type="file" />
+                <div *ngIf="image?.invalid && (image?.dirty || image?.touched)" class="alert">
+                  <div *ngIf="image?.hasError('required')" class="text-danger">Image is required.</div>
+                </div> 
+              </div>
+            </div>
+            <hr class="mx-n3">
+            <div class="px-4 py-1 add">
+              <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                class="btn btn-primary btn-lg"  >Submit</button>
+            </div>
+          </div>
+        </div>
+        <!-- </form> -->
+        </form>
+      </div>
+
+    </div>
+  </div>

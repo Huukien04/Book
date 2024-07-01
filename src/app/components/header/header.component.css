@@ -1,7 +1,70 @@
 .example-spacer {
     flex: 1 1 auto;
   }
-  mat-toolbar{
+  .mat-toolbar{
     background-color: rgb(108, 108, 108);
   }
+
+  .example-form-field {
+    margin: 0 20px;
+  }
   
+  
+  
+  .example-search-form {
+    margin-right: 20px;
+  }
+  
+  .dropdown .dropdown-toggle {
+    cursor: pointer;
+  }
+.no-style-form-field .mat-form-field-underline {
+  display: none;
+}
+
+.no-style-form-field .mat-form-field-wrapper {
+  padding: 0; 
+  border: none;
+}
+
+.no-style-form-field .mat-form-field-infix {
+  border-radius: 15; 
+}
+
+.no-style-form-field .mat-select {
+  background-color: transparent; 
+}
+
+.no-style-form-field .mat-form-field-flex {
+  border: none; 
+  border-radius: 0; 
+  background-color: transparent; 
+}
+.example-form-field {
+  border-radius: 20px; 
+ 
+}
+
+
+.example-form-field {
+  
+  max-width: auto; 
+  margin-top: 25px;
+  max-height: 70px; 
+}
+
+
+.searchicon {
+  border-radius: 20px;
+
+  color: white; 
+  border: none; 
+  padding: 8px 16px;
+  cursor: pointer; 
+ 
+  margin-bottom: 0;
+ }
+ .search{
+  border-radius: 20px;
+  top: 20px;
+ }

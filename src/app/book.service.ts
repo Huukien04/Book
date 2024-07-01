@@ -13,12 +13,14 @@ getAll(){
   return this.http.get<Book[]>(this.apiUrl);
 }
 getDetail(id: string){
-  return this.http.get(this.apiUrl);
+  return this.http.get<Book[]>(`${this.apiUrl}/${id}`);
 }
-getProductBycategory(categoryId: string){
-  return this.http.get(`${this.apiUrl}?category_id=${categoryId}`);
+getBookbyGenre(genreId:string){
+  return this.http.get<Book[]>(`${this.apiUrl}?category_id=${genreId}`)
 }
-
+searchBook(title:string){
+  return this.http.get<Book[]>(`${this.apiUrl}?title=${title}`)
+}
 addBook(data: any){
   return this.http.post(this.apiUrl, data);
 }
@@ -27,6 +29,5 @@ editBook(id:string,data:any){
 }
 deleteBook(id:string){
   return this.http.delete(`${this.apiUrl}/${id}`);
-
 }
 }
