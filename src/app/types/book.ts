@@ -3,11 +3,11 @@ export type Book={
     title:string,
     author_id:string,
     category_id:string,
-    published_date:string,
+    publiched_date:string,
     genre:string,
     description:string,
-    price:string,
-    stock_quantity:string,
+    price:number,
+    stock_quantity:number,
     image:string
 }
 export type Genre={

@@ -17,6 +17,7 @@ body {
 }
 
 /* Header Styles */
+
 header {
     position: relative;
     left: 0;
@@ -48,6 +49,20 @@ header h1 {
 }
 
 /* Profile Card Styles */
+
+.example-sidenav-content {
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  height: 100%; /* Chiều cao của example-sidenav-content */
+}
+
+.profile-card-4 {
+  width: 100%; /* Độ rộng của profile-card-4 là bằng độ rộng của example-sidenav-content */
+  max-width: 600px; /* Giới hạn độ rộng tối đa nếu cần thiết */
+  /* Các thiết lập khác tùy theo thiết kế của bạn */
+}
+
 .profile-card-4 {
     max-width: 300px;
     background-color: #FFF;
@@ -68,7 +83,7 @@ header h1 {
 
 .profile-card-4 .profile-content {
     position: relative;
-    padding: 15px;
+   
     background-color: #FFF;
 }
 
@@ -95,7 +110,7 @@ header h1 {
 }
 
 .profile-card-4 .profile-overview {
-    padding: 15px 0px;
+    width: 100%;
 }
 
 .profile-card-4 .profile-overview p {
@@ -207,3 +222,11 @@ header h1 {
     display: flex;
     width: 500px;
   }
+  .profile-name {
+   
+    font-size: 10px; /* Kích thước chữ 20px */
+}
+
+.profile-overview h4 {
+    font-size: 10px; /* Kích thước chữ 18px */
+}

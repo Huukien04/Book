@@ -29,7 +29,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { NativeDateModule } from '@angular/material/core';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FooterComponent } from './components/footer/footer.component';
-
+import {Sort, MatSortModule} from '@angular/material/sort';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +52,8 @@ import { FooterComponent } from './components/footer/footer.component';
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSortModule,
+    
     NativeDateModule,
     MatDatepickerModule,
     MatButtonModule,

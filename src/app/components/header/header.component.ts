@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
     this.genreService.getAll().subscribe({
       next: (data) => {
         this.genres = data;
-        console.log(this.genres);
+    
 
       }
     })
