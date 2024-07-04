@@ -1,232 +1,27 @@
-/* Body and General Styles */
-body {
-    font-family: "Open Sans", sans-serif;
-    background-color: #F1F2F3;
-    margin: 0;
-    padding: 0;
+mat-grid-tile {
+  border: 1px solid #24d9e9;
+  font-size:10px;
 }
-.mat-raised-button{
-    justify-content: center;
-    align-items: center;
+mat-grid-list{
+ 
 }
-
-.container-fluid,
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+.book-image {
+  max-width: 100%; /* Ensure image doesn't exceed its container's width */
+  height: auto; /* Allow the image to scale proportionally */
+  display: block; /* Ensure image behaves as a block element */
+  margin: auto; /* Center the image horizontally (if needed) */
+  max-height: 100%; /* Ensure the image doesn't exceed its container's height */
 }
 
-/* Header Styles */
-
-header {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    min-height: 120px;
-    padding: 50px 0;
-    color: #fff;
-    background: #383838 url(https://www.athenadesignstudio.com/plugins/switch/images/bg.jpg) no-repeat center center;
-    margin-bottom: 30px;
-}
-
-header .logo {
-    clear: both;
-    display: block;
-    text-align: center;
-    padding-bottom: 10px;
-}
-
-header h1 {
-    font-weight: 300;
-    font-size: 24px;
-    color: #eee;
-    letter-spacing: 2px;
-    text-align: center;
-    text-transform: uppercase;
-    margin: 0 !important;
-    padding-bottom: 25px;
-}
-
-/* Profile Card Styles */
-
-.example-sidenav-content {
-  display: flex;
-  justify-content: center; /* Căn giữa theo chiều ngang */
-  align-items: center; /* Căn giữa theo chiều dọc */
-  height: 100%; /* Chiều cao của example-sidenav-content */
-}
-
-.profile-card-4 {
-  width: 100%; /* Độ rộng của profile-card-4 là bằng độ rộng của example-sidenav-content */
-  max-width: 600px; /* Giới hạn độ rộng tối đa nếu cần thiết */
-  /* Các thiết lập khác tùy theo thiết kế của bạn */
-}
-
-.profile-card-4 {
-    max-width: 300px;
-    background-color: #FFF;
-    border-radius: 5px;
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    position: relative;
-    margin: 10px auto;
-    cursor: pointer;
- height: 550px;
+  .quantity {
+    width: 50px; /* Adjust width as needed */
     
-}
-
-.profile-card-4 img {
-    transition: all 0.25s linear;
-    height: 300px;
-}
-
-.profile-card-4 .profile-content {
-    position: relative;
-   
-    background-color: #FFF;
-}
-
-.profile-card-4 .profile-name {
-    font-weight: bold;
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: -70px;
-    color: #FFF;
-    font-size: 17px;
-}
-
-.profile-card-4 .profile-name p {
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 1.5px;
-}
-
-.profile-card-4 .profile-description {
-    color: #777;
-    font-size: 12px;
-    padding: 10px;
-}
-
-.profile-card-4 .profile-overview {
-    width: 100%;
-}
-
-.profile-card-4 .profile-overview p {
-    font-size: 10px;
-    font-weight: 600;
-    color: #777;
-   
-}
-
-.profile-card-4 .profile-overview h4 {
-    color: #273751;
-    font-weight: bold;
-}
-
-.profile-card-4 .profile-content::before {
-    content: "";
-    position: absolute;
-    height: 20px;
-    top: -10px;
-    left: 0px;
-    right: 0px;
-    background-color: #FFF;
-    z-index: 0;
-    transform: skewY(3deg);
-}
-
-.profile-card-4:hover img {
-    transform: rotate(5deg) scale(1.1, 1.1);
-    filter: brightness(110%);
-}
-
-
-
-
-
-  
-.example-sidenav-content {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+    
   }
-  
-  .example-sidenav {
-    padding: 20px;
-  }
-  section {
-    display: table;
-  }
-  
-  .example-label {
-    display: table-cell;
-    font-size: 14px;
-    margin-left: 8px;
-    min-width: 120px;
-  }
-  
-  .example-button-row {
-    display: table-cell;
-    max-width: 600px;
-  }
-  
-  .example-button-row .mat-mdc-button-base {
-    margin: 8px 8px 8px 0;
-  }
-  
-  .example-flex-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
   .example-button-container {
     display: flex;
     justify-content: center;
-    width: 120px;
+    width: 30px;
+    height: 30px;
+    margin-left: 20px;
   }
-  
-.button2 {
-   
-    background-color: white; 
-    color: black; 
-    border: 2px solid #008CBA;
-  }
-  
-  .button2:hover {
-    background-color: #008CBA;
-    color: white;
-  }
-  .button {
-    background-color: #04AA6D; 
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-  }
-  .pagi{
-    color: #FFF;
-    display: flex;
-    justify-content: center;
-  }
-  .pagina{
-    display: flex;
-    width: 500px;
-  }
-  .profile-name {
-   
-    font-size: 10px; /* Kích thước chữ 20px */
-}
-
-.profile-overview h4 {
-    font-size: 10px; /* Kích thước chữ 18px */
-}

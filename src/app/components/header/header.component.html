@@ -6,43 +6,44 @@
 
   <button class="ml-3" mat-button [matMenuTriggerFor]="menu">Genre</button>
   <mat-menu #menu="matMenu">
-    <button *ngFor="let genre of genres" mat-menu-item routerLink="/category/{{ genre.id }}">{{ genre.name }}</button>
+    <button *ngFor="let genre of genres" mat-menu-item routerLink="/category/{{ genre.genreID }}">{{ genre.name }}</button>
   </mat-menu>
 
   <span class="example-spacer d"></span>
-<form action="" (ngSubmit)="keySearch()">
-  <mat-form-field class="example-form-field" >
-    <input matInput type="search" #searchQuery placeholder="Search..." aria-label="Search">
-    <button mat-button matSuffix class="searchicon" type="submit" aria-label="Search">
-      <mat-icon>search</mat-icon>
-    </button>
-  </mat-form-field>
-</form>
+ 
+    <mat-form-field class="example-form-field">
+      <input matInput type="text"  [(ngModel)]="inputText"  #searchQuery placeholder="Search..."(input)="onSearch()">
+      <button mat-button matSuffix class="searchicon" type="submit" aria-label="Search">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
 
-<!-- <button mat-button type="submit" (ngSubmit)="keySearch()"> <mat-icon  class="col-md-8" aria-hidden="false" aria-label="Example home icon" fontIcon="search"></mat-icon></button>
+
+  <!-- <button mat-button type="submit" (ngSubmit)="keySearch()"> <mat-icon  class="col-md-8" aria-hidden="false" aria-label="Example home icon" fontIcon="search"></mat-icon></button>
   <button mat-icon-button aria-label="Example icon-button with heart icon">
     <mat-icon>favorite</mat-icon>
   </button> -->
 
   <div class="dropdown text-end">
     <a class="d-block link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown"
-    
       aria-expanded="false">
-    
-      <img src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon" alt="mdo" width="32" height="32" class="rounded-circle">
+
+      <img src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon"
+        alt="mdo" width="32" height="32" class="rounded-circle">
     </a>
-   
+
   </div>
-  <mat-menu #icon="matMenu" class="row" >
+  <mat-menu #icon="matMenu" class="row">
     <div class="col-md-12 align-items-center justify-content-center d-flex">
-    <mat-icon (click)="home()" class="col-md-8" aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-   
-  </div>
-  <div class="col-md-12 align-items-center justify-content-center d-flex">
-    <mat-icon (click)="add()" aria-hidden="true" aria-label="Example home icon" fontIcon="add"></mat-icon>
-   
-  </div>
- 
+      <mat-icon (click)="home()" class="col-md-8" aria-hidden="false" aria-label="Example home icon"
+        fontIcon="home"></mat-icon>
+
+    </div>
+    <div class="col-md-12 align-items-center justify-content-center d-flex">
+      <mat-icon (click)="add()" aria-hidden="true" aria-label="Example home icon" fontIcon="add"></mat-icon>
+
+    </div>
+
   </mat-menu>
 </mat-toolbar>
 

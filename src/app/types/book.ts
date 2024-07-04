@@ -1,8 +1,10 @@
+import { DatePipe } from "@angular/common";
+
 export type Book={
-    id: string ,
+    bookID: number ,
     title:string,
     author_id:string,
-    category_id:string,
+    category_id:number,
     publiched_date:string,
     genre:string,
     description:string,
@@ -11,10 +13,10 @@ export type Book={
     image:string
 }
 export type Genre={
-   id:string,
+    genreID:number,
     name:string
 }
 export interface DialogData {
     animal: string;
     name: string;
-  }
+}

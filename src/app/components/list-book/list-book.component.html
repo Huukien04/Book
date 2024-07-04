@@ -1,4 +1,4 @@
-<div class="container">
+
   <table matSort (matSortChange)="sortData($event)">
     <thead>
       <tr>
@@ -7,76 +7,40 @@
       </tr>
     </thead>
   </table>
-  <div class="row">
-    <div class="col-md-3" *ngFor="let book of pagedBooks">
-      <mat-drawer-container autosize class="profile-card-4">
-        <mat-drawer #drawer class="example-sidenav" mode="side">
-          <ng-container *ngIf="showFiller">
-            <section>
-              <div class="example-button-row">
-                <a routerLink='/book/add'>
-                  <button class="button2" mat-stroked-button>
-                    <mat-icon aria-hidden="true" aria-label="Example home icon" fontIcon="favorite"></mat-icon>
-                  </button>
-                </a>
-                <a routerLink='/book/edit/{{ book.id }}'>
-                  <button class="button2" mat-stroked-button>Edit</button>
-                </a>
-                <button class="button2" mat-raised-button (click)="openDialog(book)" mat-stroked-button>Delete</button>
-                <a>
-                  <button class="button2" mat-stroked-button>Detail</button>
-                </a>
-              </div>
-            </section>
-          </ng-container>
-          <div class="mat-raised-button">
-            <button mat-raised-button (click)="toggleFiller()">Operation</button>
+  <mat-grid-list cols="8" rowHeight="4:1" gutterSize="0px" >
+  <mat-grid-tile>image</mat-grid-tile>
+  <mat-grid-tile>Title</mat-grid-tile>
+  <mat-grid-tile>Description</mat-grid-tile>
+  <mat-grid-tile>Genre</mat-grid-tile>
+  <mat-grid-tile>Price</mat-grid-tile>
+  <mat-grid-tile>Quantity</mat-grid-tile>
+  <mat-grid-tile>Publish Date</mat-grid-tile>
+  <mat-grid-tile></mat-grid-tile>
+</mat-grid-list>
+      <mat-grid-list cols="8" rowHeight="6:3"   gutterSize="0px" *ngFor="let book of pagedBooks">
+        <mat-grid-tile> <img [src]="'../../../assets/images/' + getImageUrl(book.image)" class="img img-responsive book-image" ></mat-grid-tile>
+        <mat-grid-tile>{{ book.title }}</mat-grid-tile>
+        <mat-grid-tile class=" overflow-auto">{{ book.description }}</mat-grid-tile>
+        <mat-grid-tile>{{book.genre}}</mat-grid-tile>
+        <mat-grid-tile>{{book.price|price}}</mat-grid-tile>
+        <mat-grid-tile  class="quantity">{{book.stock_quantity}}</mat-grid-tile>
+        <mat-grid-tile>{{book.publiched_date|date}}</mat-grid-tile>
+        <mat-grid-tile>
+          <div class="d-flex example-button-container" >
+            <button class="example-button-container" routerLink='/book/edit/{{ book.bookID }}' mat-fab aria-label="Example icon button with a delete icon">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button class="example-button-container"(click)="openDialog(book)" mat-fab aria-label="Example icon button with a delete icon">
+              <mat-icon>delete</mat-icon>
+            </button>
+          
           </div>
-        </mat-drawer>
-        <div class="example-sidenav-content">
-          <div class="profile-card-4 text-center">
-            <img [src]="'../../../assets/' + getImageUrl(book.image)" class="img img-responsive" (click)="drawer.toggle()">
-            <div class="profile-content">
-              <div class="profile-name" [style.color]="'Cyan'">
-                {{ book.title }}
-                <p>Author: {{ book.author_id }}</p>
-              </div>
-              <div class="profile-description">{{ book.description }}</div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="profile-overview">
-                    <p>Price</p>
-                    <h4>{{ book.price|price }}</h4>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="profile-overview">
-                    <p>Date public</p>
-                    <h4>{{ book.publiched_date | date: 'dd/MM/yyyy' }}</h4>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="profile-overview">
-                      <p>Quantity</p>
-                      <h4>{{ book.stock_quantity }}</h4>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="profile-overview">
-                      <p>Genre</p>
-                      <h4>{{ book.genre }}</h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-      </mat-drawer-container>
-    </div>
-  </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+   
+
+
+  
   <div class="pagi">
     <mat-paginator class="col-md-8 pagina"  [length]="totalBooks" [pageSize]="pageSize" [pageSizeOptions]="[1, 2, 3, 4]"
       (page)="onPageChange($event)">

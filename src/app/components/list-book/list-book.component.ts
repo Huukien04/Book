@@ -31,7 +31,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   pageSize = 4;
   totalBooks = 0;
   currentPage = 0;
-  genreId!: string;
+  genreId!: number;
   route = inject(ActivatedRoute);
   genreService = inject(GenreService);
   @ViewChild('app-header') keytoSearch = inject(HeaderComponent);
@@ -39,7 +39,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   message!: string;
   data = inject(DataService);
   router = inject(Router);
-  sortedData: Book[]=[];
+  sortedData: Book[] = [];
 
   toggleFiller() {
     this.showFiller = !this.showFiller;
@@ -60,8 +60,8 @@ export class ListBookComponent implements OnInit, AfterViewInit {
     if (!sort.active || sort.direction === '') {
       this.sortedData = data;
       this.updatePagedBooks();
-     
-      
+
+
       return;
     }
 
@@ -77,12 +77,12 @@ export class ListBookComponent implements OnInit, AfterViewInit {
       }
     });
     console.log(this.sortedData);
-    this.books=this.sortedData;
+    this.books = this.sortedData;
     this.updatePagedBooks();
-    function compare(a: number | string, b: number | string, isAsc: boolean) {      
+    function compare(a: number | string, b: number | string, isAsc: boolean) {
       return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
     }
-   
+
   }
 
   openDialog(book: Book): void {
@@ -92,12 +92,14 @@ export class ListBookComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(book.id);
+     
       if (result === 'confirm') {
-        this.handleDelete(book.id);
-        console.log(book.id);
+        this.handleDelete(book.bookID);
+       
+     
       }
     });
+    
   }
   ngAfterViewInit(): void {
 
@@ -160,7 +162,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   }
   mapGenresToBooks(): void {
     this.books.forEach(book => {
-      book.genre = this.genres.find(genre => genre.id === book.category_id)?.name || 'Unknown';
+      book.genre = this.genres.find(genre => genre.genreID === book.category_id)?.name || 'Unknown';
     });
   }
   searchBook(query: string) {
@@ -190,18 +192,21 @@ export class ListBookComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  handleDelete(id: string) {
+  handleDelete(id: number) {
     this.bookService.deleteBook(id).subscribe({
       next: () => {
         console.log("Delete Suces");
-        this.books = this.books.filter(book => book.id !== id)
+        this.books = this.books.filter(book => book.bookID !== id)
+
         this.loadBooks()
+
       },
       error: (e) => {
         console.log(e);
 
       }
     })
+ 
   }
 
   onPageChange(event: PageEvent) {
@@ -220,7 +225,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
     const fakePathPrefix = 'C:\\fakepath\\';
     if (imagePath && imagePath.startsWith(fakePathPrefix)) {
 
-      return `images/${imagePath.substring(fakePathPrefix.length)}`;
+      return `${imagePath.substring(fakePathPrefix.length)}`;
     }
 
 

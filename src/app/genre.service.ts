@@ -7,7 +7,7 @@ import { Book, Genre } from './types/book';
 })
 export class GenreService {
 
-  apiUrl ='http://localhost:3000/genre'
+  apiUrl ='http://localhost:3000/genres'
   http = inject(HttpClient)
  getAll(){
    return this.http.get<Genre[]>(this.apiUrl);

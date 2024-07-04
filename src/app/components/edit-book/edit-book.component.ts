@@ -27,7 +27,7 @@ export class EditBookComponent implements OnInit {
   router = inject(ActivatedRoute);
   genreService = inject(GenreService);
   genres: Genre[] = [];
-  @Input() idBook!: string;
+  @Input() idBook!: number;
   @Input() bookService = inject(BookService);
   ngOnInit() {
     this.router.params.subscribe((param) => {

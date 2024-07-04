@@ -14,22 +14,22 @@ export class BookService {
 getAll(){
   return this.http.get<Book[]>(this.apiUrl);
 }
-getDetail(id: string){
+getDetail(id: number){
   return this.http.get<Book[]>(`${this.apiUrl}/${id}`);
 }
-getBookbyGenre(genreId:string){
+getBookbyGenre(genreId:number){
   return this.http.get<Book[]>(`${this.apiUrl}?category_id=${genreId}`)
 }
 searchBook(title:string){
-  return this.http.get<Book[]>(`${this.apiUrl}?title=${title}`)
+  return this.http.get<Book[]>(`${this.apiUrl}?title_like=${title}`)
 }
 addBook(data: any){
   return this.http.post(this.apiUrl, data);
 }
-editBook(id:string,data:any){
+editBook(id:number,data:any){
   return this.http.put(`${this.apiUrl}/${id}`,data);
 }
-deleteBook(id:string){
+deleteBook(id:number){
   return this.http.delete(`${this.apiUrl}/${id}`);
 }
 uploadImage(image: File) {

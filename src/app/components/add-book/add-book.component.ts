@@ -25,6 +25,8 @@ export class AddBookComponent implements OnInit {
     this.genreService.getAll().subscribe({
       next: (data) => {
         this.genres = data;
+        console.log(data);
+        
       }
     })
 
@@ -75,11 +77,10 @@ export class AddBookComponent implements OnInit {
 
   addForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    author_id: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required]),
-    category_id: new FormControl('', [Validators.required]),
+    
     description: new FormControl('', [Validators.required]),
-    publiched_date: new FormControl('', [Validators.required]),
+    published_date: new FormControl('', [Validators.required]),
     stock_quantity: new FormControl('', [Validators.required]),
     image: new FormControl('', [Validators.required])
   })
@@ -90,17 +91,12 @@ export class AddBookComponent implements OnInit {
     if (this.addForm.valid) {
       if (this.selectedFile) {
         const formData = new FormData();
-
-
         formData.append('image', this.selectedFile, this.selectedFile.name);
         this.bookService.uploadImage(this.selectedFile).subscribe({
-          next: (response) => {
-
-
-
-
-            this.addBook();
+          next: (response) => {   
+            this.addBook();      
             this.addForm.patchValue({ image: response.filePath });
+             
           },
           error: (err) => {
             console.error('Error uploading image:', err);
