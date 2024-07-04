@@ -21,7 +21,7 @@
                     </div> -->
                 <mat-form-field class="custom-width" hintLabel="Max 30 characters">
                   <mat-label>Enter name book</mat-label>
-                  <input matInput #input maxlength="30" formControlName="nameBook" placeholder="Ex. Nougat" (input)="onInput($event)" />
+                  <input matInput #input maxlength="30" formControlName="title" placeholder="Ex. Nougat" (input)="onInput($event)" />
                   <mat-hint align="end">{{value().length}}/30</mat-hint>
                 </mat-form-field>
               </div>
@@ -32,13 +32,30 @@
                 <h6 class="mb-0"></h6>
               </div>
               <div class="col-md-8">
-                <!-- <input type="text" class="form-control form-control-lg" formControlName="description"
-                  placeholder="Enter product description"> -->
+            
                   <mat-form-field class="custom-width" hintLabel="Max 30 characters">
                     <mat-label>Enter name author</mat-label>
-                    <input matInput #input maxlength="20" formControlName="nameAuthor" placeholder="Ex. Max" (input)="onInput($event)" />
+                    <input matInput #input maxlength="20" formControlName="author_id" placeholder="Ex. Max" (input)="onInput($event)" />
                     <mat-hint align="end">{{value().length}}/20</mat-hint>
                   </mat-form-field>
+                  
+              </div>
+            </div>
+            <hr class="mx-n2">
+            <div class="row align-items-center">
+              <div class="col-md-3 ps-1">
+                <h6 class="mb-0"></h6>
+              </div>
+              <div class="col-md-8">
+            
+                <mat-form-field class="custom-width">
+                  <mat-label>Genre </mat-label>
+                  <mat-select formControlName="category_id">
+                    <mat-option   *ngFor="let genre of genres"  [value]="genre.id">
+                      {{ genre.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
                   
               </div>
             </div>
@@ -82,7 +99,7 @@
               
                 <mat-form-field class="custom-width" floatLabel="always">
                   <mat-label>Enter quantity</mat-label>
-                  <input matInput type="number" formControlName="quantity" class="example-right-align" placeholder="0" />
+                  <input matInput type="number" formControlName="stock_quantity" class="example-right-align" placeholder="0" />
                   <span matTextPrefix>&nbsp;</span>
                   <span matTextSuffix></span>
                 </mat-form-field>
@@ -95,14 +112,13 @@
                 <h6 class="mb-0"></h6>
               </div>
               <div class="col-md-8">
-           
-                    <mat-form-field class="custom-width">
-                      <mat-label>Publication date</mat-label>
-                      <input matInput [matDatepicker]="picker" formControlName="publicDate">
-                      <mat-hint>MM/DD/YYYY</mat-hint>
-                      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
+                <mat-form-field class="custom-width">
+                  <mat-label>Publication date</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="publiched_date">
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
               </div>
             </div>
             <hr class="mx-n3">
@@ -110,17 +126,20 @@
               <div class="col-md-3 ps-5">
                 <h6 class="mb-0"></h6>
               </div>
-              <div class="col-md-9 pe-5" >
-                <input class="form-control form-control-lg" id="formFileLg" formControlName="image" type="file" />
+              <div class="col-md-9 pe-5">
+                <input class="form-control form-control-lg" #fileInput formControlName="image" id="formFileLg" type="file" (change)="onFileSelected($event)" />
                 <div *ngIf="image?.invalid && (image?.dirty || image?.touched)" class="alert">
                   <div *ngIf="image?.hasError('required')" class="text-danger">Image is required.</div>
-                </div> 
+                </div>
               </div>
-            </div>
+              <div *ngIf="image">
+                <img [src]="image" class="img img-responsive" />
+              </div>
+            </div>  
             <hr class="mx-n3">
             <div class="px-4 py-1 add">
               <button type="submit" data-mdb-button-init data-mdb-ripple-init
-                class="btn btn-primary btn-lg"  >Submit</button>
+                class="btn btn-primary btn-lg"  >ADD</button>
             </div>
           </div>
         </div>

@@ -30,6 +30,7 @@ import { NativeDateModule } from '@angular/material/core';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FooterComponent } from './components/footer/footer.component';
 import {Sort, MatSortModule} from '@angular/material/sort';
+import { PricePipe } from './components/price.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +39,8 @@ import {Sort, MatSortModule} from '@angular/material/sort';
     HeaderComponent,
     EditBookComponent,
     DialogAnimationsExampleDialogComponent,
-    FooterComponent
+    FooterComponent,
+    PricePipe
   ],
   imports: [
     BrowserModule,
