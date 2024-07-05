@@ -21,7 +21,7 @@ export class GenreService {
  getGenre(id:string){
   return this.http.get<Genre[]>(`${this.apiUrl}`);
  }
- addBook(data: any){
+ addGenre(data: any){
    return this.http.post(this.apiUrl, data);
  }
  editBook(id:string,data:any){

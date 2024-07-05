@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 export class BookService {
 
   apiUrl ='http://localhost:3000/books';
+  apiUrlgetGenre ='http://localhost:3000/books/getgenre';
+  apiUrlsearch ='http://localhost:3000/search';
   uploadUrl = 'http://localhost:3001/upload';
  http = inject(HttpClient)
 getAll(){
@@ -18,10 +20,10 @@ getDetail(id: number){
   return this.http.get<Book[]>(`${this.apiUrl}/${id}`);
 }
 getBookbyGenre(genreId:number){
-  return this.http.get<Book[]>(`${this.apiUrl}?category_id=${genreId}`)
+  return this.http.get<Book[]>(`${this.apiUrlgetGenre}?genreID=${genreId}`)
 }
 searchBook(title:string){
-  return this.http.get<Book[]>(`${this.apiUrl}?title_like=${title}`)
+  return this.http.get<Book[]>(`${this.apiUrlsearch}?title=${title}`)
 }
 addBook(data: any){
   return this.http.post(this.apiUrl, data);

@@ -1,5 +1,5 @@
 <mat-toolbar class="mat-elevation-z4">
-  <button mat-icon-button aria-label="Example icon-button with menu icon">
+  <button (click)="openDialog()" mat-icon-button aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>
   <span (click)="listBook()">My App</span>
@@ -8,6 +8,7 @@
   <mat-menu #menu="matMenu">
     <button *ngFor="let genre of genres" mat-menu-item routerLink="/category/{{ genre.genreID }}">{{ genre.name }}</button>
   </mat-menu>
+ 
 
   <span class="example-spacer d"></span>
  
@@ -18,18 +19,17 @@
       </button>
     </mat-form-field>
 
-
-  <!-- <button mat-button type="submit" (ngSubmit)="keySearch()"> <mat-icon  class="col-md-8" aria-hidden="false" aria-label="Example home icon" fontIcon="search"></mat-icon></button>
-  <button mat-icon-button aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button> -->
-
-  <div class="dropdown text-end">
+  <div class="dropdown text-end row">
     <a class="d-block link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown"
       aria-expanded="false">
-
-      <img src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon"
+<div class="col-md-2">
+      <img  src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon"
         alt="mdo" width="32" height="32" class="rounded-circle">
+      </div>
+      <div class="col-md-2">
+        <img  src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon"
+          alt="mdo" width="25" height="25" class="rounded-circle">
+        </div>
     </a>
 
   </div>

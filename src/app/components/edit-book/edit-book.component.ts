@@ -68,8 +68,8 @@ export class EditBookComponent implements OnInit {
   get description() {
     return this.addForm.get('description');
   }
-  get publiched_date() {
-    return this.addForm.get('publiched_date');
+  get published_date() {
+    return this.addForm.get('published_date');
   }
   get image() {
     return this.addForm.get('image')?.value;
@@ -77,13 +77,12 @@ export class EditBookComponent implements OnInit {
 
   addForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    author_id: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required]),
-    category_id: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
-    publiched_date: new FormControl('', [Validators.required]),
+    description: new FormControl(''),
+    published_date: new FormControl('', [Validators.required]),
     stock_quantity: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required])
+    image: new FormControl('', [Validators.required]),
+    genreID:new FormControl('', [Validators.required])
   })
   editBook() {
     if (this.addForm.valid) {

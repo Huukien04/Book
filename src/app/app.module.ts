@@ -31,8 +31,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FooterComponent } from './components/footer/footer.component';
 import {Sort, MatSortModule} from '@angular/material/sort';
 import { PricePipe } from './components/price.pipe';
+import { DialogAddGenreComponent } from './components/dialog-add-genre/dialog-add-genre.component';
+import { AddGenreComponent } from './components/add-genre/add-genre.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 @NgModule({
   declarations: [
+    LoginComponent,
     AppComponent,
     AddBookComponent,
     ListBookComponent,
@@ -40,7 +45,11 @@ import { PricePipe } from './components/price.pipe';
     EditBookComponent,
     DialogAnimationsExampleDialogComponent,
     FooterComponent,
-    PricePipe
+    PricePipe,
+    DialogAddGenreComponent,
+    AddGenreComponent,
+    RegisterComponent
+   
   ],
   imports: [
     BrowserModule,

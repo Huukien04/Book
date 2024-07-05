@@ -50,7 +50,7 @@
             
                 <mat-form-field class="custom-width">
                   <mat-label>Genre </mat-label>
-                  <mat-select formControlName="category_id">
+                  <mat-select formControlName="genreID">
                     <mat-option   *ngFor="let genre of genres"  [value]="genre.genreID">
                       {{ genre.name }}
                     </mat-option>
@@ -114,7 +114,7 @@
               <div class="col-md-8">
                 <mat-form-field class="custom-width">
                   <mat-label>Publication date</mat-label>
-                  <input matInput [matDatepicker]="picker" formControlName="publiched_date">
+                  <input matInput [matDatepicker]="picker" formControlName="published_date">
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
@@ -132,14 +132,12 @@
                   <div *ngIf="image?.hasError('required')" class="text-danger">Image is required.</div>
                 </div>
               </div>
-              <div *ngIf="image">
-                <img [src]="image" class="img img-responsive" />
-              </div>
+             
             </div>  
             <hr class="mx-n3">
             <div class="px-4 py-1 add">
               <button type="submit" data-mdb-button-init data-mdb-ripple-init
-                class="btn btn-primary btn-lg"  >ADD</button>
+                class="btn btn-primary btn-lg"  >Submit</button>
             </div>
           </div>
         </div>

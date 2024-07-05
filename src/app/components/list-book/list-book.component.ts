@@ -16,6 +16,7 @@ import { GenreService } from 'src/app/genre.service';
 import { HeaderComponent } from '../header/header.component';
 import { DataService } from 'src/app/data.service';
 import { Sort } from '@angular/material/sort';
+import { BookGenresService } from 'src/app/book-genres.service';
 @Component({
   selector: 'app-list-book',
   templateUrl: './list-book.component.html',
@@ -34,6 +35,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   genreId!: number;
   route = inject(ActivatedRoute);
   genreService = inject(GenreService);
+  bookGenresService = inject(BookGenresService);
   @ViewChild('app-header') keytoSearch = inject(HeaderComponent);
   key!: string;
   message!: string;
@@ -119,10 +121,10 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
 
     this.route.params.subscribe((param) => {
-      this.genreId = param['id']
+      this.genreId = param['id']      
       if (this.genreId) {
 
-
+           
         this.bookService.getBookbyGenre(this.genreId).subscribe({
           next: (data) => {
             this.books = data;
@@ -144,11 +146,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
         })
       }
     })
-
-
   }
-
-
   getGenre() {
     this.genreService.getAll().subscribe({
       next: (data) => {
@@ -162,9 +160,11 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   }
   mapGenresToBooks(): void {
     this.books.forEach(book => {
-      book.genre = this.genres.find(genre => genre.genreID === book.category_id)?.name || 'Unknown';
+      book.genreName = this.genres.find(genre => genre.genreID === book.genreID)?.name || 'Unknown';
     });
   }
+
+
   searchBook(query: string) {
     // Implement the searchBook method to fetch books based on the query
     this.bookService.searchBook(query).subscribe({
@@ -172,7 +172,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
         this.books = data;
         this.totalBooks = data.length;
         this.updatePagedBooks();
-      },
+              },
       error: (e) => {
         console.log(e);
       }

@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild, inject, signal } from 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { data } from 'jquery';
+import { BookGenresService } from 'src/app/book-genres.service';
 import { BookService } from 'src/app/book.service';
 import { GenreService } from 'src/app/genre.service';
 import { Genre } from 'src/app/types/book';
@@ -18,6 +19,7 @@ export class AddBookComponent implements OnInit {
   @Input() bookService = inject(BookService);
   protected readonly value = signal('');
   genreService = inject(GenreService);
+  bookGenresService = inject(BookGenresService);
   genres: Genre[] = [];
   selectedFile: File | null = null;
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -25,8 +27,7 @@ export class AddBookComponent implements OnInit {
     this.genreService.getAll().subscribe({
       next: (data) => {
         this.genres = data;
-        console.log(data);
-        
+        console.log(data);      
       }
     })
 
@@ -42,6 +43,7 @@ export class AddBookComponent implements OnInit {
       this.bookService.addBook(this.addForm.value).subscribe({
         next: () => {
           console.log("Add success");
+          // this.addBookGenre(book.bookID);
           this.router.navigate(['/book/list']);
         },
         error: (err) => {
@@ -52,6 +54,17 @@ export class AddBookComponent implements OnInit {
       console.error('Form is invalid.');
     }
   }
+  // addBookGenre(bookID: number) {
+  //   const genreID = this.addForm.get('genreID')?.value;
+  //   this.bookGenresService.addBookGenre(bookID, genreID).subscribe({
+  //     next: () => {
+  //       console.log("BookGenre added successfully");
+  //     },
+  //     error: (err) => {
+  //       console.error('Error adding BookGenre:', err);
+  //     }
+  //   });
+  // }
 
   get nameBook() {
     return this.addForm.get('title');
@@ -78,11 +91,11 @@ export class AddBookComponent implements OnInit {
   addForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required]),
-    
-    description: new FormControl('', [Validators.required]),
+    description: new FormControl(''),
     published_date: new FormControl('', [Validators.required]),
     stock_quantity: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required])
+    image: new FormControl('', [Validators.required]),
+    genreID:new FormControl('', [Validators.required])
   })
 
 

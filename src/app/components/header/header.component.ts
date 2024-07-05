@@ -7,6 +7,9 @@ import { Genre } from 'src/app/types/book';
 import { Injectable } from '@angular/core';
 import { DataService } from 'src/app/data.service';
 import { BehaviorSubject, Subject, debounceTime } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAddGenreComponent } from '../dialog-add-genre/dialog-add-genre.component';
+import { LoginService } from 'src/app/login.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +20,9 @@ import { BehaviorSubject, Subject, debounceTime } from 'rxjs';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit,OnDestroy {
+  readonly dialog = inject(MatDialog);
+
+
   toppings = new FormControl('');
   genres: Genre[] = [];
   genreService = inject(GenreService);
@@ -28,8 +34,9 @@ export class HeaderComponent implements OnInit,OnDestroy {
   inputText: string = '';
   private searchSubject = new Subject<string>();
   private readonly debounceTimeMs = 1000;
+  user = inject(LoginService);
   constructor() { }
-  
+  userName:string='';
   ngOnDestroy() {
     this.searchSubject.complete();
   }
@@ -41,7 +48,22 @@ export class HeaderComponent implements OnInit,OnDestroy {
     
   }
 
+  openDialog() {
+
+    const dialogRef = this.dialog.open(DialogAddGenreComponent);
+
+   dialogRef.afterClosed().subscribe(result => {
+
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   ngOnInit() {
+    this.user.getUser().subscribe({
+      next(value) {
+        
+      },
+    })
     this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchValue) => {      
       this.data.changeMessage(searchValue);
     });

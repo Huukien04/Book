@@ -21,10 +21,10 @@
         <mat-grid-tile> <img [src]="'../../../assets/images/' + getImageUrl(book.image)" class="img img-responsive book-image" ></mat-grid-tile>
         <mat-grid-tile>{{ book.title }}</mat-grid-tile>
         <mat-grid-tile class=" overflow-auto">{{ book.description }}</mat-grid-tile>
-        <mat-grid-tile>{{book.genre}}</mat-grid-tile>
+        <mat-grid-tile>{{book.genreName}}</mat-grid-tile>
         <mat-grid-tile>{{book.price|price}}</mat-grid-tile>
         <mat-grid-tile  class="quantity">{{book.stock_quantity}}</mat-grid-tile>
-        <mat-grid-tile>{{book.publiched_date|date}}</mat-grid-tile>
+        <mat-grid-tile>{{book.published_date|date}}</mat-grid-tile>
         <mat-grid-tile>
           <div class="d-flex example-button-container" >
             <button class="example-button-container" routerLink='/book/edit/{{ book.bookID }}' mat-fab aria-label="Example icon button with a delete icon">
