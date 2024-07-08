@@ -17,7 +17,7 @@
     ngOnInit() {
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
-          this.showHeader = event.url !== '/login';
+          this.showHeader = !(event.url === '/login' || event.url === '/register');
         }
       });
     }
