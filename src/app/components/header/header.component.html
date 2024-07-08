@@ -26,10 +26,7 @@
       <img  src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon"
         alt="mdo" width="32" height="32" class="rounded-circle">
       </div>
-      <div class="col-md-2">
-        <img  src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon"
-          alt="mdo" width="25" height="25" class="rounded-circle">
-        </div>
+     
     </a>
 
   </div>
@@ -43,6 +40,11 @@
       <mat-icon (click)="add()" aria-hidden="true" aria-label="Example home icon" fontIcon="add"></mat-icon>
 
     </div>
+    <div class="col-md-12 align-items-center justify-content-center d-flex">
+      <mat-icon (click)="logout()" aria-hidden="true" aria-label="Example home icon" fontIcon="logout"></mat-icon>
+
+    </div>
+
 
   </mat-menu>
 </mat-toolbar>

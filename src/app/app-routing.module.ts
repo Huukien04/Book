@@ -7,32 +7,31 @@ import { DialogAddGenreComponent } from './components/dialog-add-genre/dialog-ad
 import { AddGenreComponent } from './components/add-genre/add-genre.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AuthGuard } from './guards/auth-guard.guard';
+
 
 const routes: Routes = [
-  {
-    path: 'book/list',
-    component: ListBookComponent
-  },
+ 
   {
     path: 'book/edit/:id',
-    component: EditBookComponent
+    component: EditBookComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'book/add',
-    component: AddBookComponent
+    component: AddBookComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'book/list',
-    component: ListBookComponent
+    component: ListBookComponent,
+    canActivate:[AuthGuard]
+
   },
-  {
-    path: '',
-    component: LoginComponent
-  },
-  
   {
     path: 'category/:id',
-    component: ListBookComponent
+    component: ListBookComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'login',
@@ -44,8 +43,10 @@ const routes: Routes = [
   },
   {
     path: 'genres',
-    component: AddGenreComponent
-  }
+    component: AddGenreComponent,
+    canActivate:[AuthGuard]
+  },
+  { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({

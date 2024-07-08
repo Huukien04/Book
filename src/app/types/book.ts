@@ -21,3 +21,16 @@ export interface DialogData {
     animal: string;
     name: string;
 }
+
+export type User={
+    userID:number,
+    userName:string,
+    token:string,
+    expiresIn:string,
+    idToken:string
+
+}
+
+
+
+

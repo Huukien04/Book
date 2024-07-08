@@ -10,6 +10,8 @@ import { BehaviorSubject, Subject, debounceTime } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddGenreComponent } from '../dialog-add-genre/dialog-add-genre.component';
 import { LoginService } from 'src/app/login.service';
+import { logout } from 'src/app/guards/auth-guard.guard';
+import { LoginComponent } from '../login/login.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,8 +37,9 @@ export class HeaderComponent implements OnInit,OnDestroy {
   private searchSubject = new Subject<string>();
   private readonly debounceTimeMs = 1000;
   user = inject(LoginService);
-  constructor() { }
+
   userName:string='';
+
   ngOnDestroy() {
     this.searchSubject.complete();
   }
@@ -59,11 +62,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit() {
-    this.user.getUser().subscribe({
-      next(value) {
-        
-      },
-    })
+    
     this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchValue) => {      
       this.data.changeMessage(searchValue);
     });
@@ -85,5 +84,10 @@ export class HeaderComponent implements OnInit,OnDestroy {
   }
   add() {
     this.router.navigate(['book/add'])
+  }
+  logout() {
+    this.router.navigate(['login']);
+    logout();
+   
   }
 }

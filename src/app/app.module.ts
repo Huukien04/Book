@@ -35,6 +35,7 @@ import { DialogAddGenreComponent } from './components/dialog-add-genre/dialog-ad
 import { AddGenreComponent } from './components/add-genre/add-genre.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+
 @NgModule({
   declarations: [
     LoginComponent,
@@ -64,7 +65,6 @@ import { RegisterComponent } from './components/register/register.component';
     MatFormFieldModule,
     MatInputModule,
     MatSortModule,
-    
     NativeDateModule,
     MatDatepickerModule,
     MatButtonModule,

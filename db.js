@@ -4,20 +4,21 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const jwt = require('jsonwebtoken');
+const { data } = require('jquery');
 
-// Tạo một instance của Express
 const app = express();
 const port = 3000;
 
-// Middleware
+
 app.use(cors());
 app.use(bodyParser.json());
 
-// Cấu hình lưu trữ cho multer
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const uploadPath = path.join(__dirname, './src/assets/images');
-        cb(null, uploadPath); // Đảm bảo rằng đường dẫn này tồn tại
+        cb(null, uploadPath); 
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
@@ -63,35 +64,106 @@ app.get('/user', (req, res) => {
     if (err) {
       console.error('Error querying database:', err);
       res.status(500).send('Internal Server Error');
+      res.json('that bai');
       return;
     }
     res.json(results);
   });
 });
-app.get('/user', (req, res) => {
-  const userID= req.body;
-  const sql = ' SELECT User.`userName`,`User`.`userPass`  FROM User WHERE `userID`= ?';
-  connection.query(sql,userID, (err, results) => {
+app.get('/login', (req, res) => {
+  const sql = 'SELECT User.`userName`,`User`.`userPass`  FROM User';
+  connection.query(sql, (err, results) => {
     if (err) {
       console.error('Error querying database:', err);
       res.status(500).send('Internal Server Error');
+      res.json('that bai');
       return;
     }
     res.json(results);
   });
 });
-app.post('/user', (req, res) => {
+// app.get('/login', (req, res) => {
+//   const userID= req.body;
+//   const sql = ' SELECT User.`userName`,`User`.`userPass`  FROM User WHERE `userID`= ?';
+//   connection.query(sql,userID, (err, results) => {
+//     if (err) {
+//       console.error('Error querying database:', err);
+//       res.status(500).send('Internal Server Error');
+//       return;
+//     }
+//     res.json(results);
+//   });
+// });
+app.post('/login', (req, res) => {
   const newUser= req.body;
   const sql = 'INSERT INTO User SET ?';
   connection.query(sql, newUser, (err, results) => {
     if (err) {
       console.error('Error inserting into database:', err);
       res.status(500).send('Internal Server Error');
+      res.json(newUser);
       return;
     }
-    res.status(201).json({ id: results.insertId, ...newUser });
+  // var token =  jwt.sign( {_id:newUser._id},'mk' )
+  // return res.jon({
+  //   token:token
+  // }),
+  //   res.status(201).json({ id: results.insertId, ...newUser });
+  // });
+  var token = jwt.sign({ _userID: results._userID }, 'mk' , {expiresIn:'60m'});
+  res.status(201).json({
+    message: 'Thanh cong',
+    token: token,
+    expiresIn: 3600,
+    idToken: token,
+    ...newUser
   });
 });
+});
+
+
+
+
+
+function authenticateToken(req, res, next) {
+  const token = req.header('Authorization')?.split(' ')[1];
+  if (!token) return res.status(401).json({ message: 'Access denied. No token provided.' });
+
+  try {
+    const decoded = jwt.verify(token, 'mk');
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid token.' });
+  }
+}
+
+app.use('/protected', authenticateToken, (req, res) => {
+  res.send('This is a protected route');
+});
+
+
+
+
+
+
+
+app.get('/datboard/:token',(req,res,next)=>{
+  try {
+    var token = req.params.token;
+    var ketqua =  jwt.verify(token,'mk');
+    if(ketqua){
+      next()
+    }
+  } catch (error) {
+    return res.json('ban can pphai login');
+  }
+}),(req,res,next)=>{
+  console.error('111111e:');
+}
+
+
+
 
 app.get('/bookgenre', (req, res) => {
   const sql = `SELECT * FROM bookgenres `;
@@ -144,9 +216,8 @@ app.post('/bookgenre', (req, res) => {
   });
 });
 app.get('/books/getgenre', (req, res) => {
-  const genreID = req.query.genreID; // Access genreID from query parameters
+  const genreID = req.query.genreID; 
 
-  // Ensure genreID is present and numeric (optional step depending on your validation needs)
   if (!genreID || isNaN(genreID)) {
     res.status(400).json({ error: 'Invalid genreID' });
     return;
@@ -167,7 +238,7 @@ app.get('/search', (req, res) => {
   const title = req.query.title;
  
 
-  // Ensure genreID is present and numeric (optional step depending on your validation needs)
+  
   if (!title) {
     res.status(400).json({ error: 'Invalid genreID' });
     return;
@@ -261,7 +332,7 @@ app.delete('/books/:id', (req, res) => {
   });
 });
 
-// Endpoint để tải lên tệp
+
 app.post('/upload', upload.single('image'), (req, res) => {
     if (!req.file) {
         return res.status(400).send('Không có tệp nào được tải lên.');
@@ -269,12 +340,33 @@ app.post('/upload', upload.single('image'), (req, res) => {
     res.send({ filePath: `./src/assets/images/${req.file.filename}` });
 });
 
-// Lắng nghe các yêu cầu HTTP trên cổng 3000
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-// Khởi động server trên cổng 3001
+// app.get('/login',(req,res,next)=>{
+  
+// })
+
+
+// app.post('/login', (req, res) => {
+//   const { username, password } = req.body;
+//   const Account = { username, password };
+//   const sql = 'INSERT INTO User SET ?';
+
+//   connection.query(sql, Account, (err, results) => {
+//     if (err) {
+//       console.error('Error inserting into database:', err);
+//       res.status(500).send('Internal Server Error');
+//       return;
+//     }
+//     console.log('BookGenre added successfully');
+//     res.status(201).json({ id: results.insertId, ...Account });
+//   });
+// });
+
+
 const uploadPort = 3001;
 app.listen(uploadPort, () => {
     console.log(`Upload server is running on http://localhost:${uploadPort}`);

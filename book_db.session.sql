@@ -1,3 +1,5 @@
+
+
 CREATE TABLE Book_tb (
     id CHAR(36) PRIMARY KEY,
     title NVARCHAR(255),
@@ -7,8 +9,6 @@ CREATE TABLE Book_tb (
     stock_quantity INTEGER,
     image NVARCHAR(255)
 );
-ALTER TABLE books
-ADD COLUMN genreID INT;
 
 
 use book_db;
@@ -60,9 +60,9 @@ CREATE TABLE BookGenres (
     JOIN Genres ON `Genres`.`genreID` = books.`genreID`
     WHERE books.`genreID` = 1;
 
-    SELECT *
-    FROM books
-    WHERE title LIKE '%k%';
+  
 
 
     SELECT User.`userName`,`User`.`userPass`  FROM User WHERE `userID`=4;
+
+ ALTER TABLE User ADD COLUMN token VARCHAR(255);            
