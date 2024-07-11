@@ -17,6 +17,7 @@ import { HeaderComponent } from '../header/header.component';
 import { DataService } from 'src/app/data.service';
 import { Sort } from '@angular/material/sort';
 import { BookGenresService } from 'src/app/book-genres.service';
+import { CartService } from 'src/app/cart.service';
 @Component({
   selector: 'app-list-book',
   templateUrl: './list-book.component.html',
@@ -25,22 +26,45 @@ import { BookGenresService } from 'src/app/book-genres.service';
 export class ListBookComponent implements OnInit, AfterViewInit {
 
   bookService = inject(BookService);
+
   @Input() books: Book[] = [];
-  pagedBooks: Book[] = [];
-  genres: Genre[] = [];
+  
+  @Input() pagedBooks: Book[] = [];
+  
+  @Input() genres: Genre[] = [];
+  
   showFiller = false;
-  pageSize = 4;
-  totalBooks = 0;
-  currentPage = 0;
-  genreId!: number;
+
+   @Input() cartService = inject(CartService);
+ 
+// constructor( private cartService : CartService){
+ 
+// }
+
+  @Input() pageSize = 4;
+ 
+  @Input() totalBooks = 0;
+ 
+  @Input() currentPage = 0;
+ 
+  @Input() genreId!: number;
+ 
   route = inject(ActivatedRoute);
+ 
   genreService = inject(GenreService);
+ 
   bookGenresService = inject(BookGenresService);
+ 
   @ViewChild('app-header') keytoSearch = inject(HeaderComponent);
+ 
   key!: string;
+ 
   message!: string;
+ 
   data = inject(DataService);
+ 
   router = inject(Router);
+ 
   sortedData: Book[] = [];
 
   toggleFiller() {
@@ -116,10 +140,12 @@ export class ListBookComponent implements OnInit, AfterViewInit {
         this.searchBook(message);
         this.getGenre()
       } else {
-        this.loadBooks(); // Load books initially when no search query is present
+        this.loadBooks(); 
       }
     });
 
+   
+    
 
     this.route.params.subscribe((param) => {
       this.genreId = param['id']      
@@ -138,16 +164,29 @@ export class ListBookComponent implements OnInit, AfterViewInit {
       } else {
         this.bookService.getAll().subscribe({
           next: (data) => {
+
             this.books = data;
 
+            this.books.forEach((a:any)=>{
+              Object.assign(a,{quantity:1, total:a.price});
+            })
+
             this.totalBooks = data.length;
+
             this.updatePagedBooks();
+
             this.getGenre()
           }
         })
       }
     })
   }
+
+ addTocart(book:any){
+this.cartService.addToCart(book);
+ }
+
+
   getGenre() {
     this.genreService.getAll().subscribe({
       next: (data) => {

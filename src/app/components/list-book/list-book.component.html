@@ -41,8 +41,8 @@
                   <h5 class="dress-name">{{ book.title }}</h5>
 
                   <div class="d-flex flex-column ">
-
                     <span class="new-price">{{book.price|price}}</span>
+                    <!-- <span class="new-price">{{book.total}}</span> -->
                     <small class="old-price text-right">Quantity:{{book.stock_quantity}}</small>
                     <small class="old-price text-right">{{book.genreName}} </small>
                     <small class="old-price text-right">Publish date: {{book.published_date|date}}</small>
@@ -61,6 +61,12 @@
                     <button routerLink='/book/edit/{{ book.bookID }}' class="example-button-container" mat-fab
                       aria-label="Example icon button with a delete icon">
                       <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+                  <div>
+                    <button (click)="addTocart(book)" class="example-button-container" mat-fab
+                      aria-label="Example icon button with a delete icon">
+                      <mat-icon>store</mat-icon>
                     </button>
                   </div>
                   <button (click)="openDialog(book)" class="example-button-container" mat-fab

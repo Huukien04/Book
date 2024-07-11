@@ -10,7 +10,11 @@
     margin: 0 20px;
   }
   
+
   
+  .demo-section + .demo-section {
+    margin-top: 1px;
+  }
   
   .example-search-form {
     margin-right: 20px;

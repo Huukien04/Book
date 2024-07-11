@@ -8,6 +8,7 @@ import { AddGenreComponent } from './components/add-genre/add-genre.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth-guard.guard';
+import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
 
 
 const routes: Routes = [
@@ -45,6 +46,11 @@ const routes: Routes = [
     path: 'genres',
     component: AddGenreComponent,
     canActivate:[AuthGuard]
+  },
+  {
+    path: 'cart',
+    component: ShoppingcartComponent
+ 
   },
   { path: '**', redirectTo: 'login' }
 ];

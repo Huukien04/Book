@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { data } from 'jquery';
@@ -12,6 +12,7 @@ import { DialogAddGenreComponent } from '../dialog-add-genre/dialog-add-genre.co
 import { LoginService } from 'src/app/login.service';
 import { logout } from 'src/app/guards/auth-guard.guard';
 import { LoginComponent } from '../login/login.component';
+import { CartService } from 'src/app/cart.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,12 +22,16 @@ import { LoginComponent } from '../login/login.component';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit,OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
   readonly dialog = inject(MatDialog);
 
   toppings = new FormControl('');
-  
+
   genres: Genre[] = [];
+
+  @Input() totalItem: number = 0;
+
+  @Input() cartService = inject(CartService);
 
   genreService = inject(GenreService);
 
@@ -45,47 +50,54 @@ export class HeaderComponent implements OnInit,OnDestroy {
   private searchSubject = new Subject<string>();
 
   private readonly debounceTimeMs = 1000;
-  
+
   user = inject(LoginService);
 
-  userName:string='';
+  userName: string = '';
 
   ngOnDestroy() {
     this.searchSubject.complete();
   }
- 
+
   onSearch() {
-    this.searchSubject.next(this.inputText);    
+    this.searchSubject.next(this.inputText);
   }
 
   openDialog() {
 
     const dialogRef = this.dialog.open(DialogAddGenreComponent);
 
-   dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
 
       console.log(`Dialog result: ${result}`);
     });
   }
 
   ngOnInit() {
-    
-    this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchValue) => {      
+
+    this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchValue) => {
       this.data.changeMessage(searchValue);
     });
     this.data.currentMessage.subscribe(message => this.message = message);
-  
-    
+
+
     this.genreService.getAll().subscribe({
       next: (data) => {
         this.genres = data;
       }
-    }) 
+    })
+
+    this.cartService.getBooks().subscribe({
+      next: (data) => {
+        this.totalItem = data.length;
+      }
+    })
+
   }
   listBook() {
     this.router.navigate(['book/list'])
   }
- 
+
   home() {
     window.location.reload();
     this.router.navigate(['book/list'])
@@ -96,6 +108,9 @@ export class HeaderComponent implements OnInit,OnDestroy {
   logout() {
     this.router.navigate(['login']);
     logout();
-   
+
+  }
+  addTocart() {
+    this.router.navigate(['cart']);
   }
 }

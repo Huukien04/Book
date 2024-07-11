@@ -1,0 +1,56 @@
+
+<ng-container  *ngIf="cartList.length != 0">
+   <div class="container">
+    <div class="card-table">
+        <div class="cart-product">
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>genre</th>
+                        <th>image</th>
+                        <th>price</th>
+                        <th> quantity</th>
+                        <th> published date</th>
+                        <th> description</th>
+                        <th> Total Price</th>
+                        <th> action</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let bookcart of cartList">
+                    <tr>
+                        <td>{{bookcart.title}}</td>
+                        <td>{{bookcart.genreName}}</td>
+                        <td> <img [src]="'../../../assets/images/' + getImageUrl(bookcart.image)"
+                            class="img-fluid rounded thumbnail-image"></td>
+                        <td>{{bookcart.price|price}}</td>
+                        <td><input type="number" value="{{bookcart.stock_quantity}}"></td>
+                        <td>{{bookcart.published_date|date}}</td>
+                        <td>{{ bookcart.description }}</td>
+                        <td>{{ bookcart.description|price }}</td>
+                        <td>
+                            <button class="btn btn-danger" (click)="Delete(bookcart)"><mat-icon>delete</mat-icon></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+   </div>
+</ng-container>
+<ng-container *ngIf="cartList.length==0">
+    <div class="container">
+        <div class="card">
+             <h3 class="card-title">
+                My Cart
+             </h3>
+             <div class="center">
+                <img src="https://th.bing.com/th/id/R.7b066d88cffe8db941f16c70f20e14a1?rik=oMRpSmYmr0pWPQ&pid=ImgRaw&r=0" alt="">
+                <h4>Your cart is empty!</h4>
+                <h6>Add item to it now</h6>
+                <button class="btn btn-primary" (click)="list()">Shop now</button>
+             </div>
+    
+        </div>
+    </div>
+</ng-container>

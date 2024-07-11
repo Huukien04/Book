@@ -37,6 +37,9 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
+
+import {MatBadgeModule} from '@angular/material/badge';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -50,7 +53,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     PricePipe,
     DialogAddGenreComponent,
     AddGenreComponent,
-    RegisterComponent
+    RegisterComponent,
+    ShoppingcartComponent
    
   ],
   imports: [
@@ -63,6 +67,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatSelectModule,
     MatPaginatorModule,
     MatNativeDateModule,
+    MatBadgeModule,
     MatFormFieldModule,
     MatInputModule,
     MatSortModule,

@@ -1,0 +1,58 @@
+.card{
+    height: 60vh;
+    margin: 25px;
+    padding: 25px;
+}
+.center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+h4,h6{
+    font-weight: 400;
+}
+.center img{
+    text-decoration: none;
+    color: inherit;
+    border: none;
+    outline: none;
+    height: 162px;
+    width: 162px;
+    margin:  0px;
+}
+input{
+    display: flex;
+    position: absolute;
+    width: 7%;
+   
+}
+.card-table{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: none;
+    word-wrap: break-word;
+    background-color: aliceblue;
+    background-clip: border-box;
+    border: 1px solid rgb(57, 14, 14);
+    border-radius: .25rem;
+}
+.center .btn{
+    font-size: 14px !important;
+    margin-top: 20px !important;
+    font-weight: 400;
+    padding: 12px 72px;
+    border-radius: 3px !important;
+}
+.thumbnail-image {
+    height: 120px;
+    /* Đặt chiều cao cố định cho hình ảnh */
+    width: auto;
+    /* Đảm bảo chiều rộng tự động theo tỷ lệ */
+    border-radius: 8px;
+    /* Bo tròn góc nếu cần thiết */
+    object-fit: cover;
+    /* Đảm bảo hình ảnh không bị biến dạng */
+  }
