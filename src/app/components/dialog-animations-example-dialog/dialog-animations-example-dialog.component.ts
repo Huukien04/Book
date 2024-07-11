@@ -21,7 +21,7 @@ export class DialogAnimationsExampleDialogComponent {
 
   confirmDelete(): void {
     this.dialogRef.close('confirm');
-    console.log('11',this.data.book.id);
+ 
     
   }
 }

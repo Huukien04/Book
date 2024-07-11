@@ -38,8 +38,10 @@ import { RegisterComponent } from './components/register/register.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
-
 import {MatBadgeModule} from '@angular/material/badge';
+import { DialogAddTocartComponent } from './components/dialog-add-tocart/dialog-add-tocart.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DialogAddUserComponent } from './components/dialog-add-user/dialog-add-user.component';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -54,7 +56,9 @@ import {MatBadgeModule} from '@angular/material/badge';
     DialogAddGenreComponent,
     AddGenreComponent,
     RegisterComponent,
-    ShoppingcartComponent
+    ShoppingcartComponent,
+    DialogAddTocartComponent,
+    DialogAddUserComponent
    
   ],
   imports: [
@@ -63,6 +67,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     AppRoutingModule,
     MatGridListModule,
     HttpClientModule,
+    MatSnackBarModule,
     MatListModule,
     MatSelectModule,
     MatPaginatorModule,

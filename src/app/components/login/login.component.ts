@@ -1,11 +1,13 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, inject } from '@angular/core';
+import { Component, Inject, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import * as moment from 'moment';
 import { LoginService } from 'src/app/login.service';
 import { RegisterService } from 'src/app/register.service';
+import { DialogAddTocartComponent } from '../dialog-add-tocart/dialog-add-tocart.component';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +19,12 @@ export class LoginComponent implements OnInit {
 
   router = inject(Router);
 
+  @Input() loginService = inject(LoginService);
+
   isAuthenication: boolean = true;
 
   private registerService = inject(RegisterService);
 
-  private loginService = inject(LoginService);
 
   get username() {
     return this.loginForm.get('username');
@@ -41,12 +44,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
 
-    
-
     if (this.loginForm.valid) {
       this.loginService.login(this.username?.value, this.password?.value).subscribe({
         next: (data) => {
-          
+             console.log(data);
+             
+        const result = data.results;
+        this.loginService.addUserlogin(result);
             const token = data.token;
             const expiresAt = moment().add(60, 'minute').valueOf();
 
@@ -63,31 +67,7 @@ export class LoginComponent implements OnInit {
     } else {
       console.error('Form is invalid');
     }
-    // this.registerService.getUser().subscribe({
-    //   next: (data: any) => {
-    //     const user = data.find((user: any) => user.userName === this.username?.value && user.userPass === this.password?.value);
-
-    //     if (user) {
-    //       const token = user.token;
-
-    //       const expiresAt = moment().add(60, 'minute').valueOf();
-
-    //       this.isAuthenication = true;
-
-    //       localStorage.setItem('id_token', token);
-
-    //       localStorage.setItem('expires_at', JSON.stringify(expiresAt));
-
-    //       this.router.navigate(['book/list']);
-
-    //     } else {
-    //       console.error('Invalid username or password');
-    //     }
-    //   },
-    //   error: error => {
-    //     console.error(error);
-    //   }
-    // });
+  
   }
   register() {
     this.router.navigate(['register']);

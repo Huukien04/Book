@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { data } from 'jquery';
 import { GenreService } from 'src/app/genre.service';
-import { Genre } from 'src/app/types/book';
+import { Genre, User } from 'src/app/types/book';
 import { Injectable } from '@angular/core';
 import { DataService } from 'src/app/data.service';
 import { BehaviorSubject, Subject, debounceTime } from 'rxjs';
@@ -29,9 +29,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   genres: Genre[] = [];
 
+  @Input() users: User[] = [];
+
   @Input() totalItem: number = 0;
 
+  @Input() userName: string = '';
+
   @Input() cartService = inject(CartService);
+
+  @Input() loginService = inject(LoginService);
 
   genreService = inject(GenreService);
 
@@ -49,11 +55,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private searchSubject = new Subject<string>();
 
-  private readonly debounceTimeMs = 1000;
+  private readonly debounceTimeMs = 400;
 
   user = inject(LoginService);
 
-  userName: string = '';
+
 
   ngOnDestroy() {
     this.searchSubject.complete();
@@ -93,6 +99,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     })
 
+
+    const storedUserName = localStorage.getItem('userName');
+    if (storedUserName) {
+      this.userName = storedUserName;
+    }
+
+    this.loginService.getUser().subscribe({
+      next: (data) => {
+        if (data.length > 0) {
+          this.userName = data[0].userName;
+        }
+      }
+    })
+
   }
   listBook() {
     this.router.navigate(['book/list'])
@@ -108,6 +128,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout() {
     this.router.navigate(['login']);
     logout();
+    localStorage.removeItem('userName');
 
   }
   addTocart() {

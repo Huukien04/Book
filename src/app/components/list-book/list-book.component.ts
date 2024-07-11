@@ -9,6 +9,13 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import {
+
+  MatSnackBarAction,
+  MatSnackBarActions,
+  MatSnackBarLabel,
+  MatSnackBarRef,
+} from '@angular/material/snack-bar';
 import { DialogAnimationsExampleDialogComponent } from '../dialog-animations-example-dialog/dialog-animations-example-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,6 +25,8 @@ import { DataService } from 'src/app/data.service';
 import { Sort } from '@angular/material/sort';
 import { BookGenresService } from 'src/app/book-genres.service';
 import { CartService } from 'src/app/cart.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogAddTocartComponent } from '../dialog-add-tocart/dialog-add-tocart.component';
 @Component({
   selector: 'app-list-book',
   templateUrl: './list-book.component.html',
@@ -73,14 +82,6 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
   readonly dialog = inject(MatDialog);
 
-
-  // openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-  //   this.dialog.open(DialogAnimationsExampleDialogComponent, {
-  //     width: '250px',
-  //     enterAnimationDuration,
-  //     exitAnimationDuration,
-  //   });
-  // }
   sortData(sort: Sort) {
     debugger
     const data = this.books.slice();

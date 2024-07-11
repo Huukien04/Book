@@ -94,41 +94,75 @@ app.get('/user', (req, res) => {
 
       if (results.length > 0) {
         const token = jwt.sign({ id: results[0].id }, 'your_secret_key', { expiresIn: '1h' });
-        return res.json({ token });
+       
+        return res.json({ token , results });
       } else {
         return res.status(401).json({ error: 'Invalid username or password' });
       }
     });
   });
 
+
+
+
+
+
+// app.post('/register', (req, res) => {
+//   const newUser= req.body;
+//   const sql = 'INSERT INTO User SET ?';
+//   connection.query(sql, newUser, (err, results) => {
+//     if (err) {
+//       console.error('Error inserting into database:', err);
+//       res.status(500).send('Internal Server Error');
+//       res.json(newUser);
+//       return;
+//     }
+//   var token = jwt.sign({ _userID: results._userID }, 'mk' , {expiresIn:'60m'});
+//   res.status(201).json({
+//     message: 'Thanh cong',
+//     token: token,
+//     expiresIn: 3600,
+//     idToken: token,
+//     ...newUser
+//   });
+// });
+// });
+
 app.post('/register', (req, res) => {
-  const newUser= req.body;
-  const sql = 'INSERT INTO User SET ?';
-  connection.query(sql, newUser, (err, results) => {
+  const newUser = req.body;
+  
+  // Check if the userName already exists
+  const checkUserSql = 'SELECT * FROM User WHERE userName = ?';
+  connection.query(checkUserSql, [newUser.userName], (err, results) => {
     if (err) {
-      console.error('Error inserting into database:', err);
-      res.status(500).send('Internal Server Error');
-      res.json(newUser);
-      return;
+      console.error('Error querying database:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
-  // var token =  jwt.sign( {_id:newUser._id},'mk' )
-  // return res.jon({
-  //   token:token
-  // }),
-  //   res.status(201).json({ id: results.insertId, ...newUser });
-  // });
-  var token = jwt.sign({ _userID: results._userID }, 'mk' , {expiresIn:'60m'});
-  res.status(201).json({
-    message: 'Thanh cong',
-    token: token,
-    expiresIn: 3600,
-    idToken: token,
-    ...newUser
+
+    if (results.length > 0) {
+      // User already exists
+      return res.status(409).json({ error: 'Username already exists' });
+    }
+
+    // Insert new user if userName does not exist
+    const insertUserSql = 'INSERT INTO User SET ?';
+    connection.query(insertUserSql, newUser, (err, results) => {
+      if (err) {
+        console.error('Error inserting into database:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      var token = jwt.sign({ _userID: results.insertId }, 'mk', { expiresIn: '60m' });
+      return res.status(201).json({
+        message: 'Registration successful',
+        token: token,
+        expiresIn: 3600,
+        idToken: token,
+        ...newUser
+      });
+    });
   });
 });
-});
-
-
 
 
 

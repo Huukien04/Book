@@ -12,8 +12,6 @@ CREATE TABLE Book_tb (
 
 
 use book_db;
-INSERT INTO `books` (`bookID`, `title`, `published_date`, `description`, `price`, `stock_quantity`, `image`) 
-VALUES (1, 'Hoa', '2022-02-02', 'gdfgdfg', 33232, 5, 'kinhdi.png');
 
 INSERT INTO `genres`(``)
 
@@ -30,8 +28,16 @@ CREATE TABLE Genres (
 
 CREATE TABLE User (
     userID INT PRIMARY KEY AUTO_INCREMENT,
-    userName VARCHAR(255) NOT NULL,
+    userName VARCHAR(255) UNIQUE,
     userPass VARCHAR(255) NOT NULL
+);
+
+DROP TABLE User;
+CREATE TABLE Userlogin (
+    userID INT PRIMARY KEY AUTO_INCREMENT,
+    userName VARCHAR(255) NOT NULL,
+    userPass VARCHAR(255) NOT NULL,
+    avatar VARCHAR(255) 
 );
 CREATE TABLE BookAuthors (
     bookID INT,
@@ -51,20 +57,6 @@ CREATE TABLE BookGenres (
     FOREIGN KEY (genreID) REFERENCES Genres(genreID)
 );
 
- SELECT books.bookID, books.title, books.published_date, books.description, books.price, books.stock_quantity, books.image, Genres.genreID, Genres.name AS genreName     FROM books
-    JOIN BookGenres ON books.bookID = BookGenres.bookID
-    JOIN Genres ON BookGenres.genreID = Genres.genreID
-
-    SELECT *
-    FROM books
-    JOIN Genres ON `Genres`.`genreID` = books.`genreID`
-    WHERE books.`genreID` = 1;
 
   
 
-
-    SELECT User.`userName`,`User`.`userPass`  FROM User WHERE `userID`=4;
-
- ALTER TABLE User ADD COLUMN token VARCHAR(255);            
-
- SELECT * FROM User WHERE userName = 1 AND userPass = 1
