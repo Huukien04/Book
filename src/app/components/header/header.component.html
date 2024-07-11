@@ -2,51 +2,39 @@
   <button (click)="openDialog()" mat-icon-button aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>
-  <span (click)="listBook()">My App</span>
-
+  <img (click)="listBook()" class="anh" src="../../../assets/images/download.png" alt="">
   <button class="ml-3" mat-button [matMenuTriggerFor]="menu">Genre</button>
   <mat-menu #menu="matMenu">
-    <button *ngFor="let genre of genres" mat-menu-item routerLink="/category/{{ genre.genreID }}">{{ genre.name }}</button>
+    <button *ngFor="let genre of genres" mat-menu-item routerLink="/category/{{ genre.genreID }}">{{ genre.name
+      }}</button>
   </mat-menu>
- 
-
   <span class="example-spacer d"></span>
- 
-    <mat-form-field class="example-form-field">
-      <input matInput type="text"  [(ngModel)]="inputText"  #searchQuery placeholder="Search..."(input)="onSearch()">
-      <button mat-button matSuffix class="searchicon" type="submit" aria-label="Search">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-
+  <mat-form-field class="example-form-field">
+    <input matInput type="text" [(ngModel)]="inputText" #searchQuery placeholder="Search..." (input)="onSearch()">
+    <button mat-button matSuffix class="searchicon" type="submit" aria-label="Search">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
   <div class="dropdown text-end row">
     <a class="d-block link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown"
       aria-expanded="false">
-<div class="col-md-2">
-      <img  src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon"
-        alt="mdo" width="32" height="32" class="rounded-circle">
+      <div class="col-md-2">
+        <img src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon"
+          alt="mdo" width="32" height="32" class="rounded-circle">
       </div>
-     
     </a>
-
   </div>
   <mat-menu #icon="matMenu" class="row">
     <div class="col-md-12 align-items-center justify-content-center d-flex">
       <mat-icon (click)="home()" class="col-md-8" aria-hidden="false" aria-label="Example home icon"
         fontIcon="home"></mat-icon>
-
     </div>
     <div class="col-md-12 align-items-center justify-content-center d-flex">
       <mat-icon (click)="add()" aria-hidden="true" aria-label="Example home icon" fontIcon="add"></mat-icon>
-
     </div>
     <div class="col-md-12 align-items-center justify-content-center d-flex">
       <mat-icon (click)="logout()" aria-hidden="true" aria-label="Example home icon" fontIcon="logout"></mat-icon>
-
     </div>
-
-
   </mat-menu>
 </mat-toolbar>
-
-<header class="p-3 mb-3 border-bottom"></header>
+<header class="p-1 mb-1"></header>

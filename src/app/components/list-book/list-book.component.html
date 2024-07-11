@@ -1,4 +1,4 @@
-
+<div class="sort">
   <table matSort (matSortChange)="sortData($event)">
     <thead>
       <tr>
@@ -7,42 +7,122 @@
       </tr>
     </thead>
   </table>
-  <mat-grid-list cols="8" rowHeight="4:1" gutterSize="0px" >
-  <mat-grid-tile>image</mat-grid-tile>
-  <mat-grid-tile>Title</mat-grid-tile>
-  <mat-grid-tile>Description</mat-grid-tile>
-  <mat-grid-tile>Genre</mat-grid-tile>
-  <mat-grid-tile>Price</mat-grid-tile>
-  <mat-grid-tile>Quantity</mat-grid-tile>
-  <mat-grid-tile>Publish Date</mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
-</mat-grid-list>
-      <mat-grid-list cols="8" rowHeight="6:3"   gutterSize="0px" *ngFor="let book of pagedBooks">
-        <mat-grid-tile> <img [src]="'../../../assets/images/' + getImageUrl(book.image)" class="img img-responsive book-image" ></mat-grid-tile>
+</div>
+<div >
+  <mat-tab-group>
+    <mat-tab class="content1">
+      <div class="tab-container">
+        <ng-template mat-tab-label>
+          <mat-icon class="right-icon">view_list</mat-icon>
+        </ng-template>
+      </div>
+      <div class="container mt-5 ">
+        <div class="row">
+
+          <div class="col-md-3" *ngFor="let book of pagedBooks">
+            <div class="card">
+
+              <div class="image-container">
+
+                <div class="first">
+
+                  <div class="d-flex justify-content-between align-items-center">
+                  </div>
+                </div>
+                <div class="img1">
+                  <img [src]="'../../../assets/images/' + getImageUrl(book.image)"
+                    class="img-fluid rounded thumbnail-image">
+                </div>
+              </div>
+              <div class="product-detail-container p-1">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                  <h5 class="dress-name">{{ book.title }}</h5>
+
+                  <div class="d-flex flex-column ">
+
+                    <span class="new-price">{{book.price|price}}</span>
+                    <small class="old-price text-right">Quantity:{{book.stock_quantity}}</small>
+                    <small class="old-price text-right">{{book.genreName}} </small>
+                    <small class="old-price text-right">Publish date: {{book.published_date|date}}</small>
+                  </div>
+
+                </div>
+                <div class="justify-content-between align-items-center pt-1">
+                  <small class="old-price text-right small-text ">{{ book.description }}</small>
+                  <div class="d-flex ">
+
+
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center pb-1 pt-1">
+                  <div>
+                    <button routerLink='/book/edit/{{ book.bookID }}' class="example-button-container" mat-fab
+                      aria-label="Example icon button with a delete icon">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+                  <button (click)="openDialog(book)" class="example-button-container" mat-fab
+                    aria-label="Example icon button with a delete icon">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3">
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>view_module</mat-icon>
+      </ng-template>
+
+      <mat-grid-list cols="8" rowHeight="5:1" gutterSize="0px">
+        <mat-grid-tile>image</mat-grid-tile>
+        <mat-grid-tile>Title</mat-grid-tile>
+        <mat-grid-tile>Description</mat-grid-tile>
+        <mat-grid-tile>Genre</mat-grid-tile>
+        <mat-grid-tile>Price</mat-grid-tile>
+        <mat-grid-tile>Quantity</mat-grid-tile>
+        <mat-grid-tile>Publish Date</mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list cols="8" rowHeight="6:3" gutterSize="0px" *ngFor="let book of pagedBooks">
+        <mat-grid-tile> <img [src]="'../../../assets/images/' + getImageUrl(book.image)"
+            class="img img-responsive book-image"></mat-grid-tile>
         <mat-grid-tile>{{ book.title }}</mat-grid-tile>
         <mat-grid-tile class=" overflow-auto">{{ book.description }}</mat-grid-tile>
         <mat-grid-tile>{{book.genreName}}</mat-grid-tile>
         <mat-grid-tile>{{book.price|price}}</mat-grid-tile>
-        <mat-grid-tile  class="quantity">{{book.stock_quantity}}</mat-grid-tile>
+        <mat-grid-tile class="quantity">{{book.stock_quantity}}</mat-grid-tile>
         <mat-grid-tile>{{book.published_date|date}}</mat-grid-tile>
         <mat-grid-tile>
-          <div class="d-flex example-button-container" >
-            <button class="example-button-container" routerLink='/book/edit/{{ book.bookID }}' mat-fab aria-label="Example icon button with a delete icon">
+          <div class="d-flex ">
+            <button class="example-button-container1" routerLink='/book/edit/{{ book.bookID }}' mat-fab
+              aria-label="Example icon button with a delete icon">
               <mat-icon>edit</mat-icon>
             </button>
-            <button class="example-button-container"(click)="openDialog(book)" mat-fab aria-label="Example icon button with a delete icon">
+            <button class="example-button-container1" (click)="openDialog(book)" mat-fab
+              aria-label="Example icon button with a delete icon">
               <mat-icon>delete</mat-icon>
             </button>
-          
+
           </div>
         </mat-grid-tile>
       </mat-grid-list>
-   
 
+    </mat-tab>
 
-  
+  </mat-tab-group>
+
   <div class="pagi">
-    <mat-paginator class="col-md-8 pagina"  [length]="totalBooks" [pageSize]="pageSize" [pageSizeOptions]="[1, 2, 3, 4]"
+    <mat-paginator class="col-md-8 pagina" [length]="totalBooks" [pageSize]="pageSize" [pageSizeOptions]="[1, 2, 3, 4]"
       (page)="onPageChange($event)">
     </mat-paginator>
+  </div>
 </div>

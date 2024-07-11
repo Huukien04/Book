@@ -8,13 +8,11 @@ import { User } from './types/book';
 export class RegisterService {
 
   constructor() { }
-  apiUrl ='http://localhost:3000/login';
+  apiUrl ='http://localhost:3000/register';
   http = inject(HttpClient)
 
  addUser(data:any){
   return this.http.post<User>(this.apiUrl,data);
  }
- getUser(){
-  return this.http.get(this.apiUrl);
- }
+
 }

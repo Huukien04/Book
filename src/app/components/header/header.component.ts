@@ -24,18 +24,28 @@ import { LoginComponent } from '../login/login.component';
 export class HeaderComponent implements OnInit,OnDestroy {
   readonly dialog = inject(MatDialog);
 
-
   toppings = new FormControl('');
+  
   genres: Genre[] = [];
+
   genreService = inject(GenreService);
+
   router = inject(Router);
+
   @Output() newItemEvent = new EventEmitter<string>();
+
   @ViewChild('searchQuery') searchQuery!: ElementRef;
+
   message!: string;
+
   data = inject(DataService);
+
   inputText: string = '';
+
   private searchSubject = new Subject<string>();
+
   private readonly debounceTimeMs = 1000;
+  
   user = inject(LoginService);
 
   userName:string='';
@@ -45,10 +55,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
   }
  
   onSearch() {
-    this.searchSubject.next(this.inputText);   
-   
-  
-    
+    this.searchSubject.next(this.inputText);    
   }
 
   openDialog() {
@@ -80,6 +87,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
   }
  
   home() {
+    window.location.reload();
     this.router.navigate(['book/list'])
   }
   add() {

@@ -89,16 +89,21 @@ export class AddBookComponent implements OnInit {
   }
 
   addForm: FormGroup = new FormGroup({
+
     title: new FormControl('', [Validators.required]),
+
     price: new FormControl('', [Validators.required]),
+
     description: new FormControl(''),
+
     published_date: new FormControl('', [Validators.required]),
+
     stock_quantity: new FormControl('', [Validators.required]),
+    
     image: new FormControl('', [Validators.required]),
+
     genreID:new FormControl('', [Validators.required])
   })
-
-
 
   handleAdd() {
     if (this.addForm.valid) {

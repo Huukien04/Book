@@ -58,6 +58,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   //   });
   // }
   sortData(sort: Sort) {
+    debugger
     const data = this.books.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedData = data;
@@ -196,9 +197,10 @@ export class ListBookComponent implements OnInit, AfterViewInit {
     this.bookService.deleteBook(id).subscribe({
       next: () => {
         console.log("Delete Suces");
-        this.books = this.books.filter(book => book.bookID !== id)
-
+        this.books = this.books.filter(book => book.bookID !== id);
         this.loadBooks()
+       this.router.navigate(['book/list']);
+       window.location.reload()
 
       },
       error: (e) => {

@@ -66,3 +66,5 @@ CREATE TABLE BookGenres (
     SELECT User.`userName`,`User`.`userPass`  FROM User WHERE `userID`=4;
 
  ALTER TABLE User ADD COLUMN token VARCHAR(255);            
+
+ SELECT * FROM User WHERE userName = 1 AND userPass = 1

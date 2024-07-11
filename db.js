@@ -70,31 +70,38 @@ app.get('/user', (req, res) => {
     res.json(results);
   });
 });
-app.get('/login', (req, res) => {
-  const sql = 'SELECT User.`userName`,`User`.`userPass`  FROM User';
-  connection.query(sql, (err, results) => {
-    if (err) {
-      console.error('Error querying database:', err);
-      res.status(500).send('Internal Server Error');
-      res.json('that bai');
-      return;
-    }
-    res.json(results);
-  });
-});
 // app.get('/login', (req, res) => {
-//   const userID= req.body;
-//   const sql = ' SELECT User.`userName`,`User`.`userPass`  FROM User WHERE `userID`= ?';
-//   connection.query(sql,userID, (err, results) => {
+//   const sql = 'SELECT User.`userName`,`User`.`userPass`  FROM User';
+//   connection.query(sql, (err, results) => {
 //     if (err) {
 //       console.error('Error querying database:', err);
 //       res.status(500).send('Internal Server Error');
+//       res.json('that bai');
 //       return;
 //     }
 //     res.json(results);
 //   });
 // });
-app.post('/login', (req, res) => {
+  app.post('/login', (req, res) => {
+    const { userID, userPass } = req.body;
+    const sql = 'SELECT * FROM User WHERE userName = ? AND userPass = ?';
+    
+    connection.query(sql, [userID, userPass   ], (err, results) => {
+      if (err) {
+        console.error('Error querying database:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      if (results.length > 0) {
+        const token = jwt.sign({ id: results[0].id }, 'your_secret_key', { expiresIn: '1h' });
+        return res.json({ token });
+      } else {
+        return res.status(401).json({ error: 'Invalid username or password' });
+      }
+    });
+  });
+
+app.post('/register', (req, res) => {
   const newUser= req.body;
   const sql = 'INSERT INTO User SET ?';
   connection.query(sql, newUser, (err, results) => {

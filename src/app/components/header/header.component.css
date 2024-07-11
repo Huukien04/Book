@@ -45,7 +45,10 @@
   border-radius: 20px; 
  
 }
-
+.anh{
+  width: 40px;
+  height: 40px;
+}
 
 .example-form-field {
   

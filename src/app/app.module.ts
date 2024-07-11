@@ -35,7 +35,8 @@ import { DialogAddGenreComponent } from './components/dialog-add-genre/dialog-ad
 import { AddGenreComponent } from './components/add-genre/add-genre.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -80,7 +81,9 @@ import { RegisterComponent } from './components/register/register.component';
     MatMenuModule,
     MatDividerModule,
     MatSidenavModule,
+    MatTabsModule,
     BrowserAnimationsModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

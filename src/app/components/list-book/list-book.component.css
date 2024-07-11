@@ -1,27 +1,221 @@
 mat-grid-tile {
   border: 1px solid #24d9e9;
-  font-size:10px;
-}
-mat-grid-list{
- 
-}
-.book-image {
-  max-width: 100%; /* Ensure image doesn't exceed its container's width */
-  height: auto; /* Allow the image to scale proportionally */
-  display: block; /* Ensure image behaves as a block element */
-  margin: auto; /* Center the image horizontally (if needed) */
-  max-height: 100%; /* Ensure the image doesn't exceed its container's height */
+  font-size: 10px;
 }
 
-  .quantity {
-    width: 50px; /* Adjust width as needed */
-    
-    
-  }
-  .example-button-container {
-    display: flex;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    margin-left: 20px;
-  }
+.sort {
+  margin-left: 10px;
+}
+
+.book-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: auto;
+  max-height: 100%;
+}
+
+.tab-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.right-icon {
+  margin-left: auto;
+}
+
+.quantity {
+  width: 50px;
+
+
+}
+
+.example-button-container {
+
+  width: 30px;
+  height: 30px;
+  bottom: 0%;
+  color: #f62f02;
+  background-color: #24d9e9;
+}
+
+.example-button-container1 {
+
+  width: 30px;
+  height: 30px;
+  bottom: 0%;
+  margin-left: 10px;
+  color: #f62f02;
+  background-color: #24d9e9;
+
+}
+
+.small-text {
+  display: inline-block;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
+
+
+
+
+
+
+.container {
+  width: 900px;
+}
+
+.card {
+
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  width: 190px;
+  height: 320px;
+  box-shadow: 0 4px 8px 0 rgba(248, 96, 96, 0.2), 0 6px 20px 0 rgba(243, 123, 123, 0.755);
+
+}
+
+.image-container {
+
+  position: relative;
+}
+
+.thumbnail-image {
+  border-radius: 10px !important;
+}
+
+
+
+
+.first {
+
+  position: absolute;
+  width: 100%;
+
+}
+
+
+.dress-name {
+  font-size: 13px;
+  font-weight: bold;
+  width: 70%;
+}
+
+
+.new-price {
+  font-size: 13px;
+  font-weight: bold;
+  color: rgba(255, 0, 0, 0.791);
+
+}
+
+.old-price {
+  font-size: 8px;
+  font-weight: bold;
+  color: rgb(56, 53, 53);
+}
+
+
+.btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  padding: 3px;
+}
+
+.creme {
+  background-color: #fff;
+  border: 2px solid grey;
+
+
+}
+
+.creme:hover {
+  border: 3px solid grey;
+}
+
+.creme:focus {
+  background-color: grey;
+
+}
+
+
+.red {
+  background-color: #fff;
+  border: 2px solid red;
+
+}
+
+
+.red:hover {
+  border: 3px solid red;
+}
+
+.red:focus {
+  background-color: red;
+}
+
+
+
+.blue {
+  background-color: #fff;
+  border: 2px solid #40C4FF;
+}
+
+.blue:hover {
+  border: 3px solid #40C4FF;
+}
+
+.blue:focus {
+  background-color: #40C4FF;
+}
+
+.darkblue {
+  background-color: #fff;
+  border: 2px solid #01579B;
+}
+
+.darkblue:hover {
+  border: 3px solid #01579B;
+}
+
+.darkblue:focus {
+  background-color: #01579B;
+}
+
+.yellow {
+  background-color: #fff;
+  border: 2px solid #FFCA28;
+}
+
+.yellow:hover {
+  border-radius: 3px solid #FFCA28;
+}
+
+.yellow:focus {
+  background-color: #FFCA28;
+}
+
+
+.thumbnail-image {
+  height: 145px;
+  /* Đặt chiều cao cố định cho hình ảnh */
+  width: auto;
+  /* Đảm bảo chiều rộng tự động theo tỷ lệ */
+  border-radius: 8px;
+  /* Bo tròn góc nếu cần thiết */
+  object-fit: cover;
+  /* Đảm bảo hình ảnh không bị biến dạng */
+}
+
+.img1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
