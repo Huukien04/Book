@@ -103,30 +103,44 @@ app.get('/user', (req, res) => {
   });
 
 
+  app.post('/addCart', (req, res) => {
+    const { bookID ,userID } = req.body; 
+
+    const sql = 'INSERT INTO Cart SET ?';
+    const newEntry = { bookID ,userID };
+  
+    connection.query(sql, newEntry, (err, results) => {
+      if (err) {
+        console.error('Error inserting into database:', err);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
+      console.log('Book added to Cart successfully');
+      res.status(201).json({ id: results.insertId, ...newEntry });
+    });
+  });
 
 
 
+  
+ app.get('/addCart',(req,res)=>{
+  const { userID } = req.query; 
+  const sql ='SELECT * FROM Cart JOIN User ON Cart.userID = User.userID JOIN Books ON Cart.bookID = Books.bookID WHERE Cart.userID = ?;'
+  connection.query(sql, [ userID], (err, results) => {
+    if (err) {
+      console.error('Error fetching from database:', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    
+    if (results.length > 0) {
+      res.status(200).json(results); 
+    } else {
+      res.status(404).send('Cart not found');
+    }
+  });
+});
 
-// app.post('/register', (req, res) => {
-//   const newUser= req.body;
-//   const sql = 'INSERT INTO User SET ?';
-//   connection.query(sql, newUser, (err, results) => {
-//     if (err) {
-//       console.error('Error inserting into database:', err);
-//       res.status(500).send('Internal Server Error');
-//       res.json(newUser);
-//       return;
-//     }
-//   var token = jwt.sign({ _userID: results._userID }, 'mk' , {expiresIn:'60m'});
-//   res.status(201).json({
-//     message: 'Thanh cong',
-//     token: token,
-//     expiresIn: 3600,
-//     idToken: token,
-//     ...newUser
-//   });
-// });
-// });
 
 app.post('/register', (req, res) => {
   const newUser = req.body;
@@ -218,28 +232,7 @@ app.get('/bookgenre', (req, res) => {
   });
 });
 
-// app.get('/bookgenre', (req, res) => {
-//   const sql = 'SELECT * FROM Genres JOIN BookGenres ON `Genres`.`genreID` = BookGenres.`genreID` JOIN books ON BookGenres.`bookID` = books.`bookID` WHERE books.`bookID`=`Genres`.`genreID`';
-//   connection.query(sql, (err, results) => {
-//     if (err) {
-//       console.error('Error querying database:', err);
-//       res.status(500).send('Internal Server Error');
-//       return;
-//     }
-//     res.json(results);
-//   });
-// });
-// app.get('/bookgenre', (req, res) => {
-//   const sql = ' SELECT books.bookID, books.title, books.published_date, books.description, books.price, books.stock_quantity, books.image, Genres.genreID, Genres.name AS genreName  FROM books  JOIN BookGenres ON books.bookID = BookGenres.bookID  JOIN Genres ON BookGenres.genreID = Genres.genreID';
-//   connection.query(sql, (err, results) => {
-//     if (err) {
-//       console.error('Error querying database:', err);
-//       res.status(500).send('Internal Server Error');
-//       return;
-//     }
-//     res.json(results);
-//   });
-// });
+
 
 app.post('/bookgenre', (req, res) => {
   const { bookID, genreID } = req.body;
@@ -386,26 +379,6 @@ app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-// app.get('/login',(req,res,next)=>{
-  
-// })
-
-
-// app.post('/login', (req, res) => {
-//   const { username, password } = req.body;
-//   const Account = { username, password };
-//   const sql = 'INSERT INTO User SET ?';
-
-//   connection.query(sql, Account, (err, results) => {
-//     if (err) {
-//       console.error('Error inserting into database:', err);
-//       res.status(500).send('Internal Server Error');
-//       return;
-//     }
-//     console.log('BookGenre added successfully');
-//     res.status(201).json({ id: results.insertId, ...Account });
-//   });
-// });
 
 
 const uploadPort = 3001;

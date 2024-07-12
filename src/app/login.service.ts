@@ -25,12 +25,12 @@ export class LoginService {
 
   }
 
-  addUserlogin(user:any){
+  addUserlogin(user:User){
   
   this.user.push(user);
   this.UserList.next(user);
   
-  localStorage.setItem('userName', user[0].userName);
+  localStorage.setItem('userName', JSON.stringify(this.user));
   }
 
   getUser(){

@@ -28,7 +28,17 @@ export class ShoppingcartComponent implements OnInit {
       }
     })
 
+    this.cartService.getListCart().subscribe({
+      next:(value)=> {
+        this.cartList = value;
+        console.log(12345,value);
+        
+      },
+    })
+
   }
+ 
+
 
   getImageUrl(imagePath: string): string {
 

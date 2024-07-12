@@ -1,39 +1,47 @@
-import { DatePipe } from "@angular/common";
+    import { DatePipe } from "@angular/common";
 
-    export class Book{
-        bookID: number=0 ;
-        title:string="";
-        author_id:string="";    
-        genreID:number=0;
-        published_date:string="";
-        genreName:string="";
-        name:string="";
-        description:string="";
-        price:number=0;
-        stock_quantity:number=0;
-        image:string="";
+    export class Book {
+        bookID: number = 0;
+        title: string = "";
+        author_id: string = "";
+        genreID: number = 0;
+        published_date: string = "";
+        genreName: string = "";
+        name: string = "";
+        description: string = "";
+        price: number = 0;
+        stock_quantity: number = 0;
+        image: string = "";
 
-        get total(){
-            return this.price*this.stock_quantity;
+        get total() {
+            return this.price * this.stock_quantity;
         }
     }
-    
-    export type Genre={
-        genreID:number,
-        name:string
+
+    export interface interfaceCart{
+        cartID: number ;
+        userID : number;
+        bookID : number;
+
+    }
+
+    export type Genre = {
+        genreID: number,
+        name: string
     }
     export interface DialogData {
         animal: string;
         name: string;
     }
 
-    export type User={
-        userID:number,
-        userName:string,
-        token:string,
-        expiresIn:string,
-        idToken:string
+    export interface User {
+        userID: number,
+        userName: string,
+        userPass:string,
+        token: string,
+        expiresIn: string,
+        idToken: string
     }
-
+ 
 
 

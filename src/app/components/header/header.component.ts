@@ -102,16 +102,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     const storedUserName = localStorage.getItem('userName');
     if (storedUserName) {
-      this.userName = storedUserName;
+      const userNamesArray = JSON.parse(storedUserName); 
+
+      const usernames = userNamesArray.flat().map((user:User) => user.userName); 
+    
+        this.userName = usernames[0]; 
+      
+      
     }
 
-    this.loginService.getUser().subscribe({
-      next: (data) => {
-        if (data.length > 0) {
-          this.userName = data[0].userName;
-        }
-      }
-    })
+   
+
+
+    
 
   }
   listBook() {

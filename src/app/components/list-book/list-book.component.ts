@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { BookService } from 'src/app/book.service';
-import { Book, Genre } from 'src/app/types/book';
+import { Book, Genre, interfaceCart } from 'src/app/types/book';
 import {
   MatDialog,
   MatDialogActions,
@@ -27,6 +27,7 @@ import { BookGenresService } from 'src/app/book-genres.service';
 import { CartService } from 'src/app/cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogAddTocartComponent } from '../dialog-add-tocart/dialog-add-tocart.component';
+import { BehaviorSubject, Subject } from 'rxjs';
 @Component({
   selector: 'app-list-book',
   templateUrl: './list-book.component.html',
@@ -37,43 +38,45 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   bookService = inject(BookService);
 
   @Input() books: Book[] = [];
-  
+
   @Input() pagedBooks: Book[] = [];
-  
+
   @Input() genres: Genre[] = [];
-  
+
   showFiller = false;
 
-   @Input() cartService = inject(CartService);
- 
-// constructor( private cartService : CartService){
- 
-// }
+  @Input() cartService = inject(CartService);
+
+  // constructor( private cartService : CartService){
+
+  // }
 
   @Input() pageSize = 4;
- 
+
   @Input() totalBooks = 0;
- 
+
   @Input() currentPage = 0;
- 
+
   @Input() genreId!: number;
- 
+
   route = inject(ActivatedRoute);
- 
+
   genreService = inject(GenreService);
- 
+
   bookGenresService = inject(BookGenresService);
- 
+
+  @Input() bookSubject = new BehaviorSubject<any>(null);
+
   @ViewChild('app-header') keytoSearch = inject(HeaderComponent);
- 
+
   key!: string;
- 
+
   message!: string;
- 
+
   data = inject(DataService);
- 
+
   router = inject(Router);
- 
+
   sortedData: Book[] = [];
 
   toggleFiller() {
@@ -120,14 +123,14 @@ export class ListBookComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-     
+
       if (result === 'confirm') {
         this.handleDelete(book.bookID);
-       
-     
+
+
       }
     });
-    
+
   }
   ngAfterViewInit(): void {
 
@@ -141,18 +144,18 @@ export class ListBookComponent implements OnInit, AfterViewInit {
         this.searchBook(message);
         this.getGenre()
       } else {
-        this.loadBooks(); 
+        this.loadBooks();
       }
     });
 
-   
-    
+
+
 
     this.route.params.subscribe((param) => {
-      this.genreId = param['id']      
+      this.genreId = param['id']
       if (this.genreId) {
 
-           
+
         this.bookService.getBookbyGenre(this.genreId).subscribe({
           next: (data) => {
             this.books = data;
@@ -168,8 +171,8 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
             this.books = data;
 
-            this.books.forEach((a:any)=>{
-              Object.assign(a,{quantity:1, total:a.price});
+            this.books.forEach((a: any) => {
+              Object.assign(a, { quantity: 1, total: a.price });
             })
 
             this.totalBooks = data.length;
@@ -183,9 +186,22 @@ export class ListBookComponent implements OnInit, AfterViewInit {
     })
   }
 
- addTocart(book:any){
-this.cartService.addToCart(book);
- }
+  addTocart(book: Book) {
+    
+    this.bookSubject.next(book);
+
+   
+    this.cartService.addCart(book.bookID).subscribe({
+    next(value) {
+      console.log("add to cart sucssec");
+      
+    },  error(err) {
+      console.log("add to cart fale");
+      
+    },
+    })
+   
+  }
 
 
   getGenre() {
@@ -213,7 +229,7 @@ this.cartService.addToCart(book);
         this.books = data;
         this.totalBooks = data.length;
         this.updatePagedBooks();
-              },
+      },
       error: (e) => {
         console.log(e);
       }
@@ -239,8 +255,8 @@ this.cartService.addToCart(book);
         console.log("Delete Suces");
         this.books = this.books.filter(book => book.bookID !== id);
         this.loadBooks()
-       this.router.navigate(['book/list']);
-       window.location.reload()
+        this.router.navigate(['book/list']);
+        window.location.reload()
 
       },
       error: (e) => {
@@ -248,7 +264,7 @@ this.cartService.addToCart(book);
 
       }
     })
- 
+
   }
 
   onPageChange(event: PageEvent) {

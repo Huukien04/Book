@@ -1,15 +1,16 @@
 
 
-CREATE TABLE Book_tb (
-    id CHAR(36) PRIMARY KEY,
-    title NVARCHAR(255),
-    published_date DATETIME,
-    description NVARCHAR(10000000),
-    price DOUBLE,
-    stock_quantity INTEGER,
-    image NVARCHAR(255)
-);
-
+CREATE TABLE `books` (
+  `bookID` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `published_date` varchar(255) DEFAULT NULL,
+  `description` text,
+  `price` double DEFAULT NULL,
+  `stock_quantity` int DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `genreID` int DEFAULT NULL,
+  PRIMARY KEY (`bookID`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 use book_db;
 
@@ -32,6 +33,16 @@ CREATE TABLE User (
     userPass VARCHAR(255) NOT NULL
 );
 
+DROP TABLE Cart;
+CREATE TABLE Cart (
+    cartID INT PRIMARY KEY AUTO_INCREMENT,
+    bookID INT NOT NULL,
+    userID INT NOT NULL,
+    FOREIGN KEY (bookID) REFERENCES Books(bookID),
+    FOREIGN KEY (userID) REFERENCES User(userID), 
+    UNIQUE (userID, bookID)
+);
+
 DROP TABLE User;
 CREATE TABLE Userlogin (
     userID INT PRIMARY KEY AUTO_INCREMENT,
@@ -39,6 +50,8 @@ CREATE TABLE Userlogin (
     userPass VARCHAR(255) NOT NULL,
     avatar VARCHAR(255) 
 );
+
+
 CREATE TABLE BookAuthors (
     bookID INT,
     authorID INT,
@@ -57,6 +70,8 @@ CREATE TABLE BookGenres (
     FOREIGN KEY (genreID) REFERENCES Genres(genreID)
 );
 
+INSERT INTO Cart SET bookID = 16
 
-  
 
+SELECT * FROM Cart WHERE cartID = 1;
+SELECT * FROM Cart JOIN User ON Cart.userID = User.userID JOIN Books ON Cart.bookID = Books.bookID WHERE  Cart.userID = 4;

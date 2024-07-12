@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { DialogAddTocartComponent } from './components/dialog-add-tocart/dialog-add-tocart.component';
+import { Book, interfaceCart, User } from './types/book';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,11 @@ export class CartService {
 
   http = inject(HttpClient)
 
-  public cartItemList: any = [];
+  public cartItemList: interfaceCart[] = [];
 
   public BookList = new BehaviorSubject<any>([]);
+
+  public userID: number = 0;
 
   getBooks() {
     return this.BookList.asObservable();
@@ -28,7 +31,9 @@ export class CartService {
 
   durationInSeconds = 1.5;
 
-  constructor(private _snackBar: MatSnackBar) { }
+  constructor(private _snackBar: MatSnackBar) {
+    this.loadUserID();
+   }
 
   openSnackBar() {
     this._snackBar.openFromComponent(DialogAddTocartComponent, {
@@ -37,26 +42,48 @@ export class CartService {
   }
 
 
-  addToCart(newBook: any) {
-
-    console.log(this.cartItemList);
-
-    const existingBook = this.cartItemList.find((book: any) => book.bookID === newBook.bookID);
-
-    if (existingBook) {
-
-      this.openSnackBar()
-
-    } else {
-
-      this.cartItemList.push(newBook);
-
-      this.BookList.next(this.cartItemList);
-
-      this.getTotalPrice();
-
+  private loadUserID() {
+    const storedUserName = localStorage.getItem('userName');
+    if (storedUserName) {
+      const userNamesArray = JSON.parse(storedUserName);
+      const userIDs = userNamesArray.flat().map((user: User) => user.userID);
+      this.userID = userIDs[0];        
     }
   }
+
+
+
+  getListCart() {
+    return this.http.get(`${this.apiUrl}?userID=${this.userID}`); 
+  }
+   
+  addCart(bookID:number){  
+
+    console.log(12332323,this.userID);
+    
+    return this.http.post(this.apiUrl,{bookID ,userID: this.userID});
+  }
+
+  // addToCart(newBook: any) {
+
+  //   console.log(this.cartItemList);
+
+  //   const existingBook = this.cartItemList.find((book: any) => book.bookID === newBook.bookID);
+
+  //   if (existingBook) {
+
+  //     this.openSnackBar()
+
+  //   } else {
+
+  //     this.cartItemList.push(newBook);
+
+  //     this.BookList.next(this.cartItemList);
+
+  //     this.getTotalPrice();
+
+  //   }
+  // }
 
   getTotalPrice(): number {
 

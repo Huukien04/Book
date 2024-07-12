@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { LoginService } from 'src/app/login.service';
 import { RegisterService } from 'src/app/register.service';
 import { DialogAddTocartComponent } from '../dialog-add-tocart/dialog-add-tocart.component';
+import { CartService } from 'src/app/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
 
   isAuthenication: boolean = true;
 
-  private registerService = inject(RegisterService);
+  @Input() cartService = inject(CartService);
+
 
 
   get username() {
@@ -67,6 +69,7 @@ export class LoginComponent implements OnInit {
     } else {
       console.error('Form is invalid');
     }
+   
   
   }
   register() {
