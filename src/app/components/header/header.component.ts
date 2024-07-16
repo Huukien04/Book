@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { data } from 'jquery';
 import { GenreService } from 'src/app/genre.service';
-import { Genre, User } from 'src/app/types/book';
+import { Book, Genre, User } from 'src/app/types/book';
 import { Injectable } from '@angular/core';
 import { DataService } from 'src/app/data.service';
 import { BehaviorSubject, Subject, debounceTime } from 'rxjs';
@@ -13,6 +13,8 @@ import { LoginService } from 'src/app/login.service';
 import { logout } from 'src/app/guards/auth-guard.guard';
 import { LoginComponent } from '../login/login.component';
 import { CartService } from 'src/app/cart.service';
+import { ShoppingcartComponent } from '../shoppingcart/shoppingcart.component';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,7 +37,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Input() userName: string = '';
 
+  @Input() userID: number = 0;
+
   @Input() cartService = inject(CartService);
+
+
 
   @Input() loginService = inject(LoginService);
 
@@ -80,7 +86,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+   
     this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchValue) => {
       this.data.changeMessage(searchValue);
     });
@@ -89,32 +95,64 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.genreService.getAll().subscribe({
       next: (data) => {
+
         this.genres = data;
       }
     })
 
-    this.cartService.getBooks().subscribe({
-      next: (data) => {
+
+
+    // this.loginService.getUser().subscribe({
+    //   next: (user: any) => {
+    //     if (user) {
+    //       this.cartService.getListCart(user.userID).subscribe({
+    //         next: (value: any) => {
+    //         this.totalItem = value.length;     
+              
+    //         this.cartService.updateCartItems(value);
+    //           console.log('Cart data:', value);
+    //         },
+    //         error: (err: any) => {
+
+    //           console.error('Error loading cart:', err);
+
+    //         }
+    //       });
+    //     } else {
+    //       console.error('User not found or userID is missing');
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error('Error fetching user ID:', err);
+    //   },
+    // });
+
+
+
+ 
+    this.cartService.getBooks().subscribe({   
+
+      next: (data) => {     
+
         this.totalItem = data.length;
+
       }
     })
 
-
-    const storedUserName = localStorage.getItem('userName');
-    if (storedUserName) {
-      const userNamesArray = JSON.parse(storedUserName); 
-
-      const usernames = userNamesArray.flat().map((user:User) => user.userName); 
     
-        this.userName = usernames[0]; 
-      
-      
-    }
 
-   
-
-
+    this.loginService.getUser().subscribe({
+      next: (user) => {
     
+        
+        if (user) {
+          this.userName = user.userName;
+          this.userID = user.userID;
+        } else {
+          this.userName = ''; 
+        }
+      }
+    }); 
 
   }
   listBook() {
@@ -122,19 +160,41 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   home() {
-    window.location.reload();
     this.router.navigate(['book/list'])
+    
   }
   add() {
     this.router.navigate(['book/add'])
   }
   logout() {
     this.router.navigate(['login']);
-    logout();
+    logout(); 
+    this.loginService.setCurrentUser(null, '');
     localStorage.removeItem('userName');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
 
   }
   addTocart() {
     this.router.navigate(['cart']);
+  }
+
+  drop(event: CdkDragDrop<Book[]>) {
+    console.log(111111111111111111111111);
+    
+    if (event.previousContainer === event.container) {
+      // Nếu sách được kéo trong cùng một danh sách, không làm gì cả
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      // Nếu sách được kéo từ danh sách vào giỏ hàng
+      const book: Book = event.previousContainer.data[event.previousIndex];
+      const bookID = book.bookID;
+      console.log("sânsasnajsn",bookID,this.userID);
+      
+      // Thêm sách vào giỏ hàng
+      this.cartService.addCart(bookID,this.userID)
+      
+      // Có thể cần thêm logic để xóa sách khỏi danh sách (nếu cần)
+    }
   }
 }

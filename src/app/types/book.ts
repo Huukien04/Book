@@ -22,6 +22,18 @@
         cartID: number ;
         userID : number;
         bookID : number;
+        total:number;
+       
+        title: string;
+        author_id: string;
+        genreID: number;
+        published_date: string ;
+        genreName: string ;
+        name: string ;
+        description: string ;
+        price: number;
+        stock_quantity: number;
+        image: string;
 
     }
 

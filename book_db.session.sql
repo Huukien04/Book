@@ -75,3 +75,5 @@ INSERT INTO Cart SET bookID = 16
 
 SELECT * FROM Cart WHERE cartID = 1;
 SELECT * FROM Cart JOIN User ON Cart.userID = User.userID JOIN Books ON Cart.bookID = Books.bookID WHERE  Cart.userID = 4;
+
+DELETE FROM Cart WHERE cartID=6;

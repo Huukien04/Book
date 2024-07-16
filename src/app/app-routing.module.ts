@@ -9,6 +9,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth-guard.guard';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 
 const routes: Routes = [
@@ -50,6 +51,11 @@ const routes: Routes = [
   {
     path: 'cart',
     component: ShoppingcartComponent
+ 
+  },
+  {
+    path: 'chat',
+    component: ChatComponent
  
   },
   { path: '**', redirectTo: 'login' }

@@ -26,8 +26,9 @@ import { Sort } from '@angular/material/sort';
 import { BookGenresService } from 'src/app/book-genres.service';
 import { CartService } from 'src/app/cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogAddTocartComponent } from '../dialog-add-tocart/dialog-add-tocart.component';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { LoginService } from 'src/app/login.service';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 @Component({
   selector: 'app-list-book',
   templateUrl: './list-book.component.html',
@@ -67,9 +68,17 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
   @Input() bookSubject = new BehaviorSubject<any>(null);
 
+  @Input() loginService = inject(LoginService);
+
   @ViewChild('app-header') keytoSearch = inject(HeaderComponent);
 
+  @Input() idUser: number = 0;
+
   key!: string;
+
+  todoBooks: Book[] = [];
+
+  doneBooks: Book[] = [];
 
   message!: string;
 
@@ -149,7 +158,19 @@ export class ListBookComponent implements OnInit, AfterViewInit {
     });
 
 
+    this.loginService.getUser().subscribe({
+      next: (user) => {
+        if (user) {
+          this.idUser = user.userID;
 
+        } else {
+          console.log("get idUser fale");
+
+        }
+      }, error: (error) => {
+        console.error("Error fetching user:", error);
+      }
+    })
 
     this.route.params.subscribe((param) => {
       this.genreId = param['id']
@@ -187,20 +208,21 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   }
 
   addTocart(book: Book) {
-    
+
     this.bookSubject.next(book);
 
-   
-    this.cartService.addCart(book.bookID).subscribe({
-    next(value) {
-      console.log("add to cart sucssec");
+    this.cartService.addCart(book.bookID ,this.idUser).subscribe({
+      next:(value)=> {
+        this.cartService.loadCart();  
+        console.log("add to cart sucssec", value);
+      }, error:(err)=> {
+        this.cartService.openSnackBar();
+        console.log("add to cart fale" ,err);
+
+      },
       
-    },  error(err) {
-      console.log("add to cart fale");
-      
-    },
     })
-   
+
   }
 
 
@@ -223,7 +245,6 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
 
   searchBook(query: string) {
-    // Implement the searchBook method to fetch books based on the query
     this.bookService.searchBook(query).subscribe({
       next: (data) => {
         this.books = data;
@@ -256,7 +277,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
         this.books = this.books.filter(book => book.bookID !== id);
         this.loadBooks()
         this.router.navigate(['book/list']);
-        window.location.reload()
+        window.location.reload();
 
       },
       error: (e) => {
@@ -270,7 +291,6 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
-
     this.updatePagedBooks();
   }
   updatePagedBooks() {
@@ -288,5 +308,30 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
 
     return imagePath;
+  }
+
+  // drop(event: CdkDragDrop<[]>) {
+  //   if (event.previousContainer === event.container) {
+  //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  //   } else {
+  //     transferArrayItem(event.previousContainer.data,
+  //                       event.container.data,
+  //                       event.previousIndex,
+  //                       event.currentIndex);
+  //   }
+  // }
+
+
+   drop(event: CdkDragDrop<Book[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
   }
 }

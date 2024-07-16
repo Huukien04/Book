@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { AddBookComponent } from './components/add-book/add-book.component';
 import { ListBookComponent } from './components/list-book/list-book.component';
 import { EditBookComponent } from './components/edit-book/edit-book.component';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatGridListModule, MatGridTile } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
@@ -42,6 +42,12 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { DialogAddTocartComponent } from './components/dialog-add-tocart/dialog-add-tocart.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogAddUserComponent } from './components/dialog-add-user/dialog-add-user.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { ChatComponent } from './components/chat/chat.component';
+
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 @NgModule({
   declarations: [
     LoginComponent,
@@ -58,7 +64,8 @@ import { DialogAddUserComponent } from './components/dialog-add-user/dialog-add-
     RegisterComponent,
     ShoppingcartComponent,
     DialogAddTocartComponent,
-    DialogAddUserComponent
+    DialogAddUserComponent,
+    ChatComponent
    
   ],
   imports: [
@@ -71,6 +78,7 @@ import { DialogAddUserComponent } from './components/dialog-add-user/dialog-add-
     MatListModule,
     MatSelectModule,
     MatPaginatorModule,
+    DragDropModule,
     MatNativeDateModule,
     MatBadgeModule,
     MatFormFieldModule,
@@ -81,8 +89,8 @@ import { DialogAddUserComponent } from './components/dialog-add-user/dialog-add-
     MatButtonModule,
     FormsModule,
     MatFormFieldModule,
+    SocketIoModule.forRoot(config),
     MatInputModule,
-    FormsModule,
     MatButtonModule,
     MatDialogModule,
     MatToolbarModule,

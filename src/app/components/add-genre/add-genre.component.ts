@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { error } from 'jquery';
 import { GenreService } from 'src/app/genre.service';
+import { LoginService } from 'src/app/login.service';
 
 @Component({
   selector: 'app-add-genre',
@@ -20,7 +21,10 @@ export class AddGenreComponent implements OnInit {
     name: new FormControl('', [Validators.required])
   })
 
+  @Input() loginService=inject(LoginService);
+
   ngOnInit(): void {
+    this.loginService.loadCurrentUser();
 
   }
 

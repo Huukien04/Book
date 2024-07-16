@@ -5,7 +5,10 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const jwt = require('jsonwebtoken');
-const { data } = require('jquery');
+const socketIo = require('socket.io');
+const http = require('http');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const app = express();
 const port = 3000;
@@ -13,6 +16,36 @@ const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+
+// const{Server} =require('socket.io');
+// const server = new Server({cors:{origin: 'http://localhost:4200'}});
+
+// server.on('connection',(socket)=>{
+//   console.log('connected');
+// })
+
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST'],
+  },
+});
+
+io.on('connection', (socket) => {
+
+  socket.on('message',(data)=>{
+    socket.broadcast.emit('received', {
+      data: data,
+      message: 'This is a test message from the server.',
+    });
+   //   .emit('received',{data:data,message:'This is a test message from server.'})
+  })
+  socket.on('disconnect', () => {
+
+  });
+});
 
 
 const storage = multer.diskStorage({
@@ -82,25 +115,95 @@ app.get('/user', (req, res) => {
 //     res.json(results);
 //   });
 // });
+  // app.post('/login', (req, res) => {
+  //   const { userID, userPass } = req.body;
+  //   const sql = 'SELECT * FROM User WHERE userName = ? AND userPass = ?';
+    
+  //   connection.query(sql, [userID, userPass   ], (err, results) => {
+  //     if (err) {
+  //       console.error('Error querying database:', err);
+  //       return res.status(500).json({ error: 'Internal Server Error' });
+  //     }
+
+  //     if (results.length > 0) {
+    
+  //       const token = jwt.sign({ id: results[0].userID }, 'your_secret_key', { expiresIn: '1h' });
+       
+  //       return res.json({ token , results });
+  //     } else {
+  //       return res.status(401).json({ error: 'Invalid username or password' });
+  //     }
+  //   });
+  // });
+
+
+
   app.post('/login', (req, res) => {
     const { userID, userPass } = req.body;
-    const sql = 'SELECT * FROM User WHERE userName = ? AND userPass = ?';
-    
-    connection.query(sql, [userID, userPass   ], (err, results) => {
+    const sql = 'SELECT * FROM User WHERE userName = ?';
+  
+    connection.query(sql, [userID], (err, results) => {
       if (err) {
         console.error('Error querying database:', err);
         return res.status(500).json({ error: 'Internal Server Error' });
       }
-
+  
       if (results.length > 0) {
-        const token = jwt.sign({ id: results[0].id }, 'your_secret_key', { expiresIn: '1h' });
-       
-        return res.json({ token , results });
+        const user = results[0];
+      
+        bcrypt.compare(userPass, user.userPass, (err, match) => {
+          if (err) {
+            console.error('Error comparing passwords:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+          }
+  
+          if (match) {
+            const token = jwt.sign({ id: user.userID }, 'your_secret_key', { expiresIn: '1h' });
+            return res.json({ token, results: [user] });
+          } else {
+            return res.status(401).json({ error: 'Invalid username or password' });
+          }
+        });
       } else {
         return res.status(401).json({ error: 'Invalid username or password' });
       }
     });
   });
+
+
+  app.get('/getUser', authenticateToken, (req, res) => {
+    const userID = req.user.id; 
+   
+    const sql = 'SELECT * FROM User WHERE userID = ?';
+  
+    connection.query(sql, [userID], (err, results) => {
+      if (err) {
+        console.error('Error querying database:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+  
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    });
+  });
+  
+
+  function authenticateToken(req, res, next) {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) return res.sendStatus(401);
+  
+    jwt.verify(token, 'your_secret_key', (err, user) => {
+      if (err) return res.sendStatus(403);
+      req.user = user;
+      next();
+    });
+  }
+
+
+
 
 
   app.post('/addCart', (req, res) => {
@@ -128,6 +231,7 @@ app.get('/user', (req, res) => {
   const sql ='SELECT * FROM Cart JOIN User ON Cart.userID = User.userID JOIN Books ON Cart.bookID = Books.bookID WHERE Cart.userID = ?;'
   connection.query(sql, [ userID], (err, results) => {
     if (err) {
+     
       console.error('Error fetching from database:', err);
       res.status(500).send('Internal Server Error');
       return;
@@ -136,6 +240,7 @@ app.get('/user', (req, res) => {
     if (results.length > 0) {
       res.status(200).json(results); 
     } else {
+     
       res.status(404).send('Cart not found');
     }
   });
@@ -145,6 +250,17 @@ app.get('/user', (req, res) => {
 app.post('/register', (req, res) => {
   const newUser = req.body;
   
+
+  bcrypt.hash(newUser.userPass, saltRounds, (err, hash) => {
+    if (err) {
+      console.error('Error hashing password:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+  }
+  newUser.userPass = hash;
+
+  console.log(newUser.userPass);
+  
+
   // Check if the userName already exists
   const checkUserSql = 'SELECT * FROM User WHERE userName = ?';
   connection.query(checkUserSql, [newUser.userName], (err, results) => {
@@ -176,26 +292,27 @@ app.post('/register', (req, res) => {
       });
     });
   });
+  });
 });
 
 
 
-function authenticateToken(req, res, next) {
-  const token = req.header('Authorization')?.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'Access denied. No token provided.' });
+// function authenticateToken(req, res, next) {
+//   const token = req.header('Authorization')?.split(' ')[1];
+//   if (!token) return res.status(401).json({ message: 'Access denied. No token provided.' });
 
-  try {
-    const decoded = jwt.verify(token, 'mk');
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(400).json({ message: 'Invalid token.' });
-  }
-}
+//   try {
+//     const decoded = jwt.verify(token, 'mk');
+//     req.user = decoded;
+//     next();
+//   } catch (error) {
+//     res.status(400).json({ message: 'Invalid token.' });
+//   }
+// }
 
-app.use('/protected', authenticateToken, (req, res) => {
-  res.send('This is a protected route');
-});
+// app.use('/protected', authenticateToken, (req, res) => {
+//   res.send('This is a protected route');
+// });
 
 
 
@@ -367,6 +484,21 @@ app.delete('/books/:id', (req, res) => {
 });
 
 
+app.delete('/deleteCart/:cartID',(req,res)=>{
+  const { cartID } = req.params;
+  const sql = 'DELETE FROM Cart WHERE cartID = ?';
+  connection.query(sql, [cartID], (err) => {
+    if (err) {
+      console.log('Looix ',err);
+      console.error('Error deleting from database:', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.status(204).send();
+  });
+})
+
+
 app.post('/upload', upload.single('image'), (req, res) => {
     if (!req.file) {
         return res.status(400).send('Không có tệp nào được tải lên.');
@@ -375,10 +507,13 @@ app.post('/upload', upload.single('image'), (req, res) => {
 });
 
 
-app.listen(port, () => {
+// app.listen(port, () => {
+//   console.log(`Server is running on http://localhost:${port}`);
+// });
+
+server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
 
 
 const uploadPort = 3001;

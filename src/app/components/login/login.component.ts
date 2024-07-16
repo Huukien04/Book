@@ -16,7 +16,7 @@ import { CartService } from 'src/app/cart.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  @Inject(DOCUMENT) private document!: Document;
+  
 
   router = inject(Router);
 
@@ -49,11 +49,12 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.loginService.login(this.username?.value, this.password?.value).subscribe({
         next: (data) => {
-             console.log(data);
+           
              
         const result = data.results;
-        this.loginService.addUserlogin(result);
-            const token = data.token;
+        const token = data.token;
+        this.loginService.setCurrentUser(result[0],token);
+        
             const expiresAt = moment().add(60, 'minute').valueOf();
 
             localStorage.setItem('id_token', token);

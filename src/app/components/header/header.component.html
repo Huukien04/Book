@@ -9,13 +9,17 @@
       }}</button>
   </mat-menu>
   <span class="example-spacer d"></span>
+  <div cdkDropList (cdkDropListDropped)="drop($event)" class="demo-section">
+    <mat-icon matBadge="{{ totalItem }}">store</mat-icon>
+    <span>Giỏ hàng</span>
+  </div>
   <div class="demo-section" (click)="addTocart()">
   
-    <mat-icon  matBadge="{{totalItem}}">store</mat-icon>
-    
-      <span class="cdk-visually-hidden">
-        Example with a home icon with overlaid badge showing the number 15
-      </span>
+    <mat-toolbar class="mat-elevation-z4">
+      <div cdkDropList (cdkDropListDropped)="drop($event)" class="demo-section">
+        <mat-icon matBadge="{{ totalItem }}">store</mat-icon>
+      </div>
+    </mat-toolbar>
   </div>
   <mat-form-field class="example-form-field">
     <input matInput type="text" [(ngModel)]="inputText" #searchQuery placeholder="Search..." (input)="onSearch()">

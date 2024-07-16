@@ -24,12 +24,12 @@
                         <td> <img [src]="'../../../assets/images/' + getImageUrl(bookcart.image)"
                             class="img-fluid rounded thumbnail-image"></td>
                         <td>{{bookcart.price|price}}</td>
-                        <td><input type="number" value="{{bookcart.stock_quantity}}"></td>
+                        <td><input type="number"  value="{{bookcart.stock_quantity}}" (change)="updateTotalPrice()"></td>
                         <td>{{bookcart.published_date|date}}</td>
                         <td>{{ bookcart.description }}</td>
-                        <td>{{ bookcart.description|price }}</td>
+                        <td>{{ bookcart.stock_quantity * bookcart.price|price }}</td>
                         <td>
-                            <button class="btn btn-danger" (click)="Delete(bookcart)"><mat-icon>delete</mat-icon></button>
+                            <button class="btn btn-danger" (click)="handleDelete(bookcart.cartID)"><mat-icon>delete</mat-icon></button>
                         </td>
                     </tr>
                 </tbody>
