@@ -10,6 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth-guard.guard';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { RoleAuthGuard } from './components/roleguards/role-guard.guard';
 
 
 const routes: Routes = [
@@ -17,17 +18,23 @@ const routes: Routes = [
   {
     path: 'book/edit/:id',
     component: EditBookComponent,
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard,RoleAuthGuard],
+    data:{
+      expectedRoles: ['Admin']
+    }
   },
   {
     path: 'book/add',
     component: AddBookComponent,
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard,RoleAuthGuard],
+    data:{
+      expectedRoles: ['Admin']
+    }
   },
   {
     path: 'book/list',
     component: ListBookComponent,
-    canActivate:[AuthGuard]
+   
 
   },
   {
@@ -46,7 +53,10 @@ const routes: Routes = [
   {
     path: 'genres',
     component: AddGenreComponent,
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard,RoleAuthGuard],
+    data:{
+      expectedRoles: ['Admin']
+    }
   },
   {
     path: 'cart',

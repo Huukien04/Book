@@ -9,6 +9,7 @@ import { LoginService } from 'src/app/login.service';
 import { RegisterService } from 'src/app/register.service';
 import { DialogAddTocartComponent } from '../dialog-add-tocart/dialog-add-tocart.component';
 import { CartService } from 'src/app/cart.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ import { CartService } from 'src/app/cart.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  
+
 
   router = inject(Router);
 
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   @Input() cartService = inject(CartService);
 
-
+  authService = inject(AuthService);
 
   get username() {
     return this.loginForm.get('username');
@@ -49,19 +50,17 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.loginService.login(this.username?.value, this.password?.value).subscribe({
         next: (data) => {
-           
-             
-        const result = data.results;
-        const token = data.token;
-        this.loginService.setCurrentUser(result[0],token);
-        
-            const expiresAt = moment().add(60, 'minute').valueOf();
+          const result = data.results;
+          const token = data.token;
+          this.loginService.setCurrentUser(result[0], token);
 
-            localStorage.setItem('id_token', token);
-            localStorage.setItem('expires_at', JSON.stringify(expiresAt));
+          const expiresAt = moment().add(60, 'minute').valueOf();
+          this.authService.setSession(data);
+          localStorage.setItem('id_token', token);
+          localStorage.setItem('expires_at', JSON.stringify(expiresAt));
 
-            this.router.navigate(['book/list']);
-        
+          this.router.navigate(['book/list']);
+
         },
         error: (err) => {
           console.error('Login error:', err);
@@ -70,8 +69,8 @@ export class LoginComponent implements OnInit {
     } else {
       console.error('Form is invalid');
     }
-   
-  
+
+
   }
   register() {
     this.router.navigate(['register']);

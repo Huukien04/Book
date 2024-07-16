@@ -15,6 +15,7 @@ import { LoginComponent } from '../login/login.component';
 import { CartService } from 'src/app/cart.service';
 import { ShoppingcartComponent } from '../shoppingcart/shoppingcart.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { AuthService } from 'src/app/auth.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -41,7 +42,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Input() cartService = inject(CartService);
 
+  authService = inject(AuthService);
 
+  isrole: boolean = false;
 
   @Input() loginService = inject(LoginService);
 
@@ -65,8 +68,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   user = inject(LoginService);
 
-
-
   ngOnDestroy() {
     this.searchSubject.complete();
   }
@@ -86,93 +87,73 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-   
+    this.checkrole();
+
     this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchValue) => {
+
       this.data.changeMessage(searchValue);
     });
     this.data.currentMessage.subscribe(message => this.message = message);
 
-
     this.genreService.getAll().subscribe({
+
       next: (data) => {
 
         this.genres = data;
       }
     })
 
+    this.cartService.getBooks().subscribe({
 
-
-    // this.loginService.getUser().subscribe({
-    //   next: (user: any) => {
-    //     if (user) {
-    //       this.cartService.getListCart(user.userID).subscribe({
-    //         next: (value: any) => {
-    //         this.totalItem = value.length;     
-              
-    //         this.cartService.updateCartItems(value);
-    //           console.log('Cart data:', value);
-    //         },
-    //         error: (err: any) => {
-
-    //           console.error('Error loading cart:', err);
-
-    //         }
-    //       });
-    //     } else {
-    //       console.error('User not found or userID is missing');
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.error('Error fetching user ID:', err);
-    //   },
-    // });
-
-
-
- 
-    this.cartService.getBooks().subscribe({   
-
-      next: (data) => {     
+      next: (data) => {
 
         this.totalItem = data.length;
-
       }
     })
 
-    
-
     this.loginService.getUser().subscribe({
       next: (user) => {
-    
-        
+
         if (user) {
+
           this.userName = user.userName;
+
           this.userID = user.userID;
+
         } else {
-          this.userName = ''; 
+          this.userName = '';
         }
       }
-    }); 
+    });
 
   }
+  checkrole() {
+    let role = this.authService.getRoles();
+    this.isrole = role.includes('Admin');
+  }
+
   listBook() {
     this.router.navigate(['book/list'])
   }
 
   home() {
     this.router.navigate(['book/list'])
-    
+
   }
   add() {
     this.router.navigate(['book/add'])
   }
   logout() {
     this.router.navigate(['login']);
-    logout(); 
+    logout();
     this.loginService.setCurrentUser(null, '');
     localStorage.removeItem('userName');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+
+  }
+  chat(){
+    this.router.navigate(['chat']);
 
   }
   addTocart() {
@@ -180,21 +161,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   drop(event: CdkDragDrop<Book[]>) {
+
     console.log(111111111111111111111111);
-    
+
     if (event.previousContainer === event.container) {
-      // Nếu sách được kéo trong cùng một danh sách, không làm gì cả
+
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      // Nếu sách được kéo từ danh sách vào giỏ hàng
+
       const book: Book = event.previousContainer.data[event.previousIndex];
+
       const bookID = book.bookID;
-      console.log("sânsasnajsn",bookID,this.userID);
-      
-      // Thêm sách vào giỏ hàng
-      this.cartService.addCart(bookID,this.userID)
-      
-      // Có thể cần thêm logic để xóa sách khỏi danh sách (nếu cần)
+
+      console.log("sânsasnajsn", bookID, this.userID);
+
+
+      this.cartService.addCart(bookID, this.userID)
+
+
     }
   }
 }

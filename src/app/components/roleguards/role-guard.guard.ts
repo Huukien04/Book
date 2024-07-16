@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/auth.service';
 
 
 
@@ -9,21 +11,38 @@ import { Observable } from 'rxjs';
 })
 export class RoleAuthGuard implements CanActivate {
 
+
+  constructor(private authService: AuthService, private router: Router) {
+    console.log('RoleAuthGuard instantiated');
+  }
+
   canActivate(
 
     next: ActivatedRouteSnapshot,
 
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    return this.isAtuhorized(next);
+    console.log('RoleAuthGuard activated for route:', state.url);
+
+    return this.isAuthorized(next);
   }
 
-  private isAtuhorized(router: ActivatedRouteSnapshot): boolean {
-    const role = ['Admin', 'User'];
-    const expectedRoles = router.data.expectedRoles;
-    const roleMatches = role.findIndex(role => expectedRoles.indexOf(role) != -1);
-    return roleMatches < 0 ? false : true;
+  private isAuthorized(route: ActivatedRouteSnapshot): boolean {
 
+    const expectedRoles = route.data['expectedRoles'] as string[];
+
+    const userRoles = this.authService.getRoles();
+
+    console.log(121212121, userRoles);
+
+    const roleMatches = userRoles.some(role => expectedRoles.includes(role));
+
+    if (!roleMatches) {
+      this.router.navigate(['/book/list']);
+    }
+    console.log(900000000000, roleMatches);
+
+    return roleMatches;
   }
 
 }

@@ -65,7 +65,7 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center pb-1 pt-1">
-                  <div>
+                  <div *ngIf="isrole">
                     <button routerLink='/book/edit/{{ book.bookID }}' class="example-button-container" mat-fab
                       aria-label="Example icon button with a delete icon">
                       <mat-icon>edit</mat-icon>
@@ -76,8 +76,8 @@
                       aria-label="Example icon button with a delete icon">
                       <mat-icon>store</mat-icon>
                     </button>
-                  </div>
-                  <button (click)="openDialog(book)" class="example-button-container" mat-fab
+                  </div >
+                  <button *ngIf="isrole" (click)="openDialog(book)" class="example-button-container" mat-fab
                     aria-label="Example icon button with a delete icon">
                     <mat-icon>delete</mat-icon>
                   </button>
@@ -120,11 +120,11 @@
         <mat-grid-tile>{{book.published_date|date}}</mat-grid-tile>
         <mat-grid-tile>
           <div class="d-flex ">
-            <button class="example-button-container1" routerLink='/book/edit/{{ book.bookID }}' mat-fab
+            <button *ngIf="isrole" class="example-button-container1" routerLink='/book/edit/{{ book.bookID }}' mat-fab
               aria-label="Example icon button with a delete icon">
               <mat-icon>edit</mat-icon>
             </button>
-            <button class="example-button-container1" (click)="openDialog(book)" mat-fab
+            <button *ngIf="isrole" class="example-button-container1" (click)="openDialog(book)" mat-fab
               aria-label="Example icon button with a delete icon">
               <mat-icon>delete</mat-icon>
             </button>

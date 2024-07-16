@@ -150,7 +150,7 @@ app.get('/user', (req, res) => {
   
       if (results.length > 0) {
         const user = results[0];
-      
+       
         bcrypt.compare(userPass, user.userPass, (err, match) => {
           if (err) {
             console.error('Error comparing passwords:', err);
@@ -158,7 +158,7 @@ app.get('/user', (req, res) => {
           }
   
           if (match) {
-            const token = jwt.sign({ id: user.userID }, 'your_secret_key', { expiresIn: '1h' });
+            const token = jwt.sign({ id: user.userID ,role: user.role  }, 'your_secret_key', { expiresIn: '1h' });
             return res.json({ token, results: [user] });
           } else {
             return res.status(401).json({ error: 'Invalid username or password' });

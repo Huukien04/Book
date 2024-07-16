@@ -29,6 +29,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { LoginService } from 'src/app/login.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { AuthService } from 'src/app/auth.service';
 @Component({
   selector: 'app-list-book',
   templateUrl: './list-book.component.html',
@@ -48,9 +49,9 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
   @Input() cartService = inject(CartService);
 
-  // constructor( private cartService : CartService){
+  authService = inject(AuthService);
 
-  // }
+  isrole : boolean = false;
 
   @Input() pageSize = 4;
 
@@ -146,7 +147,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
+    this.checkRole();
     this.data.currentMessage.subscribe(message => {
       this.message = message;
       if (message) {
@@ -205,6 +206,12 @@ export class ListBookComponent implements OnInit, AfterViewInit {
         })
       }
     })
+  }
+
+
+  checkRole(){
+    let role = this.authService.getRoles();
+    this.isrole = role.includes('Admin');
   }
 
   addTocart(book: Book) {

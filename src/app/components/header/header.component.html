@@ -9,13 +9,10 @@
       }}</button>
   </mat-menu>
   <span class="example-spacer d"></span>
-  <div cdkDropList (cdkDropListDropped)="drop($event)" class="demo-section">
-    <mat-icon matBadge="{{ totalItem }}">store</mat-icon>
-    <span>Giỏ hàng</span>
-  </div>
+
   <div class="demo-section" (click)="addTocart()">
   
-    <mat-toolbar class="mat-elevation-z4">
+    <mat-toolbar >
       <div cdkDropList (cdkDropListDropped)="drop($event)" class="demo-section">
         <mat-icon matBadge="{{ totalItem }}">store</mat-icon>
       </div>
@@ -44,11 +41,14 @@
       <mat-icon (click)="home()" class="col-md-8" aria-hidden="false" aria-label="Example home icon"
         fontIcon="home"></mat-icon>
     </div>
-    <div class="col-md-12 align-items-center justify-content-center d-flex">
+    <div class="col-md-12 align-items-center justify-content-center d-flex" *ngIf="isrole">
       <mat-icon (click)="add()" aria-hidden="true" aria-label="Example home icon" fontIcon="add"></mat-icon>
     </div>
     <div class="col-md-12 align-items-center justify-content-center d-flex">
       <mat-icon (click)="logout()" aria-hidden="true" aria-label="Example home icon" fontIcon="logout"></mat-icon>
+    </div>
+    <div class="col-md-12 align-items-center justify-content-center d-flex">
+      <mat-icon (click)="chat()" aria-hidden="true" aria-label="Example home icon" fontIcon="chat"></mat-icon>
     </div>
   </mat-menu>
 </mat-toolbar>
