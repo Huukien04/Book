@@ -34,7 +34,7 @@ const routes: Routes = [
   {
     path: 'book/list',
     component: ListBookComponent,
-   
+   canActivate:[AuthGuard], 
 
   },
   {

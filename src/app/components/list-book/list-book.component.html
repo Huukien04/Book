@@ -1,145 +1,155 @@
-<div class="sort">
-  <table matSort (matSortChange)="sortData($event)">
-    <thead>
-      <tr>
-        <th mat-sort-header="price">Price</th>
-        <th mat-sort-header="quantity">Quantity</th>
-      </tr>
-    </thead>
-  </table>
-</div>
-<div>
+<section class="main-banner">
+          <div class="js-parallax-scene">
+              <div class="banner-shape-1 " data-depth="0.30">
+                  <img src="../../../assets/images/anh2.png" alt="">
+              </div>
+              <div class="banner-shape-2 w-100" data-depth="0.25">
+                  <img src="../../../assets/images/anh1.png" alt="">
+              </div>
+          </div>
+          <div class="sec-wp">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-lg-6">
+                          <div class="banner-text">
+                              <h1 class="h1-title">
+                                Welcome to the 
+                                  <span>Kien</span>
+                                  store.
+                              </h1>
+                              <!-- <p>This is Lorem ipsum dolor sit amet Nam eius tenetur recusandae optio aperiam.</p> -->
+                              <div class="banner-btn mt-4">
+                                  <a href="#menu" class="sec-btn">Check our Menu</a>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="banner-img-wp">
+                              <div class="banner-img" style="background-image: url(../../../assets/images/sach.jpg  );">
+                              </div>
+                          </div>
+                          <div class="banner-img-text mt-4 m-auto">
+                              <h5 class="h5-title">Minion</h5>
+                              <!-- <p>this is Lorem ipsum dolor sit amet consectetur adipisicing elit.</p> -->
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
 
 
-  <mat-tab-group>
-    <mat-tab class="content1">
-      <div class="tab-container">
-        <ng-template mat-tab-label>
-          <mat-icon class="right-icon">view_list</mat-icon>
-        </ng-template>
-      </div>
-      <div class="container mt-5 ">
+      <div class="menu-tab-wp">
         <div class="row">
-          <div
-          cdkDropList
-          cdkDropListOrientation="horizontal"
-          class="example-list"
-          >
-        
-       
-          <div   class="col-md-3 example-box" *ngFor="let book of pagedBooks"  >
-            <div class="card"  cdkDrag [cdkDragData]="book">
-
-              <div class="image-container">
-
-                <div class="first">
-
-                  <div class="d-flex justify-content-between align-items-center">
-                  </div>
-                </div>
-                <div class="img1">
-                  <img [src]="'../../../assets/images/' + getImageUrl(book.image)"
-                    class="img-fluid rounded thumbnail-image">
-                </div>
-              </div>
-              <div class="product-detail-container p-1">
-
-                <div class="d-flex justify-content-between align-items-center">
-
-                  <h5 class="dress-name">{{ book.title }}</h5>
-
-                  <div class="d-flex flex-column ">
-                    <span class="new-price">{{book.price|price}}</span>
-                    <!-- <span class="new-price">{{book.total}}</span> -->
-                    <small class="old-price text-right">Quantity:{{book.stock_quantity}}</small>
-                    <small class="old-price text-right">{{book.genreName}} </small>
-                    <small class="old-price text-right">Publish date: {{book.published_date|date}}</small>
-                  </div>
-
-                </div>
-                <div class="justify-content-between align-items-center pt-1">
-                  <small class="old-price text-right small-text ">{{ book.description }}</small>
-                  <div class="d-flex ">
-
-
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center pb-1 pt-1">
-                  <div *ngIf="isrole">
-                    <button routerLink='/book/edit/{{ book.bookID }}' class="example-button-container" mat-fab
-                      aria-label="Example icon button with a delete icon">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                  </div>
-                  <div>
-                    <button (click)="addTocart(book)" class="example-button-container" mat-fab
-                      aria-label="Example icon button with a delete icon">
-                      <mat-icon>store</mat-icon>
-                    </button>
-                  </div >
-                  <button *ngIf="isrole" (click)="openDialog(book)" class="example-button-container" mat-fab
-                    aria-label="Example icon button with a delete icon">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-
-                </div>
-              </div>
-            </div>
-            <div class="mt-3">
+          <div class="col-lg-12 m-auto">
+            <div class="menu-tab text-center">
+              <ul class="filters" >
+                <div class="filter-active"></div>
+                <li class="filter" (click)="onFilterClick($event)">
+                  <!-- <img src="path/to/all.png" alt="All"> -->
+                  All
+                </li>
+                <li class="filter" *ngFor="let genre of genres" (click)="onFilterClick($event)">
+                  <!-- <img src="path/to/breakfast.png" > -->
+                  {{genre.name}}
+                </li>
+               
+              </ul>
             </div>
           </div>
         </div>
       </div>
- </div>
 
-    </mat-tab>
 
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon>view_module</mat-icon>
-      </ng-template>
 
-      <mat-grid-list cols="8" rowHeight="5:1" gutterSize="0px">
-        <mat-grid-tile>image</mat-grid-tile>
-        <mat-grid-tile>Title</mat-grid-tile>
-        <mat-grid-tile>Description</mat-grid-tile>
-        <mat-grid-tile>Genre</mat-grid-tile>
-        <mat-grid-tile>Price</mat-grid-tile>
-        <mat-grid-tile>Quantity</mat-grid-tile>
-        <mat-grid-tile>Publish Date</mat-grid-tile>
-        <mat-grid-tile></mat-grid-tile>
-      </mat-grid-list>
-      <mat-grid-list cols="8" rowHeight="6:3" gutterSize="0px" *ngFor="let book of pagedBooks">
-        <mat-grid-tile> <img [src]="'../../../assets/images/' + getImageUrl(book.image)"
-            class="img img-responsive book-image"></mat-grid-tile>
-        <mat-grid-tile>{{ book.title }}</mat-grid-tile>
-        <mat-grid-tile class=" overflow-auto">{{ book.description }}</mat-grid-tile>
-        <mat-grid-tile>{{book.genreName}}</mat-grid-tile>
-        <mat-grid-tile>{{book.price|price}}</mat-grid-tile>
-        <mat-grid-tile class="quantity">{{book.stock_quantity}}</mat-grid-tile>
-        <mat-grid-tile>{{book.published_date|date}}</mat-grid-tile>
-        <mat-grid-tile>
-          <div class="d-flex ">
-            <button *ngIf="isrole" class="example-button-container1" routerLink='/book/edit/{{ book.bookID }}' mat-fab
-              aria-label="Example icon button with a delete icon">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button *ngIf="isrole" class="example-button-container1" (click)="openDialog(book)" mat-fab
-              aria-label="Example icon button with a delete icon">
-              <mat-icon>delete</mat-icon>
-            </button>
 
-          </div>
-        </mat-grid-tile>
-      </mat-grid-list>
 
-    </mat-tab>
 
-  </mat-tab-group>
 
-  <div class="pagi">
-    <mat-paginator class="col-md-8 pagina" [length]="totalBooks" [pageSize]="pageSize" [pageSizeOptions]="[1, 2, 3, 4]"
-      (page)="onPageChange($event)">
-    </mat-paginator>
+<div class="menu-list-row">
+  <div class="row g-xxl-5 bydefault_show" id="menu-dish" >
+   
+    <div class="col-lg-3 col-sm-7 dish-box-wp breakfast"*ngFor="let book of pagedBooks" data-cat="breakfast">
+      <div class="dish-box text-center">
+        <div class="dist-img">
+          <img [src]="'../../../assets/images/' + getImageUrl(book.image)" alt="">
+        </div>
+        <div class="dish-rating">
+          {{book.genreName}}
+          <!-- <i class="uil uil-star"></i> -->
+        </div>
+        <div class="dish-title">
+          <h3 class="h3-title">{{ book.title }}</h3>
+          <p>{{ book.description }}</p>
+        </div>
+        <div class="dish-info">
+          <ul>
+            <li>
+              <p>Quantity</p>
+              <b>{{book.stock_quantity}}</b>
+            </li>
+            <li>
+              <p>Publish date</p>
+              <b>{{book.published_date|date}}</b>
+            </li>
+            
+          </ul>
+        </div>
+        <div class="dist-bottom-row">
+          <ul>
+            <li>
+              <b>{{book.price|price}}</b>  
+            </li>
+            <li>
+              <button *ngIf="isrole" routerLink='/book/edit/{{ book.bookID }}' class="dish-add-btn">
+                <i class="uil "><mat-icon>edit</mat-icon></i>
+              </button>
+
+            </li>
+            <li>
+              <button (click)="addTocart(book)" class="dish-add-btn">
+                <i class="uil "><mat-icon>store</mat-icon></i>
+              </button>
+
+            </li>
+            <li>
+              <button *ngIf="isrole" (click)="openDialog(book)" class="dish-add-btn">
+                <i class="uil "> <mat-icon>delete</mat-icon></i>
+              </button>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+    <div class="sort">
+      <table matSort (matSortChange)="sortData($event)">
+        <thead>
+          <tr>
+            <th mat-sort-header="price">Price</th>
+            <th mat-sort-header="quantity">Quantity</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div>
+
+
+   
+
+      <div class="pagi">
+        <mat-paginator class="col-md-8 pagina" [length]="totalBooks" [pageSize]="pageSize"
+          [pageSizeOptions]="[1, 2, 3, 4]" (page)="onPageChange($event)">
+        </mat-paginator>
+      </div>
+    </div>

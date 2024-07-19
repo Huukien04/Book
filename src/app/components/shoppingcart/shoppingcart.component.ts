@@ -14,7 +14,7 @@ import { interfaceCart } from 'src/app/types/book';
 export class ShoppingcartComponent implements OnInit {
 
   @Input() totalItem: number = 0;
-
+  
   @Input() cartList:interfaceCart[] = [];
 
   @Input() cartItems = new Subject<any>();

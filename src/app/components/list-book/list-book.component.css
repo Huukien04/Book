@@ -326,3 +326,49 @@ mat-grid-tile {
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+
+.menu-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Adjust this value to center the menu vertically as needed */
+}
+
+.filters {
+  list-style: none;
+  padding: 0;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.filters .filter {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filters .filter img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 5px;
+  transition: transform 0.3s ease; /* Transition for image scaling */
+}
+
+.filters .filter.active {
+  background-color: #ffc107; /* Background color for active filter */
+  color: white; /* Text color for active filter */
+  border-radius: 10px; /* Smooth border for active item */
+  transition: background-color 0.5s ease, color 0.5s ease; /* Transition for background and text color */
+}
+
+.filters .filter.active img {
+  transform: scale(1.1); /* Slightly scale up the image */
+}

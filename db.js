@@ -35,12 +35,12 @@ const io = socketIo(server, {
 
 io.on('connection', (socket) => {
 
-  socket.on('message',(data)=>{
+  socket.on('message', (data) => {
     socket.broadcast.emit('received', {
       data: data,
       message: 'This is a test message from the server.',
     });
-   //   .emit('received',{data:data,message:'This is a test message from server.'})
+    //   .emit('received',{data:data,message:'This is a test message from server.'})
   })
   socket.on('disconnect', () => {
 
@@ -49,13 +49,13 @@ io.on('connection', (socket) => {
 
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const uploadPath = path.join(__dirname, './src/assets/images');
-        cb(null, uploadPath); 
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
+  destination: function (req, file, cb) {
+    const uploadPath = path.join(__dirname, './src/assets/images');
+    cb(null, uploadPath);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
 });
 
 const upload = multer({ storage: storage });
@@ -115,132 +115,147 @@ app.get('/user', (req, res) => {
 //     res.json(results);
 //   });
 // });
-  // app.post('/login', (req, res) => {
-  //   const { userID, userPass } = req.body;
-  //   const sql = 'SELECT * FROM User WHERE userName = ? AND userPass = ?';
-    
-  //   connection.query(sql, [userID, userPass   ], (err, results) => {
-  //     if (err) {
-  //       console.error('Error querying database:', err);
-  //       return res.status(500).json({ error: 'Internal Server Error' });
-  //     }
+// app.post('/login', (req, res) => {
+//   const { userID, userPass } = req.body;
+//   const sql = 'SELECT * FROM User WHERE userName = ? AND userPass = ?';
 
-  //     if (results.length > 0) {
-    
-  //       const token = jwt.sign({ id: results[0].userID }, 'your_secret_key', { expiresIn: '1h' });
-       
-  //       return res.json({ token , results });
-  //     } else {
-  //       return res.status(401).json({ error: 'Invalid username or password' });
-  //     }
-  //   });
-  // });
+//   connection.query(sql, [userID, userPass   ], (err, results) => {
+//     if (err) {
+//       console.error('Error querying database:', err);
+//       return res.status(500).json({ error: 'Internal Server Error' });
+//     }
 
+//     if (results.length > 0) {
 
+//       const token = jwt.sign({ id: results[0].userID }, 'your_secret_key', { expiresIn: '1h' });
 
-  app.post('/login', (req, res) => {
-    const { userID, userPass } = req.body;
-    const sql = 'SELECT * FROM User WHERE userName = ?';
-  
-    connection.query(sql, [userID], (err, results) => {
-      if (err) {
-        console.error('Error querying database:', err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-  
-      if (results.length > 0) {
-        const user = results[0];
-       
-        bcrypt.compare(userPass, user.userPass, (err, match) => {
-          if (err) {
-            console.error('Error comparing passwords:', err);
-            return res.status(500).json({ error: 'Internal Server Error' });
-          }
-  
-          if (match) {
-            const token = jwt.sign({ id: user.userID ,role: user.role  }, 'your_secret_key', { expiresIn: '1h' });
-            return res.json({ token, results: [user] });
-          } else {
-            return res.status(401).json({ error: 'Invalid username or password' });
-          }
-        });
-      } else {
-        return res.status(401).json({ error: 'Invalid username or password' });
-      }
-    });
-  });
+//       return res.json({ token , results });
+//     } else {
+//       return res.status(401).json({ error: 'Invalid username or password' });
+//     }
+//   });
+// });
 
 
-  app.get('/getUser', authenticateToken, (req, res) => {
-    const userID = req.user.id; 
-   
-    const sql = 'SELECT * FROM User WHERE userID = ?';
-  
-    connection.query(sql, [userID], (err, results) => {
-      if (err) {
-        console.error('Error querying database:', err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-  
-      if (results.length > 0) {
-        res.json(results[0]);
-      } else {
-        res.status(404).json({ error: 'User not found' });
-      }
-    });
-  });
-  
-
-  function authenticateToken(req, res, next) {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) return res.sendStatus(401);
-  
-    jwt.verify(token, 'your_secret_key', (err, user) => {
-      if (err) return res.sendStatus(403);
-      req.user = user;
-      next();
-    });
+function authenticateLogin(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) {
+    return res.status(401).json({ error: 'Authorization header missing' });
   }
 
+  const auth = Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':/');
+  const userID = auth[0];
+  const userPass = auth[1];
+
+  req.body.userID = userID;
+  req.body.userPass = userPass;
+  next();
+}
 
 
+app.post('/login', (req, res) => {
+  const { userID, userPass } = req.body;
+  const sql = 'SELECT * FROM User WHERE userName = ?';
 
+  connection.query(sql, [userID], (err, results) => {
+    // if (err) {
+    //   console.error('Error querying database:', err);
+    //   return res.status(500).json({ error: 'Internal Server Error' });
+    // }
 
-  app.post('/addCart', (req, res) => {
-    const { bookID ,userID } = req.body; 
+    if (results.length > 0) {
+      const user = results[0];
 
-    const sql = 'INSERT INTO Cart SET ?';
-    const newEntry = { bookID ,userID };
-  
-    connection.query(sql, newEntry, (err, results) => {
-      if (err) {
-        console.error('Error inserting into database:', err);
-        res.status(500).send('Internal Server Error');
-        return;
-      }
-      console.log('Book added to Cart successfully');
-      res.status(201).json({ id: results.insertId, ...newEntry });
-    });
+      bcrypt.compare(userPass, user.userPass, (err, match) => {
+        if (err) {
+          console.error('Error comparing passwords:', err);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        if (match) {
+          const token = jwt.sign({ id: user.userID, role: user.role }, 'your_secret_key', { expiresIn: '1h' });
+          return res.json({ token, results: [user] });
+        } else {
+          return res.status(401).json({ error: 'Invalid username or password' });
+        }
+      });
+    } else {
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
   });
+});
 
 
+app.get('/getUser', authenticateToken, (req, res) => {
+  const userID = req.user.id;
 
-  
- app.get('/addCart',(req,res)=>{
-  const { userID } = req.query; 
-  const sql ='SELECT * FROM Cart JOIN User ON Cart.userID = User.userID JOIN Books ON Cart.bookID = Books.bookID WHERE Cart.userID = ?;'
-  connection.query(sql, [ userID], (err, results) => {
+  const sql = 'SELECT * FROM User WHERE userID = ?';
+
+  connection.query(sql, [userID], (err, results) => {
     if (err) {
-     
+      console.error('Error querying database:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  });
+});
+
+
+function authenticateToken(req, res, next) {
+  const token = req.headers['authorization']?.split(' ')[1];
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, 'your_secret_key', (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+
+
+
+
+app.post('/addCart', (req, res) => {
+  const { bookID, userID } = req.body;
+
+  const sql = 'INSERT INTO Cart SET ?';
+  const newEntry = { bookID, userID };
+
+  connection.query(sql, newEntry, (err, results) => {
+    if (err) {
+      console.error('Error inserting into database:', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    console.log('Book added to Cart successfully');
+    res.status(201).json({ id: results.insertId, ...newEntry });
+  });
+});
+
+
+
+
+app.get('/addCart', (req, res) => {
+  const { userID } = req.query;
+  const sql = 'SELECT * FROM Cart JOIN User ON Cart.userID = User.userID JOIN Books ON Cart.bookID = Books.bookID WHERE Cart.userID = ?;'
+  connection.query(sql, [userID], (err, results) => {
+    if (err) {
+
       console.error('Error fetching from database:', err);
       res.status(500).send('Internal Server Error');
       return;
     }
-    
+
     if (results.length > 0) {
-      res.status(200).json(results); 
+      res.status(200).json(results);
     } else {
-     
+
       res.status(404).send('Cart not found');
     }
   });
@@ -249,49 +264,49 @@ app.get('/user', (req, res) => {
 
 app.post('/register', (req, res) => {
   const newUser = req.body;
-  
+
 
   bcrypt.hash(newUser.userPass, saltRounds, (err, hash) => {
     if (err) {
       console.error('Error hashing password:', err);
       return res.status(500).json({ error: 'Internal Server Error' });
-  }
-  newUser.userPass = hash;
-
-  console.log(newUser.userPass);
-  
-
-  // Check if the userName already exists
-  const checkUserSql = 'SELECT * FROM User WHERE userName = ?';
-  connection.query(checkUserSql, [newUser.userName], (err, results) => {
-    if (err) {
-      console.error('Error querying database:', err);
-      return res.status(500).json({ error: 'Internal Server Error' });
     }
+    newUser.userPass = hash;
 
-    if (results.length > 0) {
-      // User already exists
-      return res.status(409).json({ error: 'Username already exists' });
-    }
+    console.log(newUser.userPass);
 
-    // Insert new user if userName does not exist
-    const insertUserSql = 'INSERT INTO User SET ?';
-    connection.query(insertUserSql, newUser, (err, results) => {
+
+    // Check if the userName already exists
+    const checkUserSql = 'SELECT * FROM User WHERE userName = ?';
+    connection.query(checkUserSql, [newUser.userName], (err, results) => {
       if (err) {
-        console.error('Error inserting into database:', err);
+        console.error('Error querying database:', err);
         return res.status(500).json({ error: 'Internal Server Error' });
       }
 
-      var token = jwt.sign({ _userID: results.insertId }, 'mk', { expiresIn: '60m' });
-      return res.status(201).json({
-        message: 'Registration successful',
-        token: token,
-        expiresIn: 3600,
-        idToken: token,
-        ...newUser
+      if (results.length > 0) {
+        // User already exists
+        return res.status(409).json({ error: 'Username already exists' });
+      }
+
+      // Insert new user if userName does not exist
+      const insertUserSql = 'INSERT INTO User SET ?';
+      connection.query(insertUserSql, newUser, (err, results) => {
+        if (err) {
+          console.error('Error inserting into database:', err);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        var token = jwt.sign({ _userID: results.insertId }, 'mk', { expiresIn: '60m' });
+        return res.status(201).json({
+          message: 'Registration successful',
+          token: token,
+          expiresIn: 3600,
+          idToken: token,
+          ...newUser
+        });
       });
     });
-  });
   });
 });
 
@@ -320,17 +335,17 @@ app.post('/register', (req, res) => {
 
 
 
-app.get('/datboard/:token',(req,res,next)=>{
+app.get('/datboard/:token', (req, res, next) => {
   try {
     var token = req.params.token;
-    var ketqua =  jwt.verify(token,'mk');
-    if(ketqua){
+    var ketqua = jwt.verify(token, 'mk');
+    if (ketqua) {
       next()
     }
   } catch (error) {
     return res.json('ban can pphai login');
   }
-}),(req,res,next)=>{
+}), (req, res, next) => {
   console.error('111111e:');
 }
 
@@ -367,7 +382,7 @@ app.post('/bookgenre', (req, res) => {
   });
 });
 app.get('/books/getgenre', (req, res) => {
-  const genreID = req.query.genreID; 
+  const genreID = req.query.genreID;
 
   if (!genreID || isNaN(genreID)) {
     res.status(400).json({ error: 'Invalid genreID' });
@@ -387,9 +402,9 @@ app.get('/books/getgenre', (req, res) => {
 });
 app.get('/search', (req, res) => {
   const title = req.query.title;
- 
 
-  
+
+
   if (!title) {
     res.status(400).json({ error: 'Invalid genreID' });
     return;
@@ -484,12 +499,12 @@ app.delete('/books/:id', (req, res) => {
 });
 
 
-app.delete('/deleteCart/:cartID',(req,res)=>{
+app.delete('/deleteCart/:cartID', (req, res) => {
   const { cartID } = req.params;
   const sql = 'DELETE FROM Cart WHERE cartID = ?';
   connection.query(sql, [cartID], (err) => {
     if (err) {
-      console.log('Looix ',err);
+      console.log('Looix ', err);
       console.error('Error deleting from database:', err);
       res.status(500).send('Internal Server Error');
       return;
@@ -500,10 +515,10 @@ app.delete('/deleteCart/:cartID',(req,res)=>{
 
 
 app.post('/upload', upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('Không có tệp nào được tải lên.');
-    }
-    res.send({ filePath: `./src/assets/images/${req.file.filename}` });
+  if (!req.file) {
+    return res.status(400).send('Không có tệp nào được tải lên.');
+  }
+  res.send({ filePath: `./src/assets/images/${req.file.filename}` });
 });
 
 
@@ -518,5 +533,5 @@ server.listen(port, () => {
 
 const uploadPort = 3001;
 app.listen(uploadPort, () => {
-    console.log(`Upload server is running on http://localhost:${uploadPort}`);
+  console.log(`Upload server is running on http://localhost:${uploadPort}`);
 });

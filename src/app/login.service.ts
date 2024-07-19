@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Input, inject } from '@angular/core';
 import { User } from './types/book';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -17,30 +18,46 @@ export class LoginService {
 
   http = inject(HttpClient)
 
-  user : User[]=[];
+  user: User[] = [];
 
-  public UserList = new BehaviorSubject<User|null>(null);
+  public UserList = new BehaviorSubject<User | null>(null);
 
   @Input() cookieService = inject(CookieService)
 
   private token: string | null = null;
 
-  login(userID:string , userPass:string){
+  login(userID: string, userPass: string) {
 
-  return this.http.post<any>(this.apiUrl,{userID,userPass});
+ 
+  
+    return this.http.post<any>(this.apiUrl, { userID, userPass })
+      .pipe(
+        tap(response => {
+          const token = response.token;
+          if (token) {
+            this.setCurrentUser(response.user, token);
+          }
+        })
+      );
 
   }
 
   setCurrentUser(user: User | null, token: string | null) {
+
     this.UserList.next(user);
+
     if (token) {
+
       this.cookieService.set('token', token);
+
     } else {
+
       this.cookieService.delete('token');
+
     }
   }
 
-  getUser(){
+  getUser() {
     return this.UserList.asObservable()
   }
 
@@ -49,14 +66,23 @@ export class LoginService {
   }
 
   loadCurrentUser() {
+
     const token = this.cookieService.get('token');
-    if (token) {      
+    if (token) {
+
       this.http.get<User>(this.apiUrlget, {
+
+
         headers: {
+
           Authorization: `Bearer ${token}`
+
         }
+
       }).subscribe(user => {
+
         this.setCurrentUser(user, token);
+
       });
     }
   }

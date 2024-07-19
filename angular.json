@@ -30,8 +30,7 @@
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-            
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",   
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js"
              
@@ -57,9 +56,10 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
-              "optimization": false,
+              "buildOptimizer": true,
+              "optimization": true,
               "vendorChunk": true,
+              "outputHashing": "none",
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true

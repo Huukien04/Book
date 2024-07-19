@@ -46,6 +46,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { ChatComponent } from './components/chat/chat.component';
 
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 @NgModule({
@@ -75,6 +76,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatGridListModule,
     HttpClientModule,
     MatSnackBarModule,
+    
     MatListModule,
     MatSelectModule,
     MatPaginatorModule,
@@ -101,7 +103,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatSidenavModule,
     MatTabsModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent],

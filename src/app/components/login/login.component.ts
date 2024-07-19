@@ -42,11 +42,9 @@ export class LoginComponent implements OnInit {
   })
 
   ngOnInit() {
-
   }
 
   onSubmit() {
-
     if (this.loginForm.valid) {
       this.loginService.login(this.username?.value, this.password?.value).subscribe({
         next: (data) => {

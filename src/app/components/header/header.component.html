@@ -1,55 +1,113 @@
-<mat-toolbar class="mat-elevation-z4">
-  <button (click)="openDialog()" mat-icon-button aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <img (click)="listBook()" class="anh" src="../../../assets/images/download.png" alt="">
-  <button class="ml-3" mat-button [matMenuTriggerFor]="menu">Genre</button>
-  <mat-menu #menu="matMenu">
-    <button *ngFor="let genre of genres" mat-menu-item routerLink="/category/{{ genre.genreID }}">{{ genre.name
-      }}</button>
-  </mat-menu>
-  <span class="example-spacer d"></span>
 
-  <div class="demo-section" (click)="addTocart()">
+    <header class="one">
+     
+      <div class="bottom-bar">
+        <div class="container">
+          <div class="row " fxShow="true" fxHide.lt-md>
+            
+            <div class="col-xl-3 thanh">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="logo">
+                  <a>
+                    <img alt="logo" src="../../../assets/images/logo.png">
+                  </a>
+                </div>
+                <div class="d-flex cart-checkout">
+                  <a href="cart-checkout.html">
+                    <i>
+                    </i>
+                  </a>
+                  <div class="bar-menu">
+                    <i class="fa-solid fa-bars"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-6 thanh">
+              <div class="header-search-form for-des navbar justify-content-center align-items-center ">
+                <div class="align-items-center justify-content-center  d-flex">
+                  <input matInput type="text" class="form-input " [(ngModel)]="inputText" #searchQuery
+                    placeholder="Search..." (input)="onSearch()">
+                  <!-- <button type="submit">
+                  <i class="uil uil-search"><mat-icon>search</mat-icon></i>
+              </button> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+
+              <div class="hamburger-icon">
+                <nav class="navbar">
+                  <ul class="navbar-links">
+                    <li class="navbar-dropdown">
+                      <a>
+                        <div cdkDropList class="header-btn " (cdkDropListDropped)="drop($event)" class="demo-section">
+                          <button class="comic-button "><mat-icon class="uil uil-shopping-bag">store</mat-icon>
+                          </button>
+                        </div>
+                      </a>
+                      <div class="dropdown">
+                        <a class="col-md-12   d-flex" *ngIf="isrole">
+                          <mat-icon (click)="home()" class="col-md-8" aria-hidden="false" aria-label="Example home icon"
+                            fontIcon="home"></mat-icon></a>
+                        <a class="col-md-12 align-items-center justify-content-center d-flex">
+                          <mat-icon (click)="chat()" aria-hidden="true" aria-label="Example home icon"
+                            fontIcon="chat"></mat-icon>
+                        </a>
+                        <a class="col-md-12 align-items-center justify-content-center d-flex">
+                          <mat-icon (click)="add()" aria-hidden="true" aria-label="Example home icon"
+                            fontIcon="add"></mat-icon>
+                        </a>
+                        <a class="col-md-12 align-items-center justify-content-center d-flex">
+                          <mat-icon (click)="logout()" aria-hidden="true" aria-label="Example home icon"
+                            fontIcon="logout"></mat-icon>
+                        </a>
+
+                      </div>
+                    </li>
+
+                  </ul>
+                </nav>
+                <nav class="navbar">
+                  <ul class="navbar-links">
+                    <li class="navbar-dropdown">
+                      <a>
+                        <div cdkDropList (cdkDropListDropped)="drop($event)" class="demo-section">
+                          <mat-icon>store</mat-icon>
+                        </div>
+                      </a>
+
+                      <div class="dropdown">
+                        <a *ngFor="let genre of genres" mat-menu-item routerLink="/category/{{ genre.genreID }}">{{
+                          genre.name
+                          }}</a>
+                        <a (click)="openDialog()">add</a>
+
+                      </div>
+                    </li>
+
+                  </ul>
+                </nav>
+                <nav class="navbar">
+                  <ul class="navbar-links">
+                    <li class="navbar-dropdown">
+                      <a (click)="addTocart()">
+                        <div cdkDropList (cdkDropListDropped)="drop($event)" class="demo-section">
+                          <mat-icon matBadge="{{ totalItem }}">store</mat-icon>
+                        </div>
+                      </a>
+                    </li>
+
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
   
-    <mat-toolbar >
-      <div cdkDropList (cdkDropListDropped)="drop($event)" class="demo-section">
-        <mat-icon matBadge="{{ totalItem }}">store</mat-icon>
+      
       </div>
-    </mat-toolbar>
-  </div>
-  <mat-form-field class="example-form-field">
-    <input matInput type="text" [(ngModel)]="inputText" #searchQuery placeholder="Search..." (input)="onSearch()">
-    <button mat-button matSuffix class="searchicon" type="submit" aria-label="Search">
-      <mat-icon>search</mat-icon>
-    </button>
-  </mat-form-field>
-  <div class="dropdown text-end row">
-   <div class="col-md-8">
-  <h5>{{userName}}</h5>
-   </div>
-    <a class=" link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown"
-      aria-expanded="false">
-      <div class="col-md-8">
-        <img src="https://avatars.githubusercontent.com/u/126631495?v=4&size=64" mat-button [matMenuTriggerFor]="icon"
-          alt="mdo" width="32" height="32" class="rounded-circle">
-      </div>
-    </a>
-  </div>
-  <mat-menu #icon="matMenu" class="row">
-    <div class="col-md-12 align-items-center justify-content-center d-flex">
-      <mat-icon (click)="home()" class="col-md-8" aria-hidden="false" aria-label="Example home icon"
-        fontIcon="home"></mat-icon>
-    </div>
-    <div class="col-md-12 align-items-center justify-content-center d-flex" *ngIf="isrole">
-      <mat-icon (click)="add()" aria-hidden="true" aria-label="Example home icon" fontIcon="add"></mat-icon>
-    </div>
-    <div class="col-md-12 align-items-center justify-content-center d-flex">
-      <mat-icon (click)="logout()" aria-hidden="true" aria-label="Example home icon" fontIcon="logout"></mat-icon>
-    </div>
-    <div class="col-md-12 align-items-center justify-content-center d-flex">
-      <mat-icon (click)="chat()" aria-hidden="true" aria-label="Example home icon" fontIcon="chat"></mat-icon>
-    </div>
-  </mat-menu>
-</mat-toolbar>
+
+    </header>
+ 
 <header class="p-1 mb-1"></header>

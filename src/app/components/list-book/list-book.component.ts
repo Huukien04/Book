@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
 import { BookService } from 'src/app/book.service';
 import { Book, Genre, interfaceCart } from 'src/app/types/book';
 import {
@@ -36,6 +36,8 @@ import { AuthService } from 'src/app/auth.service';
   styleUrls: ['./list-book.component.css']
 })
 export class ListBookComponent implements OnInit, AfterViewInit {
+
+  renderer= inject(Renderer2);
 
   bookService = inject(BookService);
 
@@ -226,8 +228,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
         this.cartService.openSnackBar();
         console.log("add to cart fale" ,err);
 
-      },
-      
+      },     
     })
 
   }
@@ -237,6 +238,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
     this.genreService.getAll().subscribe({
       next: (data) => {
         this.genres = data;
+        
         this.mapGenresToBooks();
       },
       error: (e) => {
@@ -340,5 +342,20 @@ export class ListBookComponent implements OnInit, AfterViewInit {
         event.currentIndex
       );
     }
+  }
+
+
+
+  onFilterClick(event: Event) {
+    const target = event.currentTarget as HTMLElement;
+
+    // Remove active class from all filters
+    const filters = document.querySelectorAll('.filter');
+    filters.forEach(filter => {
+      this.renderer.removeClass(filter, 'active');
+    });
+
+    // Add active class to the clicked filter
+    this.renderer.addClass(target, 'active');
   }
 }
