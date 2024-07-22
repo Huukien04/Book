@@ -1,33 +1,28 @@
-
+/* General header styles */
 .one {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
- height: 13%;
+  height: 13%;
   backdrop-filter: blur(5px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .row {
- /* Semi-transparent */
   backdrop-filter: blur(5px);
-
   border-radius: 5px 5px 10px 10px;
 }
-.thanh{
-  padding-top: 10px;
 
+.thanh {
+  padding-top: 10px;
 }
-img{
+
+img {
   width: 10vh;
   height: 11vh;
 }
 
-.header-btn:hover {
-  background: linear-gradient(145deg, #dcdcdc, #ffffff);
-  box-shadow: 20px 20px 60px #cfcfd0, -20px -20px 60px #ffffff;
-}
 .header-btn {
   width: 40px;
   height: 40px;
@@ -39,102 +34,155 @@ img{
   transition: 0.3s;
   box-shadow: inset 6px 6px 7px #dadada, inset -6px -6px 7px #ffffff;
   align-items: center;
-}   
+  margin-bottom: 20%;
+}
+
 .uil {
   color: #43ffef;
 }
 
-.glow-on-hover {
-
-  border: none;
-  outline: none;
-  
- 
+.comic-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff5252;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px #000;
+  transition: all 0.3s ease;
   cursor: pointer;
-  position: relative;
-  z-index: 0;
-  border-radius: 10px;
 }
 
-.glow-on-hover:before {
-  content: '';
-  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-  position: absolute;
-  top: -2px;
-  left:-2px;
-  background-size: 400%;
-  z-index: -1;
-  filter: blur(5px);
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  animation: glowing 20s linear infinite;
-  opacity: 0;
-  transition: opacity .3s ease-in-out;
-  border-radius: 10px;
+.comic-button:hover {
+  background-color: #fff;
+  color: #ff5252;
+  border: 2px solid #ff5252;
+  box-shadow: 5px 5px 0px #ff5252;
 }
 
-.glow-on-hover:active {
+/* Responsive menu styles */
+.responsive-menu {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding-top: 60px; /* Space for the close button */
+}
+
+.responsive-menu.active {
+  display: block; /* Show when active */
+}
+
+.responsive-menu nav a {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  color: #333;
+  text-decoration: none;
+}
+
+.responsive-menu .close-btn {
+  display: block;
+  text-align: right;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Hide desktop elements on mobile */
+@media (max-width: 768px) {
+  .col-xl-6, .col-lg-3 {
+    display: none; /* Hide other elements */
+  }
+
+  .bar-menu {
+    /* Show the menu icon */
+    font-size: 50px; /* Adjust font size if needed */
+  }
+
+  .responsive-menu {
+    display: none; /* Hide menu by default */
+  }
+}
+/* Các kiểu mặc định */
+header.one .menu-icon {
+  display: none; /* Ẩn biểu tượng menu trên màn hình lớn */
+}
+
+header.one .bottom-bar,
+header.one .hamburger-icon {
+  display: flex; /* Hiển thị thanh header và các menu trên màn hình lớn */
+}
+
+/* Responsive Menu */
+header.one .responsive-menu {
+  display: none; /* Ẩn menu responsive mặc định */
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px; /* Chiều rộng của menu */
+  background: #fff; /* Hoặc màu nền bạn muốn */
+  height: 100vh; /* Chiều cao của menu */
+  z-index: 1000; /* Đảm bảo menu ở trên cùng */
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  transform: translateX(100%); /* Ẩn menu ra ngoài màn hình */
+}
+
+/* Khi menu responsive được kích hoạt */
+header.one .responsive-menu.active {
+  display: block;
+  transform: translateX(0); /* Hiển thị menu khi active */
+}
+
+/* Khi kích thước màn hình nhỏ hơn hoặc bằng 768px */
+@media (max-width: 1216px) {
+  header.one .bottom-bar,
+  header.one .hamburger-icon {
+      display: none; /* Ẩn thanh bên dưới và các menu trên màn hình nhỏ */
+  }
+
+  header.one .menu-icon {
+    
+      display: inline-block; /* Hiện biểu tượng menu trên màn hình nhỏ */
+  }
+}
+
+.menu-icon {
+  font-size: 32px; 
+  margin-top: 15px; 
+  margin-left: 20px; 
+  margin-right: 20px;
+}
+.tim{
+  margin-top: 2vh;
+}
+
+.logouser {
+  width: 5vh;
+  height: 5vh;
+  background-color: #3498db; 
+  border-radius: 50%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  padding: 3vh;
+  margin-right: 5px;
+}
+
+.logo-text {
+  color: white; /* Màu chữ */
+  font-size: 1rem; /* Kích thước chữ */
  
 }
-
-.glow-on-hover:active:after {
-  background: transparent;
-}
-
-.glow-on-hover:hover:before {
-  opacity: 1;
-}
-
-.glow-on-hover:after {
-  z-index: -1;
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-
-  left: 0;
-  top: 0;
-  border-radius: 10px;
-}
-
-@keyframes glowing {
-  0% { background-position: 0 0; }
-  50% { background-position: 400% 0; }
-  100% { background-position: 0 0; }
-}
-
-
-
-  .comic-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
-    background-color: #ff5252;
-    border: 2px solid #000;
-    border-radius: 10px;
-    box-shadow: 5px 5px 0px #000;
-    transition: all 0.3s ease;
-    cursor: pointer;
-  }
-
-  .comic-button:hover {
-    background-color: #fff;
-    color: #ff5252;
-    border: 2px solid #ff5252;
-    box-shadow: 5px 5px 0px #ff5252;
-  }
-  .uil:hover {
-    color: #49ff43;
-  }
-  .comic-button:active {
-    background-color: #fcf414;
-    box-shadow: none;
-    transform: translateY(4px);
-  }
-
-
-

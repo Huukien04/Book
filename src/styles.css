@@ -765,7 +765,7 @@ p {
 .dish-box {
     border-radius: 30px;
     background: linear-gradient(145deg, #ececec, #ffffff);
-    box-shadow: 28px 28px 45px #d4d4d4, -28px -28px 45px #ffffff;
+    box-shadow: 28px 28px 45px #76f5e8, -10px -10px 25px #56f1d7;
     display: flow-root;
     padding: 0 30px 40px;
     padding-top: 0;

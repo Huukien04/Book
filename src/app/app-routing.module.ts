@@ -25,7 +25,8 @@ const routes: Routes = [
   },
   {
     path: 'book/add',
-    component: AddBookComponent,
+    // loadChildren: () => import('./modules/add-book/add-book.module').then(m => m.AddBookModule),
+    component:AddBookComponent,
     canActivate:[AuthGuard,RoleAuthGuard],
     data:{
       expectedRoles: ['Admin']
@@ -33,8 +34,9 @@ const routes: Routes = [
   },
   {
     path: 'book/list',
-    component: ListBookComponent,
-   canActivate:[AuthGuard], 
+    // loadChildren: () => import('./modules/datboard/datboard.module').then(m => m.DatboardModule),
+   component:ListBookComponent,
+    canActivate:[AuthGuard], 
 
   },
   {
@@ -60,7 +62,8 @@ const routes: Routes = [
   },
   {
     path: 'cart',
-    component: ShoppingcartComponent
+    // loadChildren: () => import('./modules/addcart/addcart-routing.module').then(m => m.AddcartRoutingModule)
+    component:ShoppingcartComponent
  
   },
   {

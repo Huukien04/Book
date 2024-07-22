@@ -18,9 +18,9 @@
                                   store.
                               </h1>
                               <!-- <p>This is Lorem ipsum dolor sit amet Nam eius tenetur recusandae optio aperiam.</p> -->
-                              <div class="banner-btn mt-4">
+                              <!-- <div class="banner-btn mt-4">
                                   <a href="#menu" class="sec-btn">Check our Menu</a>
-                              </div>
+                              </div> -->
                           </div>
                       </div>
                       <div class="col-lg-6">
@@ -29,7 +29,7 @@
                               </div>
                           </div>
                           <div class="banner-img-text mt-4 m-auto">
-                              <h5 class="h5-title">Minion</h5>
+                              <h5 class="h5-title"></h5>
                               <!-- <p>this is Lorem ipsum dolor sit amet consectetur adipisicing elit.</p> -->
                           </div>
                       </div>
@@ -53,7 +53,19 @@
                   <!-- <img src="path/to/breakfast.png" > -->
                   {{genre.name}}
                 </li>
-               
+               <li>
+                <p>Sort:</p>
+                <div class="sort">
+                  <table matSort (matSortChange)="sortData($event)">
+                    <thead>
+                      <tr>
+                        <th mat-sort-header="price">Price</th>
+                        <th mat-sort-header="quantity">Quantity</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+               </li>
               </ul>
             </div>
           </div>
@@ -67,7 +79,7 @@
 
 
 <div class="menu-list-row">
-  <div class="row g-xxl-5 bydefault_show" id="menu-dish" >
+  <div class="row g-xl-5 bydefault_show" id="menu-dish" >
    
     <div class="col-lg-3 col-sm-7 dish-box-wp breakfast"*ngFor="let book of pagedBooks" data-cat="breakfast">
       <div class="dish-box text-center">
@@ -79,7 +91,7 @@
           <!-- <i class="uil uil-star"></i> -->
         </div>
         <div class="dish-title">
-          <h3 class="h3-title">{{ book.title }}</h3>
+          <h4 class="h4-title">{{ book.title }}</h4>
           <p>{{ book.description }}</p>
         </div>
         <div class="dish-info">
@@ -127,26 +139,7 @@
 
 
 
-
-
-
-
-
-    <div class="sort">
-      <table matSort (matSortChange)="sortData($event)">
-        <thead>
-          <tr>
-            <th mat-sort-header="price">Price</th>
-            <th mat-sort-header="quantity">Quantity</th>
-          </tr>
-        </thead>
-      </table>
-    </div>
     <div>
-
-
-   
-
       <div class="pagi">
         <mat-paginator class="col-md-8 pagina" [length]="totalBooks" [pageSize]="pageSize"
           [pageSizeOptions]="[1, 2, 3, 4]" (page)="onPageChange($event)">

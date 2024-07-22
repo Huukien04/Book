@@ -16,6 +16,7 @@ import { CartService } from 'src/app/cart.service';
 import { ShoppingcartComponent } from '../shoppingcart/shoppingcart.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AuthService } from 'src/app/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
@@ -30,6 +31,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toppings = new FormControl('');
 
+  isMenuOpen: boolean = false;
+  menuVisible = false;
+
+  toggleMenu() {
+    this.menuVisible = !this.menuVisible;
+  }
   genres: Genre[] = [];
 
   @Input() users: User[] = [];
@@ -39,6 +46,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Input() userName: string = '';
 
   @Input() userID: number = 0;
+
+  cookieService = inject(CookieService);
 
   @Input() cartService = inject(CartService);
 
@@ -120,6 +129,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
           this.userID = user.userID;
 
+
         } else {
           this.userName = '';
         }
@@ -128,8 +138,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   }
   checkrole() {
+
     let role = this.authService.getRoles();
+
     this.isrole = role.includes('Admin');
+
   }
 
   listBook() {
@@ -144,12 +157,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['book/add'])
   }
   logout() {
+    logout(this.cookieService);
     this.router.navigate(['login']);
-    logout();
+
+    
+
     this.loginService.setCurrentUser(null, '');
+
     localStorage.removeItem('userName');
+
     localStorage.removeItem('id_token');
+
     localStorage.removeItem('expires_at');
+
 
   }
   chat(){
@@ -159,6 +179,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   addTocart() {
     this.router.navigate(['cart']);
   }
+
+  // toggleMenu() {
+  //   this.isMenuOpen = !this.isMenuOpen;
+  // }
 
   drop(event: CdkDragDrop<Book[]>) {
 
@@ -172,9 +196,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       const book: Book = event.previousContainer.data[event.previousIndex];
 
       const bookID = book.bookID;
-
-      console.log("sânsasnajsn", bookID, this.userID);
-
 
       this.cartService.addCart(bookID, this.userID)
 

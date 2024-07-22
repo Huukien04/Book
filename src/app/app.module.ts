@@ -45,8 +45,9 @@ import { DialogAddUserComponent } from './components/dialog-add-user/dialog-add-
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { ChatComponent } from './components/chat/chat.component';
-
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { NameLogoPipe } from './components/name-logo.pipe';
+
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 @NgModule({
@@ -66,7 +67,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     ShoppingcartComponent,
     DialogAddTocartComponent,
     DialogAddUserComponent,
-    ChatComponent
+    ChatComponent,  
+    NameLogoPipe
    
   ],
   imports: [
@@ -76,7 +78,6 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatGridListModule,
     HttpClientModule,
     MatSnackBarModule,
-    
     MatListModule,
     MatSelectModule,
     MatPaginatorModule,
@@ -104,7 +105,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatTabsModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+  
   ],
   providers: [],
   bootstrap: [AppComponent],

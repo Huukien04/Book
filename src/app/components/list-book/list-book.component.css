@@ -3,8 +3,42 @@ mat-grid-tile {
   font-size: 10px;
 }
 
+.pagi {
+  background: rgba(255, 147, 147, 0);
+  padding: 0; 
+}
+
+
+.pagina {
+  background: transparent !important; 
+}
+
+
+.mat-paginator {
+  background: transparent !important; 
+}
+
+
+.mat-paginator-range-actions,
+.mat-paginator-controls {
+  background: transparent !important; 
+}
+
+
+.mat-paginator-button {
+  color: #41ff67; 
+}
+
+
+.mat-paginator-page-size {
+  color: #33ff55; /* Màu chữ của phần tử chọn kích thước trang */
+}
+
+
+
 .sort {
   margin-left: 10px;
+  background-color: #ffffff00;
 }
 
 .book-image {
@@ -371,4 +405,45 @@ mat-grid-tile {
 
 .filters .filter.active img {
   transform: scale(1.1); /* Slightly scale up the image */
+}
+/* Đặt phần tử chứa vào giữa màn hình */
+.menu-list-row {
+
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  flex-direction: column; /* Đặt các phần tử con theo chiều dọc */
+  padding: 20px; /* Thêm padding để khoảng cách từ viền */
+ 
+}
+
+/* Đảm bảo rằng các cột được căn giữa */
+.row.g-xl-5 {
+  display: flex; /* Sử dụng flexbox cho hàng */
+  flex-wrap: wrap; /* Cho phép các phần tử con gói gọn nếu cần */
+  justify-content: center; /* Căn giữa các phần tử con */
+}
+
+/* Đảm bảo các hộp món ăn cũng căn giữa trong các cột */
+.dish-box-wp {
+  display: flex;
+  justify-content: center; /* Căn giữa các phần tử con */
+  margin-bottom: 20px; /* Khoảng cách dưới mỗi món ăn */
+}
+
+/* Đảm bảo mỗi hộp món ăn có kích thước và căn giữa */
+.dish-box {
+  text-align: center; /* Căn giữa văn bản trong hộp món ăn */
+  padding: 15px;
+  border: 1px solid #ddd; /* Thêm border cho mỗi món ăn (tùy chọn) */
+  border-radius: 15px; /* Bo tròn các góc của hộp món ăn (tùy chọn) */
+  background-color: #fff; /* Màu nền cho mỗi hộp món ăn */
+  width: 100%; /* Đảm bảo hộp món ăn chiếm toàn bộ chiều rộng của cột */
+}
+
+/* Đảm bảo ảnh có kích thước và căn giữa */
+
+
+/* Đảm bảo các phần tử bên trong hộp món ăn có khoảng cách hợp lý */
+.dish-rating, .dish-title, .dish-info, .dist-bottom-row {
+  margin-bottom: 15px; /* Khoảng cách giữa các phần tử trong hộp món ăn */
 }

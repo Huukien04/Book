@@ -10,6 +10,8 @@ import { RegisterService } from 'src/app/register.service';
 import { DialogAddTocartComponent } from '../dialog-add-tocart/dialog-add-tocart.component';
 import { CartService } from 'src/app/cart.service';
 import { AuthService } from 'src/app/auth.service';
+import { BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/types/book';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +31,8 @@ export class LoginComponent implements OnInit {
 
   authService = inject(AuthService);
 
+  
+
   get username() {
     return this.loginForm.get('username');
   }
@@ -37,41 +41,60 @@ export class LoginComponent implements OnInit {
   }
 
   loginForm: FormGroup = new FormGroup({
+
     password: new FormControl('', [Validators.required]),
+
     username: new FormControl('', [Validators.required])
+
   })
 
   ngOnInit() {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      this.loginService.login(this.username?.value, this.password?.value).subscribe({
-        next: (data) => {
-          const result = data.results;
-          const token = data.token;
-          this.loginService.setCurrentUser(result[0], token);
 
-          const expiresAt = moment().add(60, 'minute').valueOf();
-          this.authService.setSession(data);
-          localStorage.setItem('id_token', token);
-          localStorage.setItem('expires_at', JSON.stringify(expiresAt));
+    if (this.loginForm.valid) {
+
+      this.loginService.login(this.username?.value, this.password?.value).subscribe({
+
+        next: (data) => {
+
+          const result = data.results;
+
+          const token = data.token;
+
+          this.loginService.setCurrentUser(result[0], token);
+    
+
+          // const expiresAt = moment().add(60, 'minute').valueOf();
+
+          // this.authService.setSession(data);
+
+          // localStorage.setItem('id_token', token);
+
+          // localStorage.setItem('expires_at', JSON.stringify(expiresAt));
 
           this.router.navigate(['book/list']);
 
         },
         error: (err) => {
+
           console.error('Login error:', err);
+
         }
       });
-    } else {
+    }
+    else {
+
       console.error('Form is invalid');
     }
 
 
   }
   register() {
+
     this.router.navigate(['register']);
+
   }
 
 

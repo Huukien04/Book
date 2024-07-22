@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,37 +10,42 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:3000';
+
   private jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient, private router: Router) { }
-
-  login(userID: string, userPass: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { userID, userPass });
-  }
+  constructor(private cookieService: CookieService, private router: Router) { }
 
   setSession(authResult: any) {
-    localStorage.setItem('token', authResult.token);
+
+    this.cookieService.set('token', authResult.token);
   }
 
   logout() {
-    localStorage.removeItem('token');
+
+    this.cookieService.delete('token');
+
     this.router.navigate(['login']);
   }
 
   getRoles(): string[] {
-    const token = localStorage.getItem('token');
+
+    const token = this.cookieService.get('token');
+
     if (!token) {
+
       return [];
+
     }
+
     const decodedToken = this.jwtHelper.decodeToken(token);
-    console.log(111111112222, decodedToken);
 
     return decodedToken.role ? [decodedToken.role] : [];
   }
 
   isLoggedIn(): boolean {
-    const token = localStorage.getItem('token');
+
+    const token = this.cookieService.get('token');
+
     return !!token && !this.jwtHelper.isTokenExpired(token);
   }
 

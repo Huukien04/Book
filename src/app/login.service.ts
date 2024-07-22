@@ -20,7 +20,7 @@ export class LoginService {
 
   user: User[] = [];
 
-  public UserList = new BehaviorSubject<User | null>(null);
+  public userList = new BehaviorSubject<User | null>(null);
 
   @Input() cookieService = inject(CookieService)
 
@@ -28,15 +28,22 @@ export class LoginService {
 
   login(userID: string, userPass: string) {
 
- 
-  
+
+
     return this.http.post<any>(this.apiUrl, { userID, userPass })
+
       .pipe(
+
         tap(response => {
+
           const token = response.token;
+
           if (token) {
+
             this.setCurrentUser(response.user, token);
+
           }
+
         })
       );
 
@@ -44,7 +51,7 @@ export class LoginService {
 
   setCurrentUser(user: User | null, token: string | null) {
 
-    this.UserList.next(user);
+    this.userList.next(user);
 
     if (token) {
 
@@ -58,16 +65,21 @@ export class LoginService {
   }
 
   getUser() {
-    return this.UserList.asObservable()
+
+    return this.userList.asObservable();
+
   }
 
   getToken(): string | null {
+
     return this.token;
+
   }
 
   loadCurrentUser() {
 
     const token = this.cookieService.get('token');
+
     if (token) {
 
       this.http.get<User>(this.apiUrlget, {
