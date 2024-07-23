@@ -1,148 +1,152 @@
 <section class="main-banner">
-          <div class="js-parallax-scene">
-              <div class="banner-shape-1 " data-depth="0.30">
-                  <img src="../../../assets/images/anh2.png" alt="">
-              </div>
-              <div class="banner-shape-2 w-100" data-depth="0.25">
-                  <img src="../../../assets/images/anh1.png" alt="">
-              </div>
+  <div class="js-parallax-scene">
+    <div class="banner-shape-1 " data-depth="0.30">
+      <img src="../../../assets/images/anh2.png" alt="">
+    </div>
+    <div class="banner-shape-2 w-100" data-depth="0.25">
+      <img src="../../../assets/images/anh1.png" alt="">
+    </div>
+  </div>
+  <div class="sec-wp">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="banner-text">
+            <h1 class="h1-title">
+              Welcome to the
+              <span>Kien</span>
+              store.
+            </h1>
           </div>
-          <div class="sec-wp">
-              <div class="container">
-                  <div class="row">
-                      <div class="col-lg-6">
-                          <div class="banner-text">
-                              <h1 class="h1-title">
-                                Welcome to the 
-                                  <span>Kien</span>
-                                  store.
-                              </h1>
-                              <!-- <p>This is Lorem ipsum dolor sit amet Nam eius tenetur recusandae optio aperiam.</p> -->
-                              <!-- <div class="banner-btn mt-4">
-                                  <a href="#menu" class="sec-btn">Check our Menu</a>
-                              </div> -->
-                          </div>
-                      </div>
-                      <div class="col-lg-6">
-                          <div class="banner-img-wp">
-                              <div class="banner-img" style="background-image: url(../../../assets/images/sach.jpg  );">
-                              </div>
-                          </div>
-                          <div class="banner-img-text mt-4 m-auto">
-                              <h5 class="h5-title"></h5>
-                              <!-- <p>this is Lorem ipsum dolor sit amet consectetur adipisicing elit.</p> -->
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </section>
-
-
-      <div class="menu-tab-wp">
-        <div class="row">
-          <div class="col-lg-12 m-auto">
-            <div class="menu-tab text-center">
-              <ul class="filters" >
-                <div class="filter-active"></div>
-                <li class="filter" (click)="onFilterClick($event)">
-                  <!-- <img src="path/to/all.png" alt="All"> -->
-                  All
-                </li>
-                <li class="filter" *ngFor="let genre of genres" (click)="onFilterClick($event)">
-                  <!-- <img src="path/to/breakfast.png" > -->
-                  {{genre.name}}
-                </li>
-               <li>
-                <p>Sort:</p>
-                <div class="sort">
-                  <table matSort (matSortChange)="sortData($event)">
-                    <thead>
-                      <tr>
-                        <th mat-sort-header="price">Price</th>
-                        <th mat-sort-header="quantity">Quantity</th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
-               </li>
-              </ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="banner-img-wp">
+            <div class="banner-img" style="background-image: url(../../../assets/images/sach.jpg  );">
             </div>
+          </div>
+          <div class="banner-img-text mt-4 m-auto">
+            <h5 class="h5-title"></h5>
+            <!-- <p>this is Lorem ipsum dolor sit amet consectetur adipisicing elit.</p> -->
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
 
 
+<div class="container mt-5">
+  <div class="row">
 
-
-
-
-
-<div class="menu-list-row">
-  <div class="row g-xl-5 bydefault_show" id="menu-dish" >
-   
-    <div class="col-lg-3 col-sm-7 dish-box-wp breakfast"*ngFor="let book of pagedBooks" data-cat="breakfast">
-      <div class="dish-box text-center">
-        <div class="dist-img">
-          <img [src]="'../../../assets/images/' + getImageUrl(book.image)" alt="">
-        </div>
-        <div class="dish-rating">
-          {{book.genreName}}
-          <!-- <i class="uil uil-star"></i> -->
-        </div>
-        <div class="dish-title">
-          <h4 class="h4-title">{{ book.title }}</h4>
-          <p>{{ book.description }}</p>
-        </div>
-        <div class="dish-info">
-          <ul>
-            <li>
-              <p>Quantity</p>
-              <b>{{book.stock_quantity}}</b>
-            </li>
-            <li>
-              <p>Publish date</p>
-              <b>{{book.published_date|date}}</b>
-            </li>
+    <div class="menu-tab ">
+      <ul class="filters  col-xl-12 col-md-12 ">
+        <div class="filter-active"></div>
+        <li class="filter"(click)="loadBooks()" (click)="onFilterClick($event)">
+          <!-- <img src="path/to/all.png" alt="All"> -->
+          All
+        </li>
+        <li class="filter" *ngFor="let genre of genres"(click)="getIDgenre(genre.genreID)"  (click)="onFilterClick($event)">
+          <!-- <img src="path/to/breakfast.png" > -->
             
-          </ul>
-        </div>
-        <div class="dist-bottom-row">
-          <ul>
-            <li>
-              <b>{{book.price|price}}</b>  
-            </li>
-            <li>
-              <button *ngIf="isrole" routerLink='/book/edit/{{ book.bookID }}' class="dish-add-btn">
-                <i class="uil "><mat-icon>edit</mat-icon></i>
-              </button>
+            {{genre.name}}
+           
+        
+        </li>
+        <li>
+          <p>Sort:</p>
+          <div class="sort">
+            <table matSort (matSortChange)="sortData($event)">
+              <thead>
+                <tr>
+                  <th mat-sort-header="price">Price</th>
+                  <th mat-sort-header="quantity">Quantity</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </li>
+      </ul>
 
-            </li>
-            <li>
-              <button (click)="addTocart(book)" class="dish-add-btn">
-                <i class="uil "><mat-icon>store</mat-icon></i>
-              </button>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <div class="row">
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-2 col-md-4 mb-4" *ngFor="let book of pagedBooks">
+      <div class="card border-left-primary shadow h-100 py-2 d-flex flex-column">
+        <div class="card-body d-flex flex-column">
+          <div class="row no-gutters align-items-center">
 
-            </li>
-            <li>
-              <button *ngIf="isrole" (click)="openDialog(book)" class="dish-add-btn">
-                <i class="uil "> <mat-icon>delete</mat-icon></i>
-              </button>
+            <div class="image-container">
+              <div class="first">
+                <div class="d-flex justify-content-between align-items-center">
+                  <!-- <span class="discount">-25%</span> -->
+                  <span class="wishlist"><i class="fa fa-heart-o"></i></span>
+                </div>
+              </div>
+              <img [src]="'../../../assets/images/' + getImageUrl(book.image)"
+                class="img-fluid rounded thumbnail-image">
+            </div>
 
-            </li>
-          </ul>
+            <div class="product-detail-container">
+              <div class="text-center">
+                {{ book.title }}
+              </div>
+              <div class="text-center">
+                {{ book.genreName }}
+                <!-- <i class="uil uil-star"></i> -->
+              </div>
+              <p>{{ book.description }}</p>
+              <div class="d-flex justify-content-between align-items-center pt-1">
+                <div class="color-select d-flex">
+                  <small class="old-price">
+                    Publish date : {{book.published_date|date}}
+                  </small>
+                </div>
+                <div class="d-flex"></div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center pt-1">
+                <div>
+                  <small class="old-price"> Author: {{book.author_id}}</small>
+                  <!-- <small class="old-price"> Quantity: {{book.stock_quantity}}</small> -->
+                </div>
+                <span class="new-price">{{book.price|price}}</span>
+              </div>
+            </div>
+
+            <!-- Moved this block to the bottom -->
+            <div class="dist-bottom-row justify-content-between align-items-between d-flex mt-auto">
+              <ul>
+                <li>
+                  <button *ngIf="isrole" routerLink='/book/edit/{{ book.bookID }}' class="dish-add-btn">
+                    <i class="uil"><mat-icon>edit</mat-icon></i>
+                  </button>
+                </li>
+                <li>
+                  <button (click)="addTocart(book)" class="dish-add-btn">
+                    <i class="uil"><mat-icon>store</mat-icon></i>
+                  </button>
+                </li>
+                <li>
+                  <button *ngIf="isrole" (click)="openDialog(book)" class="dish-add-btn">
+                    <i class="uil"><mat-icon>delete</mat-icon></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-
-    <div>
-      <div class="pagi">
-        <mat-paginator class="col-md-8 pagina" [length]="totalBooks" [pageSize]="pageSize"
-          [pageSizeOptions]="[1, 2, 3, 4]" (page)="onPageChange($event)">
-        </mat-paginator>
-      </div>
-    </div>
+<div>
+  <div class="pagi">
+    <mat-paginator class="col-md-8 pagina" [length]="totalBooks" [pageSize]="pageSize"
+      [pageSizeOptions]="[ 2,  4,6,8,12]" (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+</div>

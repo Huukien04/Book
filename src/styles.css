@@ -435,8 +435,8 @@ ul {
 }
 
 .main-banner {
-    padding: 200px 0 300px;
-    min-height: 100vh;
+    padding-top: 200px;
+    padding-bottom: 100px;
                 
 }
 
@@ -762,16 +762,7 @@ p {
     display: none;
 }
 
-.dish-box {
-    border-radius: 30px;
-    background: linear-gradient(145deg, #ececec, #ffffff);
-    box-shadow: 28px 28px 45px #76f5e8, -10px -10px 25px #56f1d7;
-    display: flow-root;
-    padding: 0 30px 40px;
-    padding-top: 0;
-    margin: 130px 0 30px;
-    transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
-}
+
 
 .dish-box:hover {
     transform: scale(1.03);
@@ -1491,15 +1482,11 @@ p {
 }
 
 @media (max-width: 1199px) {
-    .main-banner {
-        padding: 200px 0;
-    }
+   
     .banner-img-wp {
         height: 360px;
     }
-    .dish-box {
-        padding: 0 0 40px;
-    }
+   
     .dist-img img {
         width: 220px;
         
@@ -1561,9 +1548,7 @@ p {
     .js-parallax-scene {
        
     }
-    .main-banner {
-        padding: 140px 0 60px;
-    }
+   
     .h1-title {
         font-size: 60px;
         line-height: 80px;
@@ -1708,9 +1693,7 @@ p {
     .menu-tab-wp {
         margin-bottom: 60px;
     }
-    .dish-box {
-        margin: 80px 0 30px;
-    }
+    
     .book-table-img {
         min-height: 340px;
         height: 60vh;
@@ -1767,11 +1750,7 @@ p {
         flex-wrap: wrap;
         justify-content: center;
     }
-    .dish-box {
-        max-width: 340px;
-        margin: 80px auto 30px;
-        padding: 0 0 30px;
-    }
+
     .blog-sec.section {
         padding-bottom: 0;
     }
