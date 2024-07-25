@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Input, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Input, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
 import { BookService } from 'src/app/book.service';
-import { Book, Genre, interfaceCart } from 'src/app/types/book';
+import { Book, Genre, interfaceCart, User } from 'src/app/types/book';
 import {
   MatDialog,
   MatDialogActions,
@@ -71,7 +71,6 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
   idGenreSubject = new Subject<number>();
 
-  idgenrebylist: number = 0;
 
   @Input() bookSubject = new BehaviorSubject<any>(null);
 
@@ -80,6 +79,8 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   @ViewChild('app-header') keytoSearch = inject(HeaderComponent);
 
   @Input() idUser: number = 0;
+
+  @Input() idgenrebylist!:number;
 
   key!: string;
 
@@ -94,6 +95,8 @@ export class ListBookComponent implements OnInit, AfterViewInit {
   router = inject(Router);
 
   sortedData: Book[] = [];
+
+ 
 
   toggleFiller() {
 
@@ -199,14 +202,17 @@ export class ListBookComponent implements OnInit, AfterViewInit {
       }
     });
 
+    
 
     this.loginService.getUser().subscribe({
 
-      next: (user) => {
+      next: (user:User) => {
 
         if (user) {
+          
+          const users = user; 
 
-          this.idUser = user.userID;
+          this.idUser = users.userID;
 
         } else {
 
@@ -219,6 +225,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
       }
     })
+    this.getIDgenreBylistGenre(this.idgenrebylist);
 
     this.route.params.subscribe((param) => {
 
@@ -298,7 +305,9 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
   }
 
-  getIDgenre(id: number) {
+  getIDgenreBylistGenre(id: number) {
+
+   let idgenrebylist:number  = id;
 
     this.idGenreSubject.next(id);
 
@@ -306,14 +315,24 @@ export class ListBookComponent implements OnInit, AfterViewInit {
 
       next: (data) => {
 
-        this.idgenrebylist = data
+        idgenrebylist = data
 
-        console.log(222222, data);
+       this.bookService.getBookbyGenre(idgenrebylist).subscribe({
 
+        next:(data)=>{
+
+          this.books = data;
+
+          this.totalBooks = data.length;
+
+          this.updatePagedBooks();
+        }
+       })
 
       }
     })
-    console.log(111111111, this.idgenrebylist);
+
+    
 
   }
   getGenre() {
@@ -323,7 +342,6 @@ export class ListBookComponent implements OnInit, AfterViewInit {
       next: (data) => {
 
         this.genres = data;
-
 
         this.mapGenresToBooks();
       },
@@ -364,6 +382,11 @@ export class ListBookComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+
+
+
+
 
   loadBooks() {
     // Load all books
@@ -493,4 +516,7 @@ export class ListBookComponent implements OnInit, AfterViewInit {
     // Add active class to the clicked filter
     this.renderer.addClass(target, 'active');
   }
+
+
+
 }

@@ -1,0 +1,43 @@
+.sidebartrong {
+    position: relative;
+    padding: 2px;
+    border-radius: 15px;
+    border: 4px solid; /* Đường viền với độ dày 4px */
+    border-color: rgb(6, 248, 143); /* Màu của đường viền */
+   
+    overflow: hidden; /* Để nội dung không bị tràn ra ngoài bo góc */
+    box-shadow: 0 0px 20px 10px rgba(245, 87, 87, 0.412);
+}
+.khoangcach{
+    padding: 15px;
+}
+/* .sidebar a {
+    color: #fff;
+} */
+.sidebar{
+    border-radius: 15px;
+}
+.sidebar a:hover {
+    background-color: #ebaee083;
+    border-radius: 10px;
+    
+}
+.header {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.header .form-control {
+    width: 300px;
+}
+.card h3 {
+    margin-bottom: 0;
+}
+.tong{
+    margin-top: 6%;
+}
+#chart {
+    max-width: 380px;
+    margin: 35px auto;
+    padding: 0;
+  }
+  

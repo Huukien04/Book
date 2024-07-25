@@ -83,3 +83,13 @@ DELETE FROM Cart WHERE cartID=6;
 
 DELETE FROM Books WHERE bookID = 16;
 
+SELECT 
+    g.Name AS genreName,
+    g.genreID AS a,
+    SUM(b.stock_quantity) AS totalStockQuantity
+FROM 
+    Genres g
+INNER JOIN 
+    Books b ON b.genreID = g.genreID
+GROUP BY 
+    g.Name , g.genreID; 

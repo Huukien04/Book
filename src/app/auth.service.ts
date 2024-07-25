@@ -17,12 +17,19 @@ export class AuthService {
 
   setSession(authResult: any) {
 
-    this.cookieService.set('token', authResult.token);
+   // this.cookieService.set('token', authResult.token);
+  //  const existingToken = this.cookieService.get('token');
+  //  if (!existingToken && authResult.token) {
+  //    this.cookieService.set('token', authResult.token, undefined, '/', undefined, undefined, 'Strict');
+  //  }
+
+  this.cookieService.set('token', authResult.token); 
+  
   }
 
   logout() {
 
-    this.cookieService.delete('token');
+    this.cookieService.delete('token', '/');
 
     this.router.navigate(['login']);
   }

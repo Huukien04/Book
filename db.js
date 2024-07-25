@@ -14,7 +14,10 @@ const app = express();
 const port = 3000;
 
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:4200', 
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 
@@ -91,6 +94,22 @@ app.get('/genres', (req, res) => {
   });
 });
 
+
+
+app.get('/allUser', (req, res) => {
+  const sql = 'SELECT * FROM User';
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Internal Server Error');
+      res.json('that bai');
+      return;
+    }
+    res.json(results);
+  });
+});
+
+
 app.get('/user', (req, res) => {
   const sql = 'SELECT User.`userName`,`User`.`userPass`  FROM User';
   connection.query(sql, (err, results) => {
@@ -153,7 +172,7 @@ function authenticateLogin(req, res, next) {
 }
 
 
-app.post('/login', (req, res) => {
+app.post('/login', (req, res)  => {
   const { userID, userPass } = req.body;
   const sql = 'SELECT * FROM User WHERE userName = ?';
 
@@ -174,6 +193,13 @@ app.post('/login', (req, res) => {
 
         if (match) {
           const token = jwt.sign({ id: user.userID, role: user.role }, 'your_secret_key', { expiresIn: '1h' });
+
+          res.cookie('token', token, {
+            httpOnly: true, // Cookie không thể được truy cập qua JavaScript
+            secure: false, // Chỉ gửi cookie qua HTTPS nếu môi trường là production
+            path: '/',
+            maxAge: 3600000 // Thời gian sống của cookie (1 giờ)
+          });
           return res.json({ token, results: [user] });
         } else {
           return res.status(401).json({ error: 'Invalid username or password' });
@@ -354,6 +380,28 @@ app.get('/datboard/:token', (req, res, next) => {
 
 app.get('/bookgenre', (req, res) => {
   const sql = `SELECT * FROM bookgenres `;
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.json(results);
+  });
+});
+
+
+app.get('/getTotalBookByGenre', (req, res) => {
+  const sql = `SELECT 
+    g.Name AS genreName,
+    g.genreID AS a,
+    SUM(b.stock_quantity) AS totalStockQuantity
+FROM 
+    Genres g
+INNER JOIN 
+    Books b ON b.genreID = g.genreID
+GROUP BY 
+    g.Name , g.genreID; `;
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Error querying database:', err);

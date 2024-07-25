@@ -1,4 +1,5 @@
     import { DatePipe } from "@angular/common";
+import { ApexChart, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
 
     export class Book {
         bookID: number = 0;
@@ -52,8 +53,14 @@
         userPass:string,
         token: string,
         expiresIn: string,
+        role:string,
         idToken: string
     }
- 
+    export type ChartOptions = {
+        series: ApexNonAxisChartSeries;
+        chart: ApexChart;
+        responsive: ApexResponsive[];
+        labels: any;
+      };
 
 

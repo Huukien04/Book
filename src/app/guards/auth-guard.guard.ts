@@ -54,8 +54,10 @@ export class AuthGuard implements CanActivate {
 }
 export function logout(cookieService: CookieService) {
 
+  
+  
   cookieService.delete('token');
-
+  
   window.location.href = '/login';
 
 
