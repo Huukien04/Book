@@ -47,6 +47,9 @@ import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { ChatComponent } from './components/chat/chat.component';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { NameLogoPipe } from './components/name-logo.pipe';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { ListUserComponent } from './components/list-user/list-user.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
@@ -68,7 +71,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     DialogAddTocartComponent,
     DialogAddUserComponent,
     ChatComponent,  
-    NameLogoPipe
+    NameLogoPipe, AnalyticsComponent, ListUserComponent
    
   ],
   imports: [
@@ -87,6 +90,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatFormFieldModule,
     MatInputModule,
     MatSortModule,
+    NgApexchartsModule,
     NativeDateModule,
     MatDatepickerModule,
     MatButtonModule,

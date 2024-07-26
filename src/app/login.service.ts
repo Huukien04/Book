@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Input, inject } from '@angular/core';
 import { User } from './types/book';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { response } from 'express';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,11 @@ export class LoginService {
 
   user: User[] = [];
 
-  public userList = new BehaviorSubject<User | null>(null);
+  public userList = new Subject<User >();
+
+  allUser :User[] = [];
+
+  authService = inject(AuthService);
 
   @Input() cookieService = inject(CookieService)
 
@@ -28,9 +33,9 @@ export class LoginService {
 
   login(userID: string, userPass: string) {
 
+    // , { withCredentials: true }
 
-
-    return this.http.post<any>(this.apiUrl, { userID, userPass })
+    return this.http.post<any>(this.apiUrl, { userID, userPass } )
 
       .pipe(
 
@@ -38,10 +43,12 @@ export class LoginService {
 
           const token = response.token;
 
-          if (token) {
-
-            this.setCurrentUser(response.user, token);
-
+          const user = response.results[0];
+         
+          
+          if (token && user) {
+         
+            this.authService.setSession({ token, user });
           }
 
         })
@@ -49,13 +56,13 @@ export class LoginService {
 
   }
 
-  setCurrentUser(user: User | null, token: string | null) {
+  setCurrentUser(user: User , token: string | null) {
 
     this.userList.next(user);
 
     if (token) {
 
-      this.cookieService.set('token', token);
+       this.cookieService.set('token', token);
 
     } else {
 
@@ -64,11 +71,18 @@ export class LoginService {
     }
   }
 
-  getUser() {
-
-    return this.userList.asObservable();
-
+  getUser(): Observable<User> {
+    const token = this.cookieService.get('token');
+    if (token) {
+      return this.http.get<User>(this.apiUrlget, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    } else {
+      return this.userList.asObservable();
+    }
   }
+
+
 
   getToken(): string | null {
 
@@ -92,7 +106,7 @@ export class LoginService {
         }
 
       }).subscribe(user => {
-
+ 
         this.setCurrentUser(user, token);
 
       });

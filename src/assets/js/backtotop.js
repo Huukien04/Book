@@ -1,11 +1,4 @@
-<body class="body-fixed">
-<app-header *ngIf="showHeader"></app-header>
-
-<router-outlet></router-outlet>
-
-<button id="backtotop" onclick="topFunction()" class="back-to-top" title="go to top"><mat-icon>arrow_circle_up</mat-icon></button>
-<script>
-    let mybutton = document.getElementById("backtotop");
+let mybutton = document.getElementById("backtotop");
 window.onscroll = function(){
   scrollFunction()
 };
@@ -22,5 +15,3 @@ function topFunction(){
 behavior: "smooth"
   })
 }
-</script>
-</body>

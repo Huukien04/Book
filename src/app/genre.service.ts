@@ -8,6 +8,7 @@ import { Book, Genre } from './types/book';
 export class GenreService {
 
   apiUrl ='http://localhost:3000/genres'
+  apiUrlgetTotalByGenre ='http://localhost:3000/getTotalBookByGenre'
   http = inject(HttpClient)
  getAll(){
    return this.http.get<Genre[]>(this.apiUrl);
@@ -30,4 +31,8 @@ export class GenreService {
  deleteBook(id:string){
    return this.http.delete(`${this.apiUrl}/${id}`);
  }
+getTotalBookByGenre(){
+  return this.http.get<any[]>(this.apiUrlgetTotalByGenre);
+}
+
 }

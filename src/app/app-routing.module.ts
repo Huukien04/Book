@@ -11,6 +11,8 @@ import { AuthGuard } from './guards/auth-guard.guard';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { RoleAuthGuard } from './components/roleguards/role-guard.guard';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { ListUserComponent } from './components/list-user/list-user.component';
 
 
 const routes: Routes = [
@@ -69,6 +71,16 @@ const routes: Routes = [
   {
     path: 'chat',
     component: ChatComponent
+ 
+  },
+  {
+    path: 'analytics',
+    component: AnalyticsComponent
+ 
+  },
+  {
+    path: 'user/list',
+    component: ListUserComponent
  
   },
   { path: '**', redirectTo: 'login' }

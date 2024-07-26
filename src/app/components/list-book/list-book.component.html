@@ -45,12 +45,9 @@
           <!-- <img src="path/to/all.png" alt="All"> -->
           All
         </li>
-        <li class="filter" *ngFor="let genre of genres"(click)="getIDgenre(genre.genreID)"  (click)="onFilterClick($event)">
+        <li class="filter" *ngFor="let genre of genres"(click)="getIDgenreBylistGenre(genre.genreID)"  (click)="onFilterClick($event)">
           <!-- <img src="path/to/breakfast.png" > -->
-            
-            {{genre.name}}
-           
-        
+            {{genre.name}}     
         </li>
         <li>
           <p>Sort:</p>
@@ -150,3 +147,5 @@
     </mat-paginator>
   </div>
 </div>
+
+

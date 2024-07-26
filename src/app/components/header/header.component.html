@@ -93,6 +93,10 @@
                       <mat-icon (click)="logout()" aria-hidden="true" aria-label="Example home icon"
                         fontIcon="logout"></mat-icon>
                     </a>
+                    <a class="col-md-12 align-items-center justify-content-center d-flex" *ngIf="isrole">
+                      <mat-icon (click)="analytics()" aria-hidden="true" aria-label="Example home icon"
+                        fontIcon="analytics"></mat-icon>
+                    </a>
                   </div>
                 </li>
               </ul>

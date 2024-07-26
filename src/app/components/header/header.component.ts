@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toppings = new FormControl('');
 
   isMenuOpen: boolean = false;
+
   menuVisible = false;
 
   toggleMenu() {
@@ -78,10 +79,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user = inject(LoginService);
 
   ngOnDestroy() {
+
     this.searchSubject.complete();
   }
 
   onSearch() {
+
     this.searchSubject.next(this.inputText);
   }
 
@@ -121,18 +124,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
 
     this.loginService.getUser().subscribe({
-      next: (user) => {
 
-        if (user) {
+      next: (users: User) => {
 
-          this.userName = user.userName;
+        if (users) {
 
-          this.userID = user.userID;
+          this.userName = users.userName;
 
+          this.userID = users.userID;
 
         } else {
-          this.userName = '';
+
+          console.log('No users found or empty array.');
+
         }
+      },
+      error: (err) => {
+
+        console.error('Error fetching users', err);
+
       }
     });
 
@@ -157,12 +167,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['book/add'])
   }
   logout() {
+    
+    this.authService.logout();
+  
+    // Kiểm tra xem cookie token có thực sự bị xóa không
+    const token = this.cookieService.get('token');
+    if (!token) {
+      console.log('Token đã bị xóa.');
+    } else {
+      console.log('Token vẫn còn:', token);
+    }
     logout(this.cookieService);
     this.router.navigate(['login']);
 
-    
 
-    this.loginService.setCurrentUser(null, '');
+
+    // this.loginService.setCurrentUser(, '');
 
     localStorage.removeItem('userName');
 
@@ -172,11 +192,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   }
-  chat(){
+  chat() {
+
     this.router.navigate(['chat']);
 
   }
+  analytics() {
+
+    this.router.navigate(['analytics']);
+  }
   addTocart() {
+
     this.router.navigate(['cart']);
   }
 
@@ -186,11 +212,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   drop(event: CdkDragDrop<Book[]>) {
 
-    console.log(111111111111111111111111);
 
     if (event.previousContainer === event.container) {
 
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+
     } else {
 
       const book: Book = event.previousContainer.data[event.previousIndex];
